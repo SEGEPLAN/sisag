@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+
+    <h:body>
+        <h:form id="ev_frmMenu" >
+            <p:carousel id="tabsCarousel" numVisible="1" itemStyle="height:290px;width:230px;" 
+                        effect="easeInStrong" circular="true"     >  
+                <p:tab title="Evento 1">  
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        
+                        <h:outputText  
+                            value="Proximo lanzamiento de la nueva plataforma SISAG, Proximo lanzamiento de la nueva plataforma SISAG, Proximo lanzamiento de la nueva plataforma SISAG
+                            Proximo lanzamiento de la nueva plataforma SISAG, Proximo lanzamiento de la nueva plataforma SISAG, Proximo lanzamiento de la nueva plataforma SISAG, 
+                            Proximo lanzamiento de la nueva plataforma SISAG, Proximo lanzamiento de la nueva plataforma SISAG" />  
+                    </h:panelGrid>  
+                </p:tab>  
+                <p:tab title="Evento 2">  
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        
+                        <h:outputText value="Evento 2 con su descripción, Evento 2 con su descripción, Evento 2 con su descripción, Evento 2 con su descripción, 
+                                      Evento 2 con su descripción, Evento 2 con su descripción"/>  
+                    </h:panelGrid>  
+                </p:tab>  
+                <p:tab title="Evento 3">  
+                    <h:panelGrid columns="2" cellpadding="5">  
+                        <!--<p:graphicImage value="/resources/images/logo.jpg" style="width: 40px; height: 30px;" />  -->
+                        <h:outputText value="Evento 3 con su descripción, Evento 3 con su descripción, Evento 3 con su descripción, Evento 3 con su descripción, 
+                                      Evento 3 con su descripción, Evento 3 con su descripción"/>  
+                    </h:panelGrid>  
+                </p:tab>
+                
+                
+                <f:facet name="header">  
+                            <h:outputText value="Eventos"/>  
+                        </f:facet>  
+            </p:carousel>
+
+
+        </h:form>
+
+    </h:body>
+</html>
+
