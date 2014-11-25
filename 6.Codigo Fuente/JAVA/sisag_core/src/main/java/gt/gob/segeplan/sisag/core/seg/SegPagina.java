@@ -1,0 +1,171 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package gt.gob.segeplan.sisag.core.seg;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+/**
+ *
+ * @author ludwin.ayala
+ */
+@Entity
+@Table(name = "SEG_PAGINA", catalog = "", schema = "SCHE$SISAG")
+@XmlRootElement
+@NamedQueries({
+    @NamedQuery(name = "SegPagina.findAll", query = "SELECT s FROM SegPagina s"),
+    @NamedQuery(name = "SegPagina.findByIdPagina", query = "SELECT s FROM SegPagina s WHERE s.idPagina = :idPagina"),
+    @NamedQuery(name = "SegPagina.findByNombre", query = "SELECT s FROM SegPagina s WHERE s.nombre = :nombre"),
+    @NamedQuery(name = "SegPagina.findByUrl", query = "SELECT s FROM SegPagina s WHERE s.url = :url"),
+    @NamedQuery(name = "SegPagina.findByDescripcion", query = "SELECT s FROM SegPagina s WHERE s.descripcion = :descripcion"),
+    @NamedQuery(name = "SegPagina.findByRestrictiva", query = "SELECT s FROM SegPagina s WHERE s.restrictiva = :restrictiva")})
+public class SegPagina implements Serializable {
+    private static final long serialVersionUID = 1L;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @Column(name = "id_pagina")
+    private BigDecimal idPagina;
+    @Column(name = "nombre")
+    private String nombre;
+    @Column(name = "url")
+    private String url;
+    @Column(name = "descripcion")
+    private String descripcion;
+    @Column(name = "restrictiva")
+    private Character restrictiva;
+    @OneToMany(mappedBy = "idPagina", fetch = FetchType.EAGER)
+    private List<SegPaginaAsignada> segPaginaAsignadaList;
+    @OneToMany(mappedBy = "idPagina", fetch = FetchType.EAGER)
+    private List<SegBitacora> segBitacoraList;
+    @JoinColumn(name = "id_tipo_pagina", referencedColumnName = "id_tipo_pagina")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private SegTipoPagina idTipoPagina;
+    @JoinColumn(name = "id_modulo", referencedColumnName = "id_modulo")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private SegModulo idModulo;
+
+    public SegPagina() {
+    }
+
+    public SegPagina(BigDecimal idPagina) {
+        this.idPagina = idPagina;
+    }
+
+    public BigDecimal getIdPagina() {
+        return idPagina;
+    }
+
+    public void setIdPagina(BigDecimal idPagina) {
+        this.idPagina = idPagina;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public Character getRestrictiva() {
+        return restrictiva;
+    }
+
+    public void setRestrictiva(Character restrictiva) {
+        this.restrictiva = restrictiva;
+    }
+
+    @XmlTransient
+    public List<SegPaginaAsignada> getSegPaginaAsignadaList() {
+        return segPaginaAsignadaList;
+    }
+
+    public void setSegPaginaAsignadaList(List<SegPaginaAsignada> segPaginaAsignadaList) {
+        this.segPaginaAsignadaList = segPaginaAsignadaList;
+    }
+
+    @XmlTransient
+    public List<SegBitacora> getSegBitacoraList() {
+        return segBitacoraList;
+    }
+
+    public void setSegBitacoraList(List<SegBitacora> segBitacoraList) {
+        this.segBitacoraList = segBitacoraList;
+    }
+
+    public SegTipoPagina getIdTipoPagina() {
+        return idTipoPagina;
+    }
+
+    public void setIdTipoPagina(SegTipoPagina idTipoPagina) {
+        this.idTipoPagina = idTipoPagina;
+    }
+
+    public SegModulo getIdModulo() {
+        return idModulo;
+    }
+
+    public void setIdModulo(SegModulo idModulo) {
+        this.idModulo = idModulo;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idPagina != null ? idPagina.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof SegPagina)) {
+            return false;
+        }
+        SegPagina other = (SegPagina) object;
+        if ((this.idPagina == null && other.idPagina != null) || (this.idPagina != null && !this.idPagina.equals(other.idPagina))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "gt.gob.segeplan.sisag.core.entities.SegPagina[ idPagina=" + idPagina + " ]";
+    }
+    
+}

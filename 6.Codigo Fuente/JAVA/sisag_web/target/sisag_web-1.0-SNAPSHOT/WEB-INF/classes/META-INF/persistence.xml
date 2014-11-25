@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="sisagPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>gt.gob.segeplan.sisag.core.gen.GenEstado</class>
+    <class>gt.gob.segeplan.sisag.core.gen.GenPeriodo</class>
+    <class>gt.gob.segeplan.sisag.core.gen.GenSolicitudFinaciera</class>
+    <class>gt.gob.segeplan.sisag.core.gen.GenTipoSolicitud</class>
+    <class>gt.gob.segeplan.sisag.core.gen.GenUnidadMedida</class>
+    <class>gt.gob.segeplan.sisag.core.katun.KatunEje</class>
+    <class>gt.gob.segeplan.sisag.core.katun.KatunMeta</class>
+    <class>gt.gob.segeplan.sisag.core.katun.KatunPrioridad</class>
+    <class>gt.gob.segeplan.sisag.core.poa.PoaMeta</class>
+    <class>gt.gob.segeplan.sisag.core.poa.PoaMetaDireccion</class>
+    <class>gt.gob.segeplan.sisag.core.poa.PoaMetaPeriodo</class>
+    <class>gt.gob.segeplan.sisag.core.poa.PoaProducto</class>
+    <class>gt.gob.segeplan.sisag.core.poa.PoaSubProducto</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhAsignaCapacitacion</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhCaracterCapacitacion</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhDetalleCapacitacion</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhPersona</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhSolicitudCapacitacion</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhTipoPuesto</class>
+    <class>gt.gob.segeplan.sisag.core.rrhh.RrhhUnidadAdministrativa</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegBitacora</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegModulo</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegPagina</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegPaginaAsignada</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegPrivilegio</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegPrivilegioPagina</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegRol</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegRolUsuario</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegSesion</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegTipoPagina</class>
+    <class>gt.gob.segeplan.sisag.core.seg.SegUsuario</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@128.37.86.22:1521:OSNIP"/>
+      <property name="javax.persistence.jdbc.password" value="SI2014SAG"/>
+      <property name="javax.persistence.jdbc.driver" value="oracle.jdbc.OracleDriver"/>
+      <property name="javax.persistence.jdbc.user" value="SCHE$SISAG"/>
+    </properties>
+  </persistence-unit>
+</persistence>

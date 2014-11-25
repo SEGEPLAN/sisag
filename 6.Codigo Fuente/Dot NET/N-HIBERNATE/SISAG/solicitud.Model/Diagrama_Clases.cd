@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="solicitud.Model.solicitud_capacitacion">
+    <Position X="3" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAgAAAAQIgABAgQAAAAAASAIABAAIAAIAAGEEAAA=</HashCode>
+      <FileName>entities\solicitud_capacitacion.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_USUARIO_CREA" />
+      <Property Name="ESTADO" />
+      <Property Name="USUARIO_VALIDA" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="solicitud.Model.tema_curso">
+    <Position X="8.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAQAAAAQYkCAAAgAAAAAAAIIABAAIQAAAAGgEAAg=</HashCode>
+      <FileName>entities\tema_curso.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="POA_META" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="solicitud.Model.necesidad_puesto">
+    <Position X="3.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAQAAAAQIgAAAEAgAAAAAAAMABAAIQAAAAGgEABA=</HashCode>
+      <FileName>entities\necesidad_puesto.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_TIPO_PUESTO" />
+      <Property Name="DETALLE_NECESIDAD" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="solicitud.Model.poa_meta">
+    <Position X="10.75" Y="7" Width="2" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAIAQIgAAAAgAAAAAAAIAABAAIAAAAAIAEAAA=</HashCode>
+      <FileName>entities\poa_meta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="solicitud.Model.tipo_puesto">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEQAAAAQAwAAQAkgAAAAAAIAAFAAIQAAAAEEEAAQ=</HashCode>
+      <FileName>entities\tipo_puesto.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_UNIDAD_ADMINISTRATIVA" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="solicitud.Model.unidad_administrativa">
+    <Position X="5.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAQAAAAQIgAAAEgAAAAAAAIAABAAIQAAAAAAEABA=</HashCode>
+      <FileName>entities\unidad_administrativa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="solicitud.Model.usuario">
+    <Position X="0.5" Y="7" Width="1.5" />
+    <AssociationLine Name="_TIPO_PUESTO" Type="solicitud.Model.tipo_puesto" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="2" Y="10.959" />
+        <Point X="2.375" Y="10.959" />
+        <Point X="2.375" Y="5.391" />
+        <Point X="2" Y="5.391" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>ABABAIAAAAQIgAAAAgAAAAAAAoIABAAIAkAAAAgEABA=</HashCode>
+      <FileName>entities\usuario.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="_TIPO_PUESTO" />
+      <Field Name="_UNIDAD_ADMIN" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="solicitud.Model.caracter_necesidad">
+    <Position X="6.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAQIgAAAAgAAAAAAAIIABAAIAAAAAAgEAAA=</HashCode>
+      <FileName>entities\caracter_necesidad.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="solicitud.Model.estado">
+    <Position X="0.75" Y="12.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAACAAQIgAAAAgAAAAAAAIAABAIIAAAAAAAEAAA=</HashCode>
+      <FileName>entities\estado.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="solicitud.Model.detalle_necesidad">
+    <Position X="6" Y="7.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>ABgAAQBEACQJkAAAAAAABCAAAAAABgEIQAAAAAAEFAI=</HashCode>
+      <FileName>entities\detalle_necesidad.cs</FileName>
+      <NewMemberFileName>entities\detalle_solicitud.cs</NewMemberFileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
