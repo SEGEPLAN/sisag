@@ -1,0 +1,485 @@
+.list-search-panel .search-box-panel {
+    background: #efefef!important;
+    -moz-border-top-right-radius: 0px !important; /* Firefox */
+    -moz-border-bottom-left-radius: 0px !important; /* Firefox */
+    -moz-border-bottom-right-radius: 0px !important; /* Firefox */
+    -webkit-border-top-right-radius: 0px !important; /* Safari, Chrome */
+    -webkit-border-bottom-left-radius: 0px !important; /* Safari, Chrome */
+    -webkit-border-bottom-right-radius: 0px !important; /* Safari, Chrome */    
+    border-top-right-radius: 0px !important; /* CSS3 */
+    border-bottom-left-radius: 0px !important; /* CSS3 */
+    border-bottom-right-radius: 0px !important; /* CSS3 */
+}
+
+.list-search-panel .search-box-panel .ui-panelgrid tr,
+.list-search-panel .search-box-panel .ui-panelgrid td {
+    border-style: none !important;
+    padding: 0px !important;
+    background: none;
+}
+.list-search-panel .search-box-panel .search-box {    
+    width: 150px;
+    height: 22px;    
+    border: #606060 1px solid;
+
+    -moz-border-radius:16px!important; /* Firefox */
+    -webkit-border-radius: 16px!important; /* Safari, Chrome */
+    -khtml-border-radius: 16px!important; /* KHTML */
+    border-radius: 16px !important; /* CSS3 */
+
+    font-size: 16px!important;
+    font-weight: normal;
+
+    padding: 4px 8px
+}
+
+
+.contentFrame {
+    position: relative;
+    padding-bottom: 65.25%;
+    padding-top: 30px;
+    height: 0;
+    overflow: auto; 
+
+    -webkit-overflow-scrolling:none; 
+    border: none;
+} 
+.contentFrame iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+
+
+.pe-layout-pane-content{
+
+    overflow: hidden  !important;
+
+}
+
+.buttonSave32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/save_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+.buttonDelete32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/delete_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.buttonNew32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/new_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonPlus32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/plus_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonSelect32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/select_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.buttonDownload32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/download_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonView32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/eye_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonUpload32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/upload_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+.buttonHelp32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/help_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonRefresh32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/refresh_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonRelation32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/relation_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonArrowSwitch32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/arrow_switch_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonBack32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/undo_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonDetail32{
+    width: 52px;
+    height: 55px;
+    background-image: url(../resources/images/32/detail_32.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonNew32 .ui-button-text, 
+.buttonSave32 .ui-button-text, 
+.buttonDelete32 .ui-button-text,
+.buttonPlus32 .ui-button-text,
+.buttonSelect32 .ui-button-text,
+.buttonDownload32 .ui-button-text,
+.buttonView32 .ui-button-text,
+.buttonUpload32 .ui-button-text,
+.buttonRefresh32 .ui-button-text,
+.buttonRelation32 .ui-button-text,
+.buttonArrowSwitch32 .ui-button-text,
+.buttonBack32 .ui-button-text,
+.buttonDetail32 .ui-button-text
+{
+    padding: 3.5em 0em !important;
+    font-size: 10.2px !important;
+
+}
+
+.buttonPlus32_22{
+    width: 22px;
+    height: 22px;
+    background-image: url(../resources/images/32/plus_32.png)!important;
+    background-size: 21px 21px !important; 
+    background-repeat: no-repeat !important;
+    background-position: center  !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.buttonPlus32_22_l{
+    width: 90px;
+    height: 25px;
+    background-image: url(../resources/images/32/plus_32.png)!important;
+    background-size: 21px 21px !important; 
+    background-repeat: no-repeat !important;
+    background-position: left !important;
+    border-color: #BBD9F5 !important;
+    text-align: right !important;
+}
+
+.buttonMove32_22{
+    width: 22px;
+    height: 22px;
+    background-image: url(../resources/images/32/move_32.png)!important;
+    background-size: 21px 21px !important; 
+    background-repeat: no-repeat !important;
+    background-position: center  !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.buttonSearch16{
+    width: 22px;
+    height: 22px;
+    background-image: url(../resources/images/16/search_16.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: center  !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonDelete16{
+    width: 22px;
+    height: 22px;
+    background-image: url(../resources/images/16/delete_16.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: center  !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonDetail16{
+    width: 22px;
+    height: 22px;
+    background-image: url(../resources/images/16/detail_16.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: center  !important;
+    border-color: #BBD9F5 !important;
+}
+
+.buttonEdit16{
+    width: 22px;
+    height: 22px;
+    background-image: url(../resources/images/16/edit_16.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: center  !important;
+    border-color: #BBD9F5 !important;
+}
+
+h2{
+    color: #326295;
+    font-size: 18px;
+}
+h3{
+    color: #326295;
+    font-size: 14px;
+}
+/* titulos o encabezados en panelGrid*/
+.panelGridTitle {
+    background: #E9E6E6 !important; /* efefef */
+    font-size: 11px !important; 
+    font-weight: bold !important; 
+}
+.panleGridTitle {
+    background: #E9E6E6 !important; /* efefef */
+    font-size: 11px !important; 
+    font-weight: bold !important; 
+}
+
+/* Botones de la pagina principal */
+
+.buttonArchive64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/archive_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 14px !important;
+}
+
+.buttonBalance64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/Judge_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 14px !important;
+}
+
+.buttonIndicios64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/packing_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 14px !important;
+    background-size: 60px 60px !important; 
+}
+
+.buttonLaboratory64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/laboratory_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 14px !important; 
+}
+
+.buttonAdministrativa64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/paste_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 10px !important;
+
+}
+
+.buttonAmpliacion64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/add-notes_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 14px !important; 
+}
+
+.buttonRechazo64 {
+    width: 85px; 
+    height:85px;
+    background-image: url(../resources/images/64/hand-stop_64.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+    font-size: 14px !important; 
+}
+
+.buttonArchive64 .ui-button-text,
+.buttonBalance64 .ui-button-text,
+.buttonIndicios64 .ui-button-text,
+.buttonLaboratory64 .ui-button-text,
+.buttonAmpliacion64 .ui-button-text,
+.buttonRechazo64 .ui-button-text
+{    
+    padding: 4.5em 0em !important;
+
+}
+
+.buttonAdministrativa64 .ui-button-text {    
+    padding: 6.5em 0em !important;
+
+}
+
+.ui-panelgrid.no-border tr,
+.ui-panelgrid.no-border td {
+    border: none;
+}
+.IngresoDeDatos {
+    width: 22px;
+    height:22px;
+    background-image: url(../resources/images/ingreso_solicitud1.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.imagenArchivoSolicitud {
+    width: 85px;
+    height:85px;
+    background-image: url(../resources/images/iconosPeritaje/archivo_1.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.imagenEnvioSolicitud {
+    width: 85px;
+    height:85px;
+    background-image: url(../resources/images/iconosPeritaje/enviar.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.imagenResultadoSolicitud {
+    width: 85px;
+    height:85px;
+    background-image: url(../resources/images/iconosPeritaje/enviar.png)!important;
+    background-repeat: no-repeat !important;
+    background-position: top !important;
+    border-color: #BBD9F5 !important;
+
+}
+
+.ui-widget-content {
+    border: 1px solid #E7F5FF; 
+}
+
+.ui-treetable-scrollable-header, .ui-treetable-scrollable-footer{
+    background-color: transparent;
+}
+.ui-wizard-step-title {
+    /*font-size: 18px;
+    margin: 0 3px 0 0;
+    padding: 0.4em;
+    float: left;*/
+    opacity: 0.3;
+}
+
+.ui-state-highlight, .ui-widget-content 
+.ui-state-highlight, .ui-widget-header 
+.ui-state-highlight {
+    /*border: 1px solid #AEF47C;
+    background: #B4D743;
+    color: #363636;*/
+    opacity: 1!important;
+}
+
+.backgroundLine {
+    height: 7px;
+    background: -moz-linear-gradient(top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+    background: linear-gradient(bottom, rgba(0,0,0,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+
+/* Oculata la linea del layout del menu */
+.ui-layout-resizer-north-dragging, .ui-layout-resizer-north-open-hover{
+    height: 0px !important;
+}
+
+/*.ui-state-highlight, .ui-widget-content 
+.ui-state-highlight, .ui-widget-header 
+.ui-state-highlight{
+    background: #366FA1;
+}*/
+
+
+.ui-selectonemenu-panel .ui-selectonemenu-item {
+    font-size: 10.5px;
+}
+
+
+.mayuscula{  
+        text-transform: uppercase;  
+        } 
