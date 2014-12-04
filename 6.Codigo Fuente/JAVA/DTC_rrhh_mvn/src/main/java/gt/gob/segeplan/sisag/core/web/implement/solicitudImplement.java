@@ -6,19 +6,16 @@ package gt.gob.segeplan.sisag.core.web.implement;
 
 
 import gt.gob.segeplan.sisag.core.web.controller.solicitudController;
-import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
-import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
-import gt.gob.segeplan.sisag.rrhh.entities.SegRol;
+import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import java.util.ArrayList;
 import java.util.List;
-import javax.naming.InitialContext;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.transaction.UserTransaction;
 
 /**
  *
@@ -70,6 +67,19 @@ public class solicitudImplement implements solicitudController{
         Query q = em.createQuery("Select l from RrhhSolicitudCapacitacion l");
         return q.getResultList();
     }
+    
+    
+    // CATALOGOS
+    
+    @Override
+    public List<GenDominios> getLstCatalogo(int id) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from GenDominios l WHERE l.idDominio.id=:filtro");
+        q.setParameter("filtro",id );
+        return q.getResultList();
+    }
+    
+    
 
     @Override
     public List<RrhhSolicitudCapacitacion> getLstSolicitudDTC_by(int band, int tipo) {
@@ -82,44 +92,111 @@ public class solicitudImplement implements solicitudController{
         
         return q.getResultList();
     }
+    
+    
+    @Override
+    public List<RrhhTipoPuesto> getLstTipoPuesto_by(int band) {
+        EntityManager em = emf.createEntityManager();
+        Query q = null;
+       
+                q = em.createQuery("Select l.idPersona.idTipoPuesto.idUnidadAdmin.rrhhTipoPuestoList from SegUsuario l where l.idUsuario=:filtro");
+                q.setParameter("filtro",band );
+        
+        return q.getResultList();
+    }
+    
+    
 
     @Override
-    public RrhhSolicitudCapacitacion crearSolicitudDTC(RrhhSolicitudCapacitacion objeto) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-            transaction.begin();
+    public RrhhNecesidad crearNecSol(RrhhNecesidad objeto) {
+        
+      EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
             em.persist(objeto);
-            em.joinTransaction();
-            em.flush();
-            transaction.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             objeto = null;
         } finally {
-            //em.close();
+            em.close();
             return objeto;
         }
-               
     }
+    
+    
+    @Override
+    public RrhhNecesidad editarNecSol(RrhhNecesidad objeto) {
+        
+       EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(objeto);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            objeto = null;
+        } finally {
+            em.close();
+            return objeto;
+        }
+        
+    }
+    
+    
+    @Override
+    public String borrarNecSol(RrhhNecesidad objeto) {
+          String del = objeto.toString();
+      EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(em.merge(objeto));
+            em.getTransaction().commit();
+            del= "SI borro objeto "+del;
+        }catch (Exception e) {
+            e.printStackTrace();
+            del= "NO borro objeto "+del;
+            objeto = null;
+        } finally {
+            em.close();
+            return del;
+        }
+    }
+    
+    
+     @Override
+    public RrhhSolicitudCapacitacion crearSolicitudDTC(RrhhSolicitudCapacitacion objeto) {
+        
+      EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(objeto);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            objeto = null;
+        } finally {
+            em.close();
+            return objeto;
+        }
+    }
+    
+    
     
     
     @Override
     public RrhhSolicitudCapacitacion editarSolicitudDTC(RrhhSolicitudCapacitacion objeto) {
-       EntityManager em = emf.createEntityManager();
         
-       try {
-            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-            transaction.begin();
+       EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
             em.merge(objeto);
-            em.joinTransaction();
-            em.flush();
-            transaction.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             objeto = null;
         } finally {
-            //em.close();
+            em.close();
             return objeto;
         }
         
@@ -127,13 +204,15 @@ public class solicitudImplement implements solicitudController{
 
     
     
+    
+    
     @Override
     public String borrarSolicitudDTC(RrhhSolicitudCapacitacion objeto) {
-        String del = objeto.toString();
-        EntityManager em = emf.createEntityManager();
-        try{    
+          String del = objeto.toString();
+      EntityManager em = emf.createEntityManager();
+        try{
             em.getTransaction().begin();
-            em.remove(em.merge(objeto)); 
+            em.merge(em.merge(objeto));
             em.getTransaction().commit();
             del= "SI borro objeto "+del;
         }catch (Exception e) {

@@ -66,14 +66,14 @@ public class RrhhPersona implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_TIPO_PUESTO", referencedColumnName = "ID_TIPO_PUESTO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhTipoPuesto idTipoPuesto;
-    @OneToMany(mappedBy = "idEncargado", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idEncargado", fetch = FetchType.LAZY)
     private List<RrhhPersona> rrhhPersonaList;
     @JoinColumn(name = "ID_ENCARGADO", referencedColumnName = "ID_PERSONA")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhPersona idEncargado;
-    @OneToMany(mappedBy = "idPersona", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idPersona", fetch = FetchType.LAZY)
     private List<SegUsuario> segUsuarioList;
 
     public RrhhPersona() {

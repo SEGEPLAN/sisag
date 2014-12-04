@@ -52,7 +52,7 @@ public class SegModulo implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idModulo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idModulo", fetch = FetchType.LAZY)
     private List<SegPagina> segPaginaList;
 
     public SegModulo() {

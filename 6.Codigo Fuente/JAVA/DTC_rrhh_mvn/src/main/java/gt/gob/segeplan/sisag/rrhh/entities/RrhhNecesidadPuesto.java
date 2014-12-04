@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -31,22 +30,21 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RrhhNecesidadPuesto.findAll", query = "SELECT r FROM RrhhNecesidadPuesto r"),
     @NamedQuery(name = "RrhhNecesidadPuesto.findByIdNecesidad", query = "SELECT r FROM RrhhNecesidadPuesto r WHERE r.rrhhNecesidadPuestoPK.idNecesidad = :idNecesidad"),
     @NamedQuery(name = "RrhhNecesidadPuesto.findByIdTipoPuesto", query = "SELECT r FROM RrhhNecesidadPuesto r WHERE r.rrhhNecesidadPuestoPK.idTipoPuesto = :idTipoPuesto"),
-    @NamedQuery(name = "RrhhNecesidadPuesto.findByDescripcion", query = "SELECT r FROM RrhhNecesidadPuesto r WHERE r.descripcion = :descripcion"),
+    @NamedQuery(name = "RrhhNecesidadPuesto.findByTotal", query = "SELECT r FROM RrhhNecesidadPuesto r WHERE r.total = :total"),
     @NamedQuery(name = "RrhhNecesidadPuesto.findByRestrictiva", query = "SELECT r FROM RrhhNecesidadPuesto r WHERE r.restrictiva = :restrictiva")})
 public class RrhhNecesidadPuesto implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected RrhhNecesidadPuestoPK rrhhNecesidadPuestoPK;
-    @Size(max = 50)
-    @Column(name = "DESCRIPCION")
-    private String descripcion;
+    @Column(name = "TOTAL")
+    private BigInteger total;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_TIPO_PUESTO", referencedColumnName = "ID_TIPO_PUESTO", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RrhhTipoPuesto rrhhTipoPuesto;
     @JoinColumn(name = "ID_NECESIDAD", referencedColumnName = "ID_NECESIDAD", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RrhhNecesidad rrhhNecesidad;
 
     public RrhhNecesidadPuesto() {
@@ -68,12 +66,12 @@ public class RrhhNecesidadPuesto implements Serializable {
         this.rrhhNecesidadPuestoPK = rrhhNecesidadPuestoPK;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public BigInteger getTotal() {
+        return total;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setTotal(BigInteger total) {
+        this.total = total;
     }
 
     public Character getRestrictiva() {

@@ -38,10 +38,10 @@ public class SegPrivilegioPagina implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_PRIVILEGIO", referencedColumnName = "ID_PRIVILEGIO", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SegPrivilegio segPrivilegio;
     @JoinColumn(name = "ID_ASIGNACION_PAGINA", referencedColumnName = "ID_ASIGNACION", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private SegPaginaAsignada segPaginaAsignada;
 
     public SegPrivilegioPagina() {

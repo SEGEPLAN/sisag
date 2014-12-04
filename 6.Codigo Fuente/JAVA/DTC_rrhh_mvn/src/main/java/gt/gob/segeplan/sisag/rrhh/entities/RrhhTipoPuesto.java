@@ -40,6 +40,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RrhhTipoPuesto.findByDescripcion", query = "SELECT r FROM RrhhTipoPuesto r WHERE r.descripcion = :descripcion"),
     @NamedQuery(name = "RrhhTipoPuesto.findByRestrictiva", query = "SELECT r FROM RrhhTipoPuesto r WHERE r.restrictiva = :restrictiva")})
 public class RrhhTipoPuesto implements Serializable {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhTipoPuesto", fetch = FetchType.LAZY)
+    private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -56,12 +58,10 @@ public class RrhhTipoPuesto implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_UNIDAD_ADMIN", referencedColumnName = "ID_UNIDAD_ADMIN")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhUnidadAdministrativa idUnidadAdmin;
-    @OneToMany(mappedBy = "idTipoPuesto", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idTipoPuesto", fetch = FetchType.LAZY)
     private List<RrhhPersona> rrhhPersonaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhTipoPuesto", fetch = FetchType.EAGER)
-    private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
 
     public RrhhTipoPuesto() {
     }
@@ -119,15 +119,6 @@ public class RrhhTipoPuesto implements Serializable {
         this.rrhhPersonaList = rrhhPersonaList;
     }
 
-    @XmlTransient
-    public List<RrhhNecesidadPuesto> getRrhhNecesidadPuestoList() {
-        return rrhhNecesidadPuestoList;
-    }
-
-    public void setRrhhNecesidadPuestoList(List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList) {
-        this.rrhhNecesidadPuestoList = rrhhNecesidadPuestoList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -151,6 +142,15 @@ public class RrhhTipoPuesto implements Serializable {
     @Override
     public String toString() {
         return "gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto[ idTipoPuesto=" + idTipoPuesto + " ]";
+    }
+
+    @XmlTransient
+    public List<RrhhNecesidadPuesto> getRrhhNecesidadPuestoList() {
+        return rrhhNecesidadPuestoList;
+    }
+
+    public void setRrhhNecesidadPuestoList(List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList) {
+        this.rrhhNecesidadPuestoList = rrhhNecesidadPuestoList;
     }
     
 }

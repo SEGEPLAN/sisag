@@ -1,0 +1,404 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+    <f:view locale="es_GT"> 
+        <h:head>
+            <script src="../resources/js/validacion-1.0.js" type="text/javascript"></script>
+            <style type="text/css">
+                .panelGridCenter td,.panelGridCenter tr {
+                    text-align: center;
+                }
+
+
+                .ui-selectonebutton{
+                    background:white !important;
+                }
+                .ui-button.ui-widget.ui-state-default.ui-button-text-only{
+                    margin-left:5px !important;
+                    background:#BBD9F5 !important;
+                }
+
+                .ui-button.ui-widget.ui-state-active.ui-button-text-only {
+                    background:#fbbd19 !important;
+
+                }
+
+                .ui-state-error {
+                    border: 1px solid rgba(255, 255, 255, 1) !important;
+                }
+
+
+                /* 
+                 .ui-widget-header{
+                      background: #FFFFFF !important; 
+                 } */                
+            </style>
+            <h:outputStylesheet library="css" name="theme.min.css" />
+            <h:outputStylesheet library="css" name="sinaf.css" />
+        </h:head>
+
+        <h:body>
+
+            <div align="center"  >
+                
+                <h:form id="dtcForm">  
+                 
+                     <p:growl id="messages" showDetail="true"/>  
+                    
+                        <p:tabMenu activeIndex="0" >  
+                            <p:menuitem value="Registrar DNC" immediate="true" action="#{seguridad.navegar('verSolicitud.xhtml')}" ajax="false" icon="ui-icon-search"/>  
+                        </p:tabMenu>
+                     <p:accordionPanel multiple="true" activeIndex="0,1">
+                         <p:tab closable="true" title="Direccion #{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.nombre}">
+                            <h:panelGrid columns="2" cellpadding="0">
+                            
+                            <h:outputText value="TOTAL EMPLEADOS:" style="font-weight:bold" />
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.rrhhTipoPuestoList.size()}"/>
+
+
+                            <h:outputText value="ELABORA:" style="font-weight:bold"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.nombres}  #{solicitud.solicitudDTC.usrCrea.idPersona.apellidos} "/>
+
+                            <h:outputText value="PUESTO:" style="font-weight:bold"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.nombre} "/>
+
+                            <h:outputText value="DIRECCION QUE SOLICITA:" style="font-weight:bold"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.nombre}"/>
+
+                            <h:outputText value="ACTIVIDADES PRINCIPALES:" style="font-weight:bold"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.descripcion} "/>
+                        </h:panelGrid>
+                        </p:tab>
+                        
+                        <p:tab title="Necesidades Detectadas" >
+                            <p:toolbar id="toolbarDTC">
+                            <f:facet name="left">
+                                 <p:commandButton id="cb_nuevo" icon="ui-icon-document"  
+                                                  value="Nuevo" 
+                                                  
+                                                  actionListener="#{solicitud.borrarCombos()}"
+                                                    update=":#{p:component('detailNewNec')}"
+                                                  
+                                                  oncomplete="PF('dlgNew').show()" ajax="true" immediate="true"
+                                                  
+                                                  
+                                                  />
+                                 <p:commandButton id="cb_editar"  icon="ui-icon-folder-open"   
+                                                  value="Editar" 
+                                                  
+                                                  actionListener="#{solicitud.llenarCombos()}"
+                                                    update=":#{p:component('detailEditNec')}"
+                                                  
+                                                  oncomplete="PF('dlgEdit').show()" ajax="true" immediate="true"
+                                                  
+                                                  
+                                                  />
+                                
+                               
+
+                                <span class="ui-separator">
+                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                </span>
+                                <p:commandButton type="button" title="Eliminar" icon="ui-icon-trash" />
+                                <p:commandButton type="button" title="Imprimir" icon="ui-icon-print" />
+                            </f:facet>
+
+                            <f:facet name="right">
+                                <p:menuButton value="Opciones">
+                                    <p:menuitem value="Otra1"   icon="ui-icon-disk" />
+                                    <p:menuitem value="Otra2"   icon="ui-icon-arrowrefresh-1-w" />
+
+                                </p:menuButton>
+                            </f:facet>
+                        </p:toolbar>
+                        
+                            <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" style="width: 100%; height: 100%; margin: 0 auto;" 
+                                     emptyMessage="No existen necesidades ingresadas" var="l" rowKey="#{l.idNecesidad}" 
+                                     selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
+                                   
+                                      scrollable="true" scrollHeight="250"  
+                                      >  
+
+                                <p:ajax event="rowSelect" listener="#{solicitud.onRowSelect}" update=":dtcForm:detailEditNec" 
+                                        />
+                                
+                            <p:column sortBy="#{l.idCaracter.nombre}" filterBy="#{l.idCaracter.nombre}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Carácter" />
+                                </f:facet>
+                                <h:outputText value="#{l.idCaracter.nombre}" />
+                            </p:column>
+                            <p:column sortBy="#{l.problemaNecesidad}" filterBy="#{l.problemaNecesidad}">
+                                <f:facet name="header">
+                                    <h:outputText value="Problematica" />
+                                </f:facet>
+                                <h:outputText value="#{l.problemaNecesidad}" />
+                            </p:column>
+
+                            <p:column sortBy="#{l.idPrioridad.nombre}" filterBy="#{l.idPrioridad.nombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Prioridad" />
+                                </f:facet>
+                                <h:outputText value="#{l.idPrioridad.nombre}" />
+                            </p:column>
+
+                            <p:column sortBy="#{l.temaPrincipal}" filterBy="#{l.temaPrincipal}">
+                                <f:facet name="header">
+                                    <h:outputText value="Tema" />
+                                </f:facet>
+                                <h:outputText value="#{l.temaPrincipal}" />
+                            </p:column>
+
+                            <p:column sortBy="#{l.idNivelConocimiento.nombre}" filterBy="#{l.idNivelConocimiento.nombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Nivel" />
+                                </f:facet>
+                                <h:outputText value="#{l.idNivelConocimiento.nombre}" />
+                            </p:column>
+
+                            <p:column sortBy="#{l.idDisponibilidad.nombre}" filterBy="#{l.idDisponibilidad.nombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="Disponibilidad" />
+                                </f:facet>
+                                <h:outputText value="#{l.idDisponibilidad.nombre}" />
+                            </p:column>
+
+                            <p:column sortBy="#{l.totalHoras}" filterBy="#{l.totalHoras}">
+                                <f:facet name="header">
+                                    <h:outputText value="Duracion" />
+                                </f:facet>
+                                <h:outputText value="#{l.totalHoras}" />
+                            </p:column>
+                        </p:dataTable> 
+                        </p:tab>
+                    
+                    </p:accordionPanel>
+
+
+                    <!-- **********************  DIALOG **********************    -->
+
+                    <p:dialog id="detailNewNec"  header="Registrar Necesidad de Capacitacion" widgetVar="dlgNew" modal="true" width="450" height="380">
+                        <div align="center">
+                                    <table width="100" style="border: 2px;" >
+                                    <tr>
+                                        <td>
+                                    <h:outputText value="Caracter:" /><br/>
+                                    <p:selectOneMenu label="Caracter" value="#{solicitud.idCaracter}"  converter="entityConverter"
+                                                     styleClass="styleBottom"
+                                                     style="width: 120px;">
+                                        <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                    </p:selectOneMenu>
+                                        </td> 
+                                        <td>
+                                            <h:outputText value="Nivel de conocimiento:" /><br/>
+                                    <p:selectOneMenu label="Nivel de Conocimiento" value="#{solicitud.idNivelConocimiento}"  
+                                                      style="width: 120px;"
+                                                     >
+                                        <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                    </p:selectOneMenu>
+                                        </td> 
+                                            </tr>
+                                            <tr>
+                                        <td>
+                                        <h:outputText  value="Prioridad de atencion:" /><br/>
+                                            <p:selectOneMenu label="Prioridad" value="#{solicitud.idPrioridad}"  
+                                                             style="width: 120px;"
+                                                             >
+                                                <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                            </p:selectOneMenu>
+                                        </td> 
+                                        <td>
+                                            <h:outputText  value="Disponibilidad:" /><br/>
+                                    <p:selectOneMenu label="Disponibilidad" value="#{solicitud.idDisponibilidad}"  
+                                                      style="width: 120px;"
+                                                     >
+                                        <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                    </p:selectOneMenu>
+                                        </td>
+                                                <td >
+                                            <h:outputText value="Duracion:" /><br/>
+                                    <h:inputText label="Duracion" value="#{solicitud.necesidadCapa.totalHoras}" 
+                                                  style="width: 50px;"/>
+                                        </td> 
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                            <h:outputText value="Detalle la necesidad suceptible a resolver:" /><br/>
+                                    <h:inputTextarea 
+                                        label="Problema" value="#{solicitud.necesidadCapa.problemaNecesidad}" 
+                                         style="width: 340px; height: 50px; resize: none"  />
+                                    
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                            <h:outputText value="Detalle los temas a abordar:" /><br/>
+                                    <h:inputTextarea 
+                                        label="Problema" value="#{solicitud.necesidadCapa.temaPrincipal}" 
+                                         style="width: 340px; height: 50px; resize: none"  />
+                                    
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                             <h:outputText value="Participantes por Tipo de Puesto" /><br/>
+                                           <p:dataGrid  id="tipoPuesto"  var="pNec" value="#{solicitud.lstNecPuesto}" 
+                                                         columns="6" rows="1" 
+                                                         >
+                                                    <p:panel id="pnlAtrib" header="#{pNec.rrhhTipoPuesto.nombre}" style="width: 95px; background: none;" >
+                                                            <h:panelGrid styleClass="no-border">
+                                                                <p:row>
+                                                                    <p:column>
+                                                                        <p:inputText id="temp" value="#{pNec.total}" style="width:90%; float: left"/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </h:panelGrid>
+                                                    </p:panel>
+                                            </p:dataGrid>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                           <div align="center" style="background-color: #AFAFAF; height: 1px; width: 100%;" >
+                                            </div>
+                                            <br/>
+                                    <div align="center">
+                                        <p:commandButton id="cb_guardar" value="Guardar" actionListener="#{solicitud.guardarNecDTC}"  
+                                                         ajax="false" image="ui-icon ui-icon-disk" 
+                                                         update="necesidadesTable" />
+                                    </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    </table>
+                              
+                        </div>
+
+                    </p:dialog> 
+                    
+                    <!-- DLG EDITAR -->
+                    
+                    <p:dialog id="detailEditNec"  header="Editar Necesidad de Capacitacion" widgetVar="dlgEdit" modal="true" width="450" height="380">
+                        <div align="center">
+                         
+                            <table width="100" style="border: 2px;" >
+                                    <tr>
+                                        <td>
+                                    <h:outputText value="Caracter:" /><br/>
+                                    <p:selectOneMenu label="Caracter" value="#{solicitud.idCaracter}"  converter="entityConverter"
+                                                     styleClass="styleBottom"
+                                                     style="width: 120px;">
+                                        <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                    </p:selectOneMenu>
+                                        </td> 
+                                        <td>
+                                            <h:outputText value="Nivel de conocimiento:" /><br/>
+                                    <p:selectOneMenu label="Nivel de Conocimiento" value="#{solicitud.idNivelConocimiento}"  
+                                                      style="width: 120px;"
+                                                     >
+                                        <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                    </p:selectOneMenu>
+                                        </td> 
+                                            </tr>
+                                            <tr>
+                                        <td>
+                                        <h:outputText  value="Prioridad de atencion:" /><br/>
+                                            <p:selectOneMenu label="Prioridad" value="#{solicitud.idPrioridad}"  
+                                                             style="width: 120px;"
+                                                             >
+                                                <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                            </p:selectOneMenu>
+                                        </td> 
+                                        <td>
+                                            <h:outputText  value="Disponibilidad:" /><br/>
+                                    <p:selectOneMenu label="Disponibilidad" value="#{solicitud.idDisponibilidad}"  
+                                                      style="width: 120px;"
+                                                     >
+                                        <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                    </p:selectOneMenu>
+                                        </td>
+                                                <td >
+                                            <h:outputText value="Duracion:" /><br/>
+                                    <h:inputText label="Duracion" value="#{solicitud.necesidadCapaAux.totalHoras}" 
+                                                  style="width: 50px;"/>
+                                        </td> 
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                            <h:outputText value="Detalle la necesidad suceptible a resolver:" /><br/>
+                                    <h:inputTextarea 
+                                        label="Problema" value="#{solicitud.necesidadCapaAux.problemaNecesidad}" 
+                                         style="width: 340px; height: 50px; resize: none"  />
+                                    
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                            <h:outputText value="Detalle los temas a abordar:" /><br/>
+                                    <h:inputTextarea 
+                                        label="Problema" value="#{solicitud.necesidadCapaAux.temaPrincipal}" 
+                                         style="width: 340px; height: 50px; resize: none"  />
+                                    
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                             <h:outputText value="Participantes por Tipo de Puesto" /><br/>
+                                           <p:dataGrid  id="tipoPuestoEdit"  var="pNec" value="#{solicitud.lstNecPuesto}" 
+                                                         columns="6" rows="1" 
+                                                         >
+                                                    <p:panel id="pnlAtrib" header="#{pNec.rrhhTipoPuesto.nombre}" style="width: 95px; background: none;" >
+                                                            <h:panelGrid styleClass="no-border">
+                                                                <p:row>
+                                                                    <p:column>
+                                                                        <p:inputText id="temp" value="#{pNec.total}" style="width:90%; float: left"/>
+                                                                    </p:column>
+                                                                </p:row>
+                                                            </h:panelGrid>
+                                                    </p:panel>
+                                            </p:dataGrid>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td colspan="3">
+                                           <div align="center" style="background-color: #AFAFAF; height: 1px; width: 100%;" >
+                                            </div>
+                                            <br/>
+                                    <div align="center">
+                                        <p:commandButton id="cb_editar" value="Editar" actionListener="#{solicitud.editarNecDTC}"  ajax="false" 
+                                                         image="ui-icon ui-icon-disk" immediate="true"
+                                                         update="necesidadesTable" />
+                                    </div>
+                                        </td>
+                                    </tr>
+                                    
+                                    </table>
+                         
+                        </div>
+
+                    </p:dialog>
+                    
+                    
+
+                </h:form> 
+                            
+            </div>
+        </h:body>
+    </f:view>
+</html>  

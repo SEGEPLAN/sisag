@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,6 +23,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -46,6 +49,10 @@ public class RrhhSolicitudCapacitacion implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_SOLICITUD_CAPACITACION")
+    @GeneratedValue(generator = "RRHH_SOLICITUD_CAPACITACION_GEN")
+    @TableGenerator(name = "RRHH_SOLICITUD_CAPACITACION_GEN", table = "SECUENCIAS",
+            pkColumnName = "ID", valueColumnName = "VALOR",
+            pkColumnValue = "RRHH_SOLICITUD_CAPACITACION", allocationSize = 1)
     private BigDecimal idSolicitudCapacitacion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
@@ -53,9 +60,12 @@ public class RrhhSolicitudCapacitacion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCrea;
     @JoinColumn(name = "USR_CREA", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SegUsuario usrCrea;
-    @OneToMany(mappedBy = "idSolicitudCapacitacion", fetch = FetchType.EAGER)
+    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private GenDominios idEstado;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitudCapacitacion", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList;
 
     public RrhhSolicitudCapacitacion() {
@@ -95,6 +105,14 @@ public class RrhhSolicitudCapacitacion implements Serializable {
 
     public void setUsrCrea(SegUsuario usrCrea) {
         this.usrCrea = usrCrea;
+    }
+
+    public GenDominios getIdEstado() {
+        return idEstado;
+    }
+
+    public void setIdEstado(GenDominios idEstado) {
+        this.idEstado = idEstado;
     }
 
     @XmlTransient

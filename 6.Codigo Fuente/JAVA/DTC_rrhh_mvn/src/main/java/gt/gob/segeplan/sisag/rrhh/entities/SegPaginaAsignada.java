@@ -47,15 +47,15 @@ public class SegPaginaAsignada implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SegUsuario idUsuario;
     @JoinColumn(name = "ID_ROL", referencedColumnName = "ID_ROL")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SegRol idRol;
     @JoinColumn(name = "ID_PAGINA", referencedColumnName = "ID_PAGINA")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SegPagina idPagina;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segPaginaAsignada", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segPaginaAsignada", fetch = FetchType.LAZY)
     private List<SegPrivilegioPagina> segPrivilegioPaginaList;
 
     public SegPaginaAsignada() {

@@ -74,17 +74,17 @@ public class SegUsuario implements Serializable {
     private Long telefono;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "usrCrea", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usrCrea", fetch = FetchType.LAZY)
     private List<RrhhSolicitudCapacitacion> rrhhSolicitudCapacitacionList;
-    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<SegPaginaAsignada> segPaginaAsignadaList;
-    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.EAGER)
-    private List<SegSesion> segSesionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segUsuario", fetch = FetchType.EAGER)
-    private List<SegRolUsuario> segRolUsuarioList;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhPersona idPersona;
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    private List<SegSesion> segSesionList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segUsuario", fetch = FetchType.LAZY)
+    private List<SegRolUsuario> segRolUsuarioList;
 
     public SegUsuario() {
     }
@@ -183,6 +183,14 @@ public class SegUsuario implements Serializable {
         this.segPaginaAsignadaList = segPaginaAsignadaList;
     }
 
+    public RrhhPersona getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(RrhhPersona idPersona) {
+        this.idPersona = idPersona;
+    }
+
     @XmlTransient
     public List<SegSesion> getSegSesionList() {
         return segSesionList;
@@ -199,14 +207,6 @@ public class SegUsuario implements Serializable {
 
     public void setSegRolUsuarioList(List<SegRolUsuario> segRolUsuarioList) {
         this.segRolUsuarioList = segRolUsuarioList;
-    }
-
-    public RrhhPersona getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(RrhhPersona idPersona) {
-        this.idPersona = idPersona;
     }
 
     @Override
