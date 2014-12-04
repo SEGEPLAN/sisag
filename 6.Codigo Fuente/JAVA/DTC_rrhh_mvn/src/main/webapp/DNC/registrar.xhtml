@@ -35,11 +35,21 @@
                     border: 1px solid rgba(255, 255, 255, 1) !important;
                 }
 
-
-                /* 
+                .ui-widget-content {
+                    border: 0px solid #A8A8A8;
+                }
                  .ui-widget-header{
                       background: #FFFFFF !important; 
-                 } */                
+                 } 
+                 
+                 .ui-widget-content {
+                    border: 0px solid #A8A8A8 !important; 
+                 }
+                 .ui-widget-header {
+                        border: 0px solid #4297D7;
+                 }
+                 
+                 
             </style>
             <h:outputStylesheet library="css" name="theme.min.css" />
             <h:outputStylesheet library="css" name="sinaf.css" />
@@ -110,17 +120,31 @@
                                 <p:commandButton type="button" title="Eliminar" icon="ui-icon-trash" />
                                 <p:commandButton type="button" title="Imprimir" icon="ui-icon-print" />
                             </f:facet>
+                                
+                                
+                                <f:facet name="right">
+                              
+                                   <p:commandLink id="pdf" ajax="false">  
+                                    <p:graphicImage value="/resources/images/pdf.png"/>  
+                                    <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
+                                    <pe:exporter type="pdf" target="groupingTable" fileName="GroupedTable" tableTitle="Sales/Profits Analysis" orientation="Landscape"  
+                                                 facetBackground="#F88017" facetFontSize="10" facetFontColor="#0000ff" facetFontStyle="BOLD"  
+                                                 cellFontColor="#00ff00" cellFontSize="8" cellFontStyle="NORMAL"/>  
+                                </p:commandLink>  
 
-                            <f:facet name="right">
-                                <p:menuButton value="Opciones">
-                                    <p:menuitem value="Otra1"   icon="ui-icon-disk" />
-                                    <p:menuitem value="Otra2"   icon="ui-icon-arrowrefresh-1-w" />
+                                
 
-                                </p:menuButton>
-                            </f:facet>
+                                <p:commandLink id="xlsx" ajax="false">  
+                                    <p:graphicImage value="/resources/images/excel.png"/>  
+                                    <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
+                                    <pe:exporter type="xlsx" target="groupingTable" fileName="GroupedTable" tableTitle="Sales/Profits Analysis"  
+                                                 facetBackground="#F88017" facetFontSize="10" facetFontColor="#0000ff" facetFontStyle="BOLD"  fontName="Courier New"  
+                                                 cellFontColor="#00ff00" cellFontSize="8" cellFontStyle="NORMAL"/>  
+                                </p:commandLink> 
+                                </f:facet>
                         </p:toolbar>
                         
-                            <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" style="width: 100%; height: 100%; margin: 0 auto;" 
+                            <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" style="width: 100%; height: 100%;" 
                                      emptyMessage="No existen necesidades ingresadas" var="l" rowKey="#{l.idNecesidad}" 
                                      selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
                                    
