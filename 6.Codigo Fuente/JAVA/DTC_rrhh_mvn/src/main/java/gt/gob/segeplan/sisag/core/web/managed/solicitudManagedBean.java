@@ -13,6 +13,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -144,9 +145,6 @@ public  class solicitudManagedBean implements Serializable{
                 necesidadCapa.setIdDisponibilidad(dispo);
             }
         }
-//        necesidadCapa.setTotalHoras(totalHoras);
-//        necesidadCapa.setTemaPrincipal(temaPrincipal);
-//        necesidadCapa.setProblemaNecesidad(problemaNecesidad);
         
         ListNecesidades.add(psSol.crearNecSol(necesidadCapa));
         necesidadCapa = new RrhhNecesidad();
@@ -188,9 +186,6 @@ public  class solicitudManagedBean implements Serializable{
             }
         }
         
-//        necesidadCapaAux.setTotalHoras(totalHoras);
-//        necesidadCapaAux.setTemaPrincipal(temaPrincipal);
-//        necesidadCapaAux.setProblemaNecesidad(problemaNecesidad);
         
         psSol.editarNecSol(necesidadCapaAux);
         ListNecesidades = new ArrayList<RrhhNecesidad>();
@@ -208,10 +203,9 @@ public  class solicitudManagedBean implements Serializable{
         idPrioridad = 0;
         idNivelConocimiento = 0;
         idDisponibilidad = 0;
-        
-        totalHoras = 4;
-        problemaNecesidad = "";
         temaPrincipal = "";
+        totalHoras = 0;
+        problemaNecesidad = "";
     }
 
     public void onRowSelect(SelectEvent event) {
