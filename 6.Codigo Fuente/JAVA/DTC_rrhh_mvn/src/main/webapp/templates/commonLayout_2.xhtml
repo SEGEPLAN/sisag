@@ -52,9 +52,7 @@
                                     </td>
 
                                     <td align="right" style="padding: 5px">
-                                    
-
-                                    <div align="">
+                                     <div align="">
                                         <!-- Usuario: -->
                                         <p:commandLink id="cl_usr"  style="font-size: 25px; color: #326295;" >   
                                             <img src="/sisag_web/resources/images/32/personal_32.png" style="width: 28px; height: 28px;"/>
@@ -71,7 +69,7 @@
 
                                                 <p:separator />
                                                 <p:menuitem value="Mi información"   icon="ui-icon-disk"/>  
-                                                <p:menuitem value="Configuración"  icon="ui-icon-arrowrefresh-1-w"/>  
+                                                <p:menuitem value="Cambiar Tema"  icon="ui-icon-arrowrefresh-1-w" oncomplete="PF('dlgTheme').show()" />  
                                                 <p:menuitem value="Ayuda"  icon="ui-icon-arrowrefresh-1-w"/>  
                                                 <p:menuitem value="Acerca de"  icon="ui-icon-arrowrefresh-1-w"/>  
                                             </p:submenu>
@@ -171,6 +169,20 @@
             }
         </h:outputStylesheet> 
 
+
+<h:form id="formtema" >
+     <p:dialog header="Tema" widgetVar="dlgTheme" showEffect="bounce" hideEffect="explode" 
+               width="400" height="100">  
+     <h:panelGrid columns="2">
+
+         <p:selectOneMenu  value="#{cambiadorTemas.temaAux}" >
+            <f:selectItems value="#{cambiadorTemas.themes}" />
+          </p:selectOneMenu> 
+          <p:commandButton value="Cambiar" action="#{cambiadorTemas.cambiar}" ajax="false"/>
+   </h:panelGrid>
+  </p:dialog>
+
+</h:form>
 
 
 

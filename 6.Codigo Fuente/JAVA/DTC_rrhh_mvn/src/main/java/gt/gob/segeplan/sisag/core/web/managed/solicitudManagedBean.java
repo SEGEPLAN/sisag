@@ -13,12 +13,10 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 

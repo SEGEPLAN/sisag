@@ -483,3 +483,41 @@ h3{
 .mayuscula{  
         text-transform: uppercase;  
         } 
+        
+        
+        
+        .panelGridCenter td,.panelGridCenter tr {
+                    text-align: center;
+                }
+
+
+                .ui-selectonebutton{
+                    background:white !important;
+                }
+                .ui-button.ui-widget.ui-state-default.ui-button-text-only{
+                    margin-left:5px !important;
+                    background:#BBD9F5 !important;
+                }
+
+                .ui-button.ui-widget.ui-state-active.ui-button-text-only {
+                    background:#fbbd19 !important;
+
+                }
+
+                .ui-state-error {
+                    border: 1px solid rgba(255, 255, 255, 1) !important;
+                }
+
+                .ui-widget-content {
+                    border: 0px solid #A8A8A8;
+                }
+                /* .ui-widget-header{
+                      background: #FFFFFF !important; 
+                 } 
+                 */
+                 .ui-widget-content {
+                    border: 0px solid #A8A8A8 !important; 
+                 }
+                 .ui-widget-header {
+                        border: 0px solid #4297D7 !important; 
+                 }

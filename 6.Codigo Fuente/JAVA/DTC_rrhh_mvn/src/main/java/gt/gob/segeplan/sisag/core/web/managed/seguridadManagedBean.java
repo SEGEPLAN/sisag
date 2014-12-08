@@ -6,6 +6,7 @@ package gt.gob.segeplan.sisag.core.web.managed;
 
 import gt.gob.segeplan.sisag.core.web.implement.seguridadImplement;
 import gt.gob.segeplan.sisag.core.web.utils.aplicationBean;
+import gt.gob.segeplan.sisag.core.web.utils.themeCustomer;
 import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPaginaAsignada;
@@ -241,19 +242,15 @@ public  class seguridadManagedBean implements Serializable{
                         //    6. SE TRAEN LOS ROLES Y PRIVILEGIOS DEL USUARIO
                         funciones_usr(u);
                         if (!funciones_Usr.isEmpty()) {
-                            //if (funciones_Usr.size() > 1) {
                                creaMenu();
                                url = cp+"/FrontEnd/Inicio.xhtml";
 
-//                            } 
-//                            else {
-//                                 for (Iterator it = priv_Usr_log.iterator(); it.hasNext();) {
-//                                    SegFuncion objeto = (SegFuncion) it.next();
-//                                    if(objeto.getIdTipoFuncion().getIdTipoFuncion()==1)
-//                                        url = cp + objeto.getUrl();
-//                                }
-//                            }
                         } else {
+                            themeCustomer tema = (themeCustomer) facesContext.
+                                    getApplication().getELResolver().
+                                    getValue(facesContext.getELContext(), null, "cambiadorTemas");
+                            tema.initTheme(datos.getString("tema"));
+                            
                             creaMenu();
                             url = cp+"/FrontEnd/noAcces.xhtml";
                         }
@@ -262,7 +259,7 @@ public  class seguridadManagedBean implements Serializable{
                         cont = 0;
                         //   u.setIntentos(0);
                         //u.setRestrictiva("0");
-                         psUsr.editarUsuario(u);
+                        // psUsr.editarUsuario(u);
 
                         try {
 
