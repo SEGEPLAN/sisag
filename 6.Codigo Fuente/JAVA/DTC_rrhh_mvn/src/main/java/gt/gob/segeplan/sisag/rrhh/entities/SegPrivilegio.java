@@ -53,7 +53,7 @@ public class SegPrivilegio implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segPrivilegio", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segPrivilegio", fetch = FetchType.EAGER)
     private List<SegPrivilegioPagina> segPrivilegioPaginaList;
 
     public SegPrivilegio() {

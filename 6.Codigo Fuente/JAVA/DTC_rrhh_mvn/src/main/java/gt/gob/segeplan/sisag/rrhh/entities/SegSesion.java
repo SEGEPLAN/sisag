@@ -61,9 +61,9 @@ public class SegSesion implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SegUsuario idUsuario;
-    @OneToMany(mappedBy = "idSesion", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idSesion", fetch = FetchType.EAGER)
     private List<SegBitacora> segBitacoraList;
 
     public SegSesion() {

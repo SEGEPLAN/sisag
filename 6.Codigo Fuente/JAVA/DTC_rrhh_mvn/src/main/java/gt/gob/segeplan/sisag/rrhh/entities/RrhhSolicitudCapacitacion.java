@@ -45,7 +45,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class RrhhSolicitudCapacitacion implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Id
+     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_SOLICITUD_CAPACITACION")
@@ -60,12 +60,12 @@ public class RrhhSolicitudCapacitacion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCrea;
     @JoinColumn(name = "USR_CREA", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SegUsuario usrCrea;
     @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private GenDominios idEstado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitudCapacitacion", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitudCapacitacion", fetch = FetchType.EAGER)
     private List<RrhhNecesidad> rrhhNecesidadList;
 
     public RrhhSolicitudCapacitacion() {

@@ -10,7 +10,9 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
@@ -27,6 +30,7 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -41,7 +45,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "RrhhNecesidad.findByHorasDia", query = "SELECT r FROM RrhhNecesidad r WHERE r.horasDia = :horasDia"),
     @NamedQuery(name = "RrhhNecesidad.findByRestrictiva", query = "SELECT r FROM RrhhNecesidad r WHERE r.restrictiva = :restrictiva"),
     @NamedQuery(name = "RrhhNecesidad.findByProblemaNecesidad", query = "SELECT r FROM RrhhNecesidad r WHERE r.problemaNecesidad = :problemaNecesidad"),
-    @NamedQuery(name = "RrhhNecesidad.findByTemaPrincipal", query = "SELECT r FROM RrhhNecesidad r WHERE r.temaPrincipal = :temaPrincipal"),
     @NamedQuery(name = "RrhhNecesidad.findByTotalHoras", query = "SELECT r FROM RrhhNecesidad r WHERE r.totalHoras = :totalHoras"),
     @NamedQuery(name = "RrhhNecesidad.findByUsrCrea", query = "SELECT r FROM RrhhNecesidad r WHERE r.usrCrea = :usrCrea"),
     @NamedQuery(name = "RrhhNecesidad.findByUsrModifica", query = "SELECT r FROM RrhhNecesidad r WHERE r.usrModifica = :usrModifica"),
@@ -50,7 +53,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class RrhhNecesidad implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-     @Id
+    @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ID_NECESIDAD", nullable = false)
@@ -66,11 +69,8 @@ public class RrhhNecesidad implements Serializable {
     @Size(max = 100)
     @Column(name = "PROBLEMA_NECESIDAD")
     private String problemaNecesidad;
-    @Size(max = 100)
-    @Column(name = "TEMA_PRINCIPAL")
-    private String temaPrincipal;
     @Column(name = "TOTAL_HORAS")
-    private Integer totalHoras;
+    private BigInteger totalHoras;
     @Column(name = "USR_CREA")
     private BigInteger usrCrea;
     @Column(name = "USR_MODIFICA")
@@ -81,24 +81,29 @@ public class RrhhNecesidad implements Serializable {
     @Column(name = "FECHA_MODIFICA")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModifica;
+    @JoinColumn(name = "ID_TEMA", referencedColumnName = "ID_TEMA")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private RrhhTemaCurso idTema;
     @JoinColumn(name = "ID_SOLICITUD_CAPACITACION", referencedColumnName = "ID_SOLICITUD_CAPACITACION")
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private RrhhSolicitudCapacitacion idSolicitudCapacitacion;
     @JoinColumn(name = "ID_PRIORIDAD", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private GenDominios idPrioridad;
-    @JoinColumn(name = "ID_NIVEL_CONOCIMIENTO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private GenDominios idNivelConocimiento;
-    @JoinColumn(name = "ID_DISPONIBILIDAD", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private GenDominios idDisponibilidad;
-    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private GenDominios idEstado;
     @JoinColumn(name = "ID_CARACTER", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private GenDominios idCaracter;
+    @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private GenDominios idEstado;
+    @JoinColumn(name = "ID_DISPONIBILIDAD", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private GenDominios idDisponibilidad;
+    @JoinColumn(name = "ID_NIVEL_CONOCIMIENTO", referencedColumnName = "ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private GenDominios idNivelConocimiento;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhNecesidad", fetch = FetchType.EAGER)
+    private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
 
     public RrhhNecesidad() {
     }
@@ -139,19 +144,11 @@ public class RrhhNecesidad implements Serializable {
         this.problemaNecesidad = problemaNecesidad;
     }
 
-    public String getTemaPrincipal() {
-        return temaPrincipal;
-    }
-
-    public void setTemaPrincipal(String temaPrincipal) {
-        this.temaPrincipal = temaPrincipal;
-    }
-
-    public Integer getTotalHoras() {
+    public BigInteger getTotalHoras() {
         return totalHoras;
     }
 
-    public void setTotalHoras(Integer totalHoras) {
+    public void setTotalHoras(BigInteger totalHoras) {
         this.totalHoras = totalHoras;
     }
 
@@ -187,6 +184,14 @@ public class RrhhNecesidad implements Serializable {
         this.fechaModifica = fechaModifica;
     }
 
+    public RrhhTemaCurso getIdTema() {
+        return idTema;
+    }
+
+    public void setIdTema(RrhhTemaCurso idTema) {
+        this.idTema = idTema;
+    }
+
     public RrhhSolicitudCapacitacion getIdSolicitudCapacitacion() {
         return idSolicitudCapacitacion;
     }
@@ -203,20 +208,12 @@ public class RrhhNecesidad implements Serializable {
         this.idPrioridad = idPrioridad;
     }
 
-    public GenDominios getIdNivelConocimiento() {
-        return idNivelConocimiento;
+    public GenDominios getIdCaracter() {
+        return idCaracter;
     }
 
-    public void setIdNivelConocimiento(GenDominios idNivelConocimiento) {
-        this.idNivelConocimiento = idNivelConocimiento;
-    }
-
-    public GenDominios getIdDisponibilidad() {
-        return idDisponibilidad;
-    }
-
-    public void setIdDisponibilidad(GenDominios idDisponibilidad) {
-        this.idDisponibilidad = idDisponibilidad;
+    public void setIdCaracter(GenDominios idCaracter) {
+        this.idCaracter = idCaracter;
     }
 
     public GenDominios getIdEstado() {
@@ -227,12 +224,29 @@ public class RrhhNecesidad implements Serializable {
         this.idEstado = idEstado;
     }
 
-    public GenDominios getIdCaracter() {
-        return idCaracter;
+    public GenDominios getIdDisponibilidad() {
+        return idDisponibilidad;
     }
 
-    public void setIdCaracter(GenDominios idCaracter) {
-        this.idCaracter = idCaracter;
+    public void setIdDisponibilidad(GenDominios idDisponibilidad) {
+        this.idDisponibilidad = idDisponibilidad;
+    }
+
+    public GenDominios getIdNivelConocimiento() {
+        return idNivelConocimiento;
+    }
+
+    public void setIdNivelConocimiento(GenDominios idNivelConocimiento) {
+        this.idNivelConocimiento = idNivelConocimiento;
+    }
+
+    @XmlTransient
+    public List<RrhhNecesidadPuesto> getRrhhNecesidadPuestoList() {
+        return rrhhNecesidadPuestoList;
+    }
+
+    public void setRrhhNecesidadPuestoList(List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList) {
+        this.rrhhNecesidadPuestoList = rrhhNecesidadPuestoList;
     }
 
     @Override

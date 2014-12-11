@@ -9,6 +9,7 @@ import gt.gob.segeplan.sisag.core.web.controller.solicitudController;
 import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +70,16 @@ public class solicitudImplement implements solicitudController{
     }
     
     
+    
+    
     // CATALOGOS
+    
+    @Override
+    public List<RrhhTemaCurso> getLstCursosDNC() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhTemaCurso l");
+        return q.getResultList();
+    }
     
     @Override
     public List<GenDominios> getLstCatalogo(int id) {
@@ -152,10 +162,10 @@ public class solicitudImplement implements solicitudController{
             em.getTransaction().begin();
             em.merge(em.merge(objeto));
             em.getTransaction().commit();
-            del= "SI borro objeto "+del;
+            del= "SI";
         }catch (Exception e) {
             e.printStackTrace();
-            del= "NO borro objeto "+del;
+            del= "NO";
             objeto = null;
         } finally {
             em.close();

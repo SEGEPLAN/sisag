@@ -58,15 +58,15 @@ public class SegPagina implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idPagina", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idPagina", fetch = FetchType.EAGER)
     private List<SegPaginaAsignada> segPaginaAsignadaList;
-    @OneToMany(mappedBy = "idPagina", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idPagina", fetch = FetchType.EAGER)
     private List<SegBitacora> segBitacoraList;
     @JoinColumn(name = "ID_TIPO_PAGINA", referencedColumnName = "ID_TIPO_PAGINA")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SegTipoPagina idTipoPagina;
     @JoinColumn(name = "ID_MODULO", referencedColumnName = "ID_MODULO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SegModulo idModulo;
 
     public SegPagina() {

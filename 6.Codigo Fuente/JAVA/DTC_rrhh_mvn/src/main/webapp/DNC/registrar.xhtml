@@ -59,23 +59,16 @@
                             <f:facet name="left">
                                  <p:commandButton id="cb_nuevo" icon="ui-icon-document"  
                                                   value="Nuevo" 
-                                                  
                                                   actionListener="#{solicitud.borrarCombos()}"
                                                     update=":#{p:component('detailNewNec')}"
-                                                  
                                                   oncomplete="PF('dlgNew').show()" ajax="true" immediate="true"
-                                                  
-                                                  
                                                   />
                                  <p:commandButton id="cb_editar"  icon="ui-icon-folder-open"   
                                                   value="Editar" 
                                                   
                                                   actionListener="#{solicitud.llenarCombos()}"
                                                     update=":#{p:component('detailEditNec')}"
-                                                  
                                                     oncomplete="PF('dlgEdit').show()" ajax="true" immediate="true"
-                                                  
-                                                  
                                                   />
                                 
                                
@@ -83,8 +76,11 @@
                                 <span class="ui-separator">
                                     <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                 </span>
-                                <p:commandButton type="button" title="Eliminar" icon="ui-icon-trash" />
-                                <p:commandButton type="button" title="Imprimir" icon="ui-icon-print" />
+                                    <p:commandButton id="eliminar" title="Eliminar" icon="ui-icon-trash" 
+                                                 action="#{solicitud.eliminarNecesidad}"
+                                                    update=":necesidadesTable"
+                                                    ajax="false" immediate="true"
+                                                 />
                             </f:facet>
                                 
                                 
@@ -112,7 +108,7 @@
                                 </f:facet>
                         </p:toolbar>
                         <br/>
-                            <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" style="width: 100%; height: 100%;" 
+                            <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" 
                                      emptyMessage="No existen necesidades ingresadas" var="l" rowKey="#{l.idNecesidad}" 
                                      selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
                                    
@@ -142,11 +138,11 @@
                                 <h:outputText value="#{l.idPrioridad.nombre}" />
                             </p:column>
 
-                            <p:column sortBy="#{l.temaPrincipal}" filterBy="#{l.temaPrincipal}">
+                                <p:column sortBy="#{l.idTema.nombre}" filterBy="#{l.idTema.nombre}">
                                 <f:facet name="header">
                                     <h:outputText value="Tema" />
                                 </f:facet>
-                                <h:outputText value="#{l.temaPrincipal}" />
+                                <h:outputText value="#{l.idTema.nombre}" />
                             </p:column>
 
                             <p:column sortBy="#{l.idNivelConocimiento.nombre}" filterBy="#{l.idNivelConocimiento.nombre}">
@@ -222,7 +218,16 @@
                                                   style="width: 50px;"/>
                                         </td> 
                                     </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <p:selectOneMenu label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
+                                                      style="width: 340px;"
+                                                     >
+                                                <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />
+                                            </p:selectOneMenu>
                                     
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colspan="3">
                                             <h:outputText value="Detalle la necesidad suceptible a resolver:" /><br/>
@@ -233,15 +238,7 @@
                                         </td>
                                     </tr>
                                     
-                                    <tr>
-                                        <td colspan="3">
-                                            <h:outputText value="Detalle los temas a abordar:" /><br/>
-                                    <h:inputTextarea 
-                                        label="Problema" value="#{solicitud.necesidadCapa.temaPrincipal}" 
-                                         style="width: 340px; height: 50px; resize: none"  />
                                     
-                                        </td>
-                                    </tr>
                                     
                                     <tr>
                                         <td colspan="3">
@@ -276,6 +273,7 @@
                                     </tr>
                                     
                                     </table>
+                            
                               
                         </div>
 
@@ -329,7 +327,16 @@
                                                   style="width: 50px;"/>
                                         </td> 
                                     </tr>
-                                    
+                                    <tr>
+                                        <td colspan="3">
+                                            <h:outputText value="Tema del Curso:" /><br/>
+                                    <p:selectOneMenu label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
+                                                      style="width: 340px;"
+                                                     >
+                                        <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />
+                                    </p:selectOneMenu>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td colspan="3">
                                             <h:outputText value="Detalle la necesidad suceptible a resolver:" /><br/>
@@ -340,15 +347,7 @@
                                         </td>
                                     </tr>
                                     
-                                    <tr>
-                                        <td colspan="3">
-                                            <h:outputText value="Detalle los temas a abordar:" /><br/>
-                                    <h:inputTextarea 
-                                        label="Problema" value="#{solicitud.necesidadCapaAux.temaPrincipal}" 
-                                         style="width: 340px; height: 50px; resize: none"  />
                                     
-                                        </td>
-                                    </tr>
                                     
                                     <tr>
                                         <td colspan="3">
@@ -383,7 +382,7 @@
                                     </tr>
                                     
                                     </table>
-                         
+                          
                         </div>
 
                     </p:dialog>

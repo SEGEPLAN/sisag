@@ -112,12 +112,21 @@
                             </tr>
                             <tr>
                                 <td style="font-size: 10px; color: #FFFFFF; text-align: left;">
-                                    <p:commandButton id="inicio" styleClass="aqua" value="Ingresar" action="#{seguridad.login_user()}" onclick="convierteMd5();" ajax="false" style="width: 255px; height: 35px; color: #FFFFFF;" />
+                                    <p:commandButton id="login" styleClass="aqua" value="Ingresar" 
+                                                     action="#{seguridad.login_user()}" onclick="PF('blkUi').show();convierteMd5();" ajax="false" style="width: 255px; height: 35px; color: #FFFFFF;" 
+                                                     oncomplete="blkUi.hide();" 
+                                                     />
+                                    
+                                    
+                                    
                                 </td>
                             </tr>
+                            
                             <tr>
                                 <td style="font-size: 15px; color: #056BA2; text-align: left;">
-                            <p:commandLink id="ajax"  action="#{seguridad.irReiniciarPwd}" immediate="true" value="¿Ha olvidado su contraseña?" onclick="convierteMd5();"   ajax="true" />
+                            <p:commandLink id="ajax"  action="#{seguridad.irReiniciarPwd}" immediate="true" value="¿Ha olvidado su contraseña?" onclick="convierteMd5();"   ajax="true" 
+                                           
+                                           />
 
                                     <!--a class="loginLink"  href="#" style="text-decoration: none;">¿Ha olvidado su contraseña?</a-->
                                 </td>
@@ -132,12 +141,13 @@
                         <!--Fin Tabla de campos de logueo-->
                     </td>
                 </tr>
-                <tr>
-                    <td height="10%"></td>
-                </tr>
+                
             </table>
-            <div style="text-align: right;" class="inferior2"><img src="/resources/images/LogIn/encabezadofinal.jpg"/></div>
-            <div id="CopyRight" style="height: 80px; background-color: #EEEEEE; color: #056BA2; font-size: 15px;" class="inferior"></div>
+            <p:blockUI block=":login"  trigger="login" widgetVar="blkUi">  
+                                    Procesando...<br />
+                                        <p:graphicImage value="/resources/images/loadingBar.gif" />
+                                    </p:blockUI>
+            <div id="CopyRight" style="height:150px; background-color: #EEEEEE; color: #056BA2; font-size: 15px;" class="inferior"></div>
 
            
              <p:growl id="messages" showDetail="true"/>  

@@ -10,6 +10,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
 
@@ -46,7 +48,8 @@ public  class solicitudManagedBean implements Serializable{
      private List<GenDominios> catNivelCono;
      private List<GenDominios> catPrioridad;
      private List<GenDominios> catDisponibilidad;
-
+     
+     private List<RrhhTemaCurso> catCursos;
 
      private List<RrhhNecesidadPuesto> lstNecPuesto;
       private List<RrhhTipoPuesto> lstTipoPuesto;
@@ -70,6 +73,7 @@ public  class solicitudManagedBean implements Serializable{
     private int idNivelConocimiento;
     private int idPrioridad;
     private int idDisponibilidad;
+    private int idTemaCurso;
     private int totalHoras;
     private String problemaNecesidad;
     private String temaPrincipal;
@@ -144,6 +148,12 @@ public  class solicitudManagedBean implements Serializable{
             }
         }
         
+         for (RrhhTemaCurso t : catCursos) {
+            if(idTemaCurso == t.getIdTema().intValue()){
+                necesidadCapa.setIdTema(t);
+            }
+        }
+                
         ListNecesidades.add(psSol.crearNecSol(necesidadCapa));
         necesidadCapa = new RrhhNecesidad();
         //necesidadCapaAux = new RrhhNecesidad();
@@ -184,6 +194,12 @@ public  class solicitudManagedBean implements Serializable{
             }
         }
         
+        for (RrhhTemaCurso t : catCursos) {
+            if(idTemaCurso == t.getIdTema().intValue()){
+                necesidadCapaAux.setIdTema(t);
+            }
+        }
+        
         
         psSol.editarNecSol(necesidadCapaAux);
         ListNecesidades = new ArrayList<RrhhNecesidad>();
@@ -201,6 +217,7 @@ public  class solicitudManagedBean implements Serializable{
         idPrioridad = 0;
         idNivelConocimiento = 0;
         idDisponibilidad = 0;
+        idTemaCurso = 0;
         temaPrincipal = "";
         totalHoras = 0;
         problemaNecesidad = "";
@@ -213,12 +230,33 @@ public  class solicitudManagedBean implements Serializable{
     }
     
     
+    public void eliminarNecesidad() {
+        String band ="";
+        String objeto;
+         FacesMessage msg = null;
+        if(necesidadCapaAux!=null){
+            ListNecesidades.remove(necesidadCapaAux);
+            band = psSol.borrarNecSol(necesidadCapaAux);
+            objeto = necesidadCapaAux.getIdTema().getNombre();
+
+            if(band.contentEquals("NO")){
+                ListNecesidades.add(necesidadCapaAux);
+            }
+             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,band+" Se pudo borrar la necesidad ", objeto);
+        } else {
+            band = "No ha seleccionado ninguna fila";
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, band, null);
+        }
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+    
      public void llenarCombos(){
         idCaracter = necesidadCapaAux.getIdCaracter().getId().intValue();
         idPrioridad = necesidadCapaAux.getIdPrioridad().getId().intValue();
         idNivelConocimiento = necesidadCapaAux.getIdNivelConocimiento().getId().intValue();
         idDisponibilidad = necesidadCapaAux.getIdDisponibilidad().getId().intValue();
-        temaPrincipal = necesidadCapaAux.getTemaPrincipal();
+        idTemaCurso = necesidadCapaAux.getIdTema().getIdTema().intValue();
+        temaPrincipal = necesidadCapaAux.getIdTema().getNombre();
         totalHoras = necesidadCapaAux.getTotalHoras().intValue();
         problemaNecesidad = necesidadCapaAux.getProblemaNecesidad();
     }
@@ -449,6 +487,26 @@ public  class solicitudManagedBean implements Serializable{
 
     public void setTemaPrincipal(String temaPrincipal) {
         this.temaPrincipal = temaPrincipal;
+    }
+
+    public List<RrhhTemaCurso> getCatCursos() {
+         if(catCursos == null){
+            catCursos = new ArrayList<RrhhTemaCurso>();
+            catCursos = psSol.getLstCursosDNC();
+         }
+        return catCursos;
+    }
+
+    public void setCatCursos(List<RrhhTemaCurso> catCursos) {
+        this.catCursos = catCursos;
+    }
+
+    public int getIdTemaCurso() {
+        return idTemaCurso;
+    }
+
+    public void setIdTemaCurso(int idTemaCurso) {
+        this.idTemaCurso = idTemaCurso;
     }
 
 

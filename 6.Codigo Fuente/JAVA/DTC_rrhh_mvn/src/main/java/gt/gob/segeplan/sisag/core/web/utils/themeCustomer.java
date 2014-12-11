@@ -3,16 +3,12 @@ package gt.gob.segeplan.sisag.core.web.utils;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.TreeMap;
-import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
 
-@Named(value = "cambiadorTemas")
-@SessionScoped
+
 public class themeCustomer implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    private String tema;
-    private String temaAux;
+    private String tema = "ui-lightness";
     private Map<String, String> themes;
 
     public Map<String, String> getThemes() {
@@ -67,10 +63,6 @@ public class themeCustomer implements Serializable {
     }
     
     public String getTema() {
-        if(tema.contentEquals("") || tema==null)
-            tema ="start";
-        else
-            tema = temaAux;
         return tema;
     }
 
@@ -86,17 +78,5 @@ public class themeCustomer implements Serializable {
         System.out.println("Tema seleccionado es: "+tema);
       
     }
-
-    public String getTemaAux() {
-        
-        return temaAux;
-    }
-
-    public void setTemaAux(String temaAux) {
-        this.temaAux = temaAux;
-    }
-
-    
-    
     
 }

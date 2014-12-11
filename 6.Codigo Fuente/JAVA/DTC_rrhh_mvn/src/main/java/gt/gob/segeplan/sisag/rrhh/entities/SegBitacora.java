@@ -63,10 +63,10 @@ public class SegBitacora implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_SESION", referencedColumnName = "ID_SESION")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SegSesion idSesion;
     @JoinColumn(name = "ID_PAGINA", referencedColumnName = "ID_PAGINA")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private SegPagina idPagina;
 
     public SegBitacora() {

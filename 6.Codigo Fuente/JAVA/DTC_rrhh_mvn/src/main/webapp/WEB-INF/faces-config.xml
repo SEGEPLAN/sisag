@@ -16,6 +16,12 @@
         <managed-bean-class>gt.gob.segeplan.sisag.core.web.managed.solicitudManagedBean</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>cambiadorTemas</managed-bean-name>
+        <managed-bean-class>gt.gob.segeplan.sisag.core.web.utils.themeCustomer</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 
     <managed-bean>
         <managed-bean-name>seguridad</managed-bean-name>
@@ -49,6 +55,5 @@
            gt.gob.segeplan.sisag.core.web.managed.exceptions.ExceptionHandlerFactory
         </exception-handler-factory>
     </factory>
-    
     
 </faces-config>

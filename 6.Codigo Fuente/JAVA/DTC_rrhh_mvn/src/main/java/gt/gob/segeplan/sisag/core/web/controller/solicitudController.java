@@ -8,6 +8,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
 
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public interface solicitudController {
     public List<RrhhTipoPuesto> getLstTipoPuesto_by(int band); // tipo de puesto de la unidad del usuario
     
     public List<GenDominios> getLstCatalogo(int id);
+     public List<RrhhTemaCurso> getLstCursosDNC();
   
     // ABC Solicitudes
     public RrhhSolicitudCapacitacion crearSolicitudDTC(RrhhSolicitudCapacitacion objeto); // registrar 

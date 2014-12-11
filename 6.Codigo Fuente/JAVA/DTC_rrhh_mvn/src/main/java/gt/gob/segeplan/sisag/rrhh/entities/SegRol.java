@@ -55,12 +55,12 @@ public class SegRol implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idRol", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idRol", fetch = FetchType.EAGER)
     private List<SegPaginaAsignada> segPaginaAsignadaList;
     @JoinColumn(name = "ID_UNIDAD_ADMIN", referencedColumnName = "ID_UNIDAD_ADMIN")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private RrhhUnidadAdministrativa idUnidadAdmin;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segRol", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segRol", fetch = FetchType.EAGER)
     private List<SegRolUsuario> segRolUsuarioList;
 
     public SegRol() {

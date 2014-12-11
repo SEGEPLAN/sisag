@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -56,10 +57,12 @@ public class RrhhUnidadAdministrativa implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
     private List<RrhhTipoPuesto> rrhhTipoPuestoList;
-    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
     private List<SegRol> segRolList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhUnidadAdministrativa", fetch = FetchType.EAGER)
+    private List<PoaMetaDireccion> poaMetaDireccionList;
 
     public RrhhUnidadAdministrativa() {
     }
@@ -124,6 +127,15 @@ public class RrhhUnidadAdministrativa implements Serializable {
 
     public void setSegRolList(List<SegRol> segRolList) {
         this.segRolList = segRolList;
+    }
+
+    @XmlTransient
+    public List<PoaMetaDireccion> getPoaMetaDireccionList() {
+        return poaMetaDireccionList;
+    }
+
+    public void setPoaMetaDireccionList(List<PoaMetaDireccion> poaMetaDireccionList) {
+        this.poaMetaDireccionList = poaMetaDireccionList;
     }
 
     @Override

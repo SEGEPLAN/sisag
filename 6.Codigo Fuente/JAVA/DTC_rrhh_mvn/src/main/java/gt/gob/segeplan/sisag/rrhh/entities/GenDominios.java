@@ -56,13 +56,13 @@ public class GenDominios implements Serializable {
     private GenDominios idDominio;
     @OneToMany(mappedBy = "idPrioridad", fetch = FetchType.EAGER)
     private List<RrhhNecesidad> rrhhNecesidadList;
-    @OneToMany(mappedBy = "idNivelConocimiento", fetch = FetchType.EAGER)
-    private List<RrhhNecesidad> rrhhNecesidadList1;
-    @OneToMany(mappedBy = "idDisponibilidad", fetch = FetchType.EAGER)
-    private List<RrhhNecesidad> rrhhNecesidadList2;
-    @OneToMany(mappedBy = "idEstado", fetch = FetchType.EAGER)
-    private List<RrhhNecesidad> rrhhNecesidadList3;
     @OneToMany(mappedBy = "idCaracter", fetch = FetchType.EAGER)
+    private List<RrhhNecesidad> rrhhNecesidadList1;
+    @OneToMany(mappedBy = "idEstado", fetch = FetchType.EAGER)
+    private List<RrhhNecesidad> rrhhNecesidadList2;
+    @OneToMany(mappedBy = "idDisponibilidad", fetch = FetchType.EAGER)
+    private List<RrhhNecesidad> rrhhNecesidadList3;
+    @OneToMany(mappedBy = "idNivelConocimiento", fetch = FetchType.EAGER)
     private List<RrhhNecesidad> rrhhNecesidadList4;
 
     public GenDominios() {
