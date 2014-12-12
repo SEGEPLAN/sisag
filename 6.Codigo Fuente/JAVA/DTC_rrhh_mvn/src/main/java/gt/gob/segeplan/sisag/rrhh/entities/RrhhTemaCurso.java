@@ -13,6 +13,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -20,6 +21,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,7 +46,11 @@ public class RrhhTemaCurso implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_TEMA")
+    @Column(name = "ID_TEMA", nullable = false)
+    @GeneratedValue(generator = "RRHH_TEMA_CURSO_GEN")
+    @TableGenerator(name = "RRHH_TEMA_CURSO_GEN", table = "SECUENCIAS",
+            pkColumnName = "ID", valueColumnName = "VALOR",
+            pkColumnValue = "RRHH_TEMA_CURSO", allocationSize = 1)
     private BigDecimal idTema;
     @Size(max = 100)
     @Column(name = "NOMBRE")
@@ -53,7 +59,7 @@ public class RrhhTemaCurso implements Serializable {
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @Column(name = "RESTRICTIVA")
-    private Character restrictiva;
+    private int restrictiva;
     @OneToMany(mappedBy = "idTema", fetch = FetchType.EAGER)
     private List<RrhhNecesidad> rrhhNecesidadList;
     @JoinColumn(name = "ID_META", referencedColumnName = "ID_META")
@@ -91,11 +97,11 @@ public class RrhhTemaCurso implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Character getRestrictiva() {
+    public int getRestrictiva() {
         return restrictiva;
     }
 
-    public void setRestrictiva(Character restrictiva) {
+    public void setRestrictiva(int restrictiva) {
         this.restrictiva = restrictiva;
     }
 

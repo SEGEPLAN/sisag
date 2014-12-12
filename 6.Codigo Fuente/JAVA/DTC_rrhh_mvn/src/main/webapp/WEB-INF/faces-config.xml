@@ -10,7 +10,11 @@
     
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
-
+ <managed-bean>
+        <managed-bean-name>catalogos</managed-bean-name>
+        <managed-bean-class>gt.gob.segeplan.sisag.core.web.managed.catalogosManagedBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
 <managed-bean>
         <managed-bean-name>solicitud</managed-bean-name>
         <managed-bean-class>gt.gob.segeplan.sisag.core.web.managed.solicitudManagedBean</managed-bean-class>

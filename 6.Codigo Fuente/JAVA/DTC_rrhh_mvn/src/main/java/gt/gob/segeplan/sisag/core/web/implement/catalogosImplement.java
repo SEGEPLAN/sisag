@@ -78,6 +78,19 @@ public class catalogosImplement implements catalogosController{
 
     
     @Override
+    public List<RrhhTemaCurso> getListTemaCurso() {
+        EntityManager em = emf.createEntityManager();
+        List<RrhhTemaCurso> listado = new ArrayList<RrhhTemaCurso>();
+        Query q = null;
+        
+            q = em.createQuery("Select l from RrhhTemaCurso l WHERE l.restrictiva <>0");
+        
+            listado = q.getResultList();
+       
+        return listado;
+    }
+    
+    @Override
     public RrhhTemaCurso crearTemaCurso(RrhhTemaCurso objeto) {
         
       EntityManager em = emf.createEntityManager();
@@ -122,10 +135,10 @@ public class catalogosImplement implements catalogosController{
             em.getTransaction().begin();
             em.merge(em.merge(objeto));
             em.getTransaction().commit();
-            del= "SI borro objeto "+del;
+            del= "SI";
         }catch (Exception e) {
             e.printStackTrace();
-            del= "NO borro objeto "+del;
+            del= "NO";
             objeto = null;
         } finally {
             em.close();

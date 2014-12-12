@@ -10,7 +10,7 @@ import java.util.List;
 public interface catalogosController {
  
     // consultas 
- 
+    public List<RrhhTemaCurso> getListTemaCurso();
     public RrhhTemaCurso findTemaCurso(int band); // buscar 
     public List<RrhhTemaCurso> getListTemaCurso_byUsr(int band, int usr);
   
