@@ -12,13 +12,8 @@
     <f:view locale="es_GT"> 
         <h:head>
             <script src="../resources/js/validacion-1.0.js" type="text/javascript"></script>
-            <style type="text/css">
-                
-                 
-                 
-            </style>
+
             <h:outputStylesheet library="css" name="theme.min.css" />
-            <h:outputStylesheet library="css" name="sisag.css" />
         </h:head>
 
         <h:body>
@@ -30,14 +25,14 @@
                      <p:growl id="messages" showDetail="true"/>  
                     
                         <p:tabMenu activeIndex="0" >  
-                            <p:menuitem value="Registrar DNC" immediate="true" action="#{seguridad.navegar('verSolicitud.xhtml')}" ajax="false" icon="ui-icon-search"/>  
+                            <p:menuitem value="Registrar DNC" immediate="true" action="#{seguridad.navegar('verNecesidades.xhtml')}" ajax="false" icon="ui-icon-search"/>  
                         </p:tabMenu>
                      <p:accordionPanel multiple="true" activeIndex="0,1">
-                         <p:tab closable="true" title="Direccion #{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.nombre}">
+                         <p:tab closable="true" title="Direccion #{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.nombre}">
                             <h:panelGrid columns="2" cellpadding="0">
                             
                             <h:outputText value="TOTAL EMPLEADOS:" style="font-weight:bold" />
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.rrhhTipoPuestoList.size()}"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.rrhhPersonaList.size()}"/>
 
 
                             <h:outputText value="ELABORA:" style="font-weight:bold"/>
@@ -47,10 +42,10 @@
                             <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.nombre} "/>
 
                             <h:outputText value="DIRECCION QUE SOLICITA:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.nombre}"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.nombre}"/>
 
                             <h:outputText value="ACTIVIDADES PRINCIPALES:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.idUnidadAdmin.descripcion} "/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.descripcion} "/>
                         </h:panelGrid>
                         </p:tab>
                         
@@ -65,10 +60,10 @@
                                                   />
                                  <p:commandButton id="cb_editar"  icon="ui-icon-folder-open"   
                                                   value="Editar" 
-                                                  
+                                                 
                                                   actionListener="#{solicitud.llenarCombos()}"
-                                                    update=":#{p:component('detailEditNec')}"
-                                                    oncomplete="PF('dlgEdit').show()" ajax="true" immediate="true"
+                                                    update=":#{p:component('detailNewNec')}"
+                                                    oncomplete="PF('dlgNew').show()" ajax="true" immediate="true"
                                                   />
                                 
                                
@@ -89,10 +84,13 @@
                                    <p:commandLink id="pdf" ajax="false">  
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
-                                    <pe:exporter type="pdf" target="necesidadesTable" fileName="necesidadesTable"  
-                                                 tableTitle="#{sessionBean.objUsuario.idPersona.idTipoPuesto.idUnidadAdmin.nombre}: #{sessionBean.objUsuario.idPersona.idTipoPuesto.idUnidadAdmin.descripcion}" orientation="Legal"  
-                                                 facetBackground="#F88017" facetFontSize="10" facetFontColor="#0000ff" facetFontStyle="BOLD"  
-                                                 cellFontColor="#00ff00" cellFontSize="8" cellFontStyle="NORMAL" />  
+                                    <pe:exporter type="pdf" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.idUnidad.nombre}"  
+                                                 tableTitle="#{sessionBean.objUsuario.idPersona.idUnidad.nombre}" 
+                                                
+                                                 pageOnly="false"
+                                                 facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
+                                                 encoding="ISO-8859-1"
+                                                 cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" />  
                                 </p:commandLink>  
 
                                 
@@ -100,10 +98,12 @@
                                 <p:commandLink id="xlsx" ajax="false">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="xlsx" target="necesidadesTable" fileName="necesidadesTable" 
-                                                 tableTitle="#{sessionBean.objUsuario.idPersona.idTipoPuesto.idUnidadAdmin.nombre} #{sessionBean.objUsuario.idPersona.idTipoPuesto.idUnidadAdmin.descripcion}"  
-                                                 facetBackground="#F88017" facetFontSize="10" facetFontColor="#0000ff" facetFontStyle="BOLD"  fontName="Courier New"  
-                                                 cellFontColor="#00ff00" cellFontSize="8" cellFontStyle="NORMAL"/>  
+                                    <pe:exporter type="xlsx" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.idUnidad.nombre}" 
+                                                 tableTitle="#{sessionBean.objUsuario.idPersona.idUnidad.nombre}"  
+                                                 facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
+                                                 encoding="ISO-8859-1"
+                                                 pageOnly="false"
+                                                 cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL"/>  
                                 </p:commandLink> 
                                 </f:facet>
                         </p:toolbar>
@@ -111,11 +111,11 @@
                             <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" 
                                      emptyMessage="No existen necesidades ingresadas" var="l" rowKey="#{l.idNecesidad}" 
                                      selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
-                                   
+                                   resizableColumns="true"
                                       scrollable="true" scrollHeight="250"  
                                       >  
 
-                                <p:ajax event="rowSelect" listener="#{solicitud.onRowSelect}" update=":dtcForm:detailEditNec" 
+                                <p:ajax event="rowSelect" listener="#{solicitud.onRowSelect}" update=":dtcForm:detailNewNec" 
                                         />
                                 
                             <p:column sortBy="#{l.idCaracter.nombre}" filterBy="#{l.idCaracter.nombre}" >
@@ -173,7 +173,7 @@
 
                     <!-- **********************  DIALOG **********************    -->
 
-                    <p:dialog id="detailNewNec"  header="Registrar Necesidad de Capacitacion" showEffect="bounce" hideEffect="explode"
+                    <p:dialog id="detailNewNec"  header="Registrar Necesidad de Capacitacion" showEffect="blind" hideEffect="blind"
                               widgetVar="dlgNew" modal="true" width="450" height="380">
                         <div align="center">
                                     <table width="100" style="border: 2px;" >
@@ -242,20 +242,19 @@
                                     
                                     <tr>
                                         <td colspan="3">
-                                             <h:outputText value="Participantes por Tipo de Puesto" /><br/>
-                                           <p:dataGrid  id="tipoPuesto"  var="pNec" value="#{solicitud.lstNecPuesto}" 
-                                                         columns="6" rows="1" 
-                                                         >
-                                                    <p:panel id="pnlAtrib" header="#{pNec.rrhhTipoPuesto.nombre}" style="width: 95px; background: none;" >
-                                                            <h:panelGrid styleClass="no-border">
-                                                                <p:row>
-                                                                    <p:column>
-                                                                        <p:inputText id="temp" value="#{pNec.total}" style="width:90%; float: left"/>
-                                                                    </p:column>
-                                                                </p:row>
-                                                            </h:panelGrid>
-                                                    </p:panel>
-                                            </p:dataGrid>
+                                             <h:outputText value="Participantes" /><br/>
+                                            <p:dataTable  var="pNec" value="#{solicitud.lstTipoPuesto}" editable="true" editMode="cell" widgetVar="tipo">
+                                                            <p:column headerText="Tipo Empleado">
+                                                                   <h:outputText value="#{pNec.nombre}" />
+                                                               </p:column>
+
+                                                               <p:column headerText="Total">
+                                                                <p:cellEditor>
+                                                                    <f:facet name="output"><h:outputText value="#{pNec.total}" /></f:facet>
+                                                                    <f:facet name="input"><p:inputText value="#{pNec.total}" style="width:96%" label="Year"/></f:facet>
+                                                                </p:cellEditor>
+                                                            </p:column>
+                                             </p:dataTable>
                                         </td>
                                     </tr>
                                     
@@ -265,8 +264,12 @@
                                             </div>
                                             <br/>
                                     <div align="center">
-                                        <p:commandButton id="cb_guardar" value="Guardar" actionListener="#{solicitud.guardarNecDTC}"  
-                                                         ajax="false" image="ui-icon ui-icon-disk" 
+                                        <p:commandButton  id="cb_guardar" value="Guardar" actionListener="#{solicitud.guardarNecDTC}"  
+                                                         ajax="false" image="ui-icon ui-icon-disk" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
+                                                         update="necesidadesTable" />
+                                        
+                                        <p:commandButton id="cb_editar" value="Editar" action="#{solicitud.editarNecDTC}"  ajax="false" 
+                                                         image="ui-icon ui-icon-disk" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
                                                          update="necesidadesTable" />
                                     </div>
                                         </td>
@@ -280,113 +283,6 @@
                     </p:dialog> 
                     
                     <!-- DLG EDITAR -->
-                    
-                    <p:dialog id="detailEditNec"  header="Editar Necesidad de Capacitacion" showEffect="bounce" hideEffect="explode"
-                              widgetVar="dlgEdit" modal="true" width="450" height="380">
-                        <div align="center">
-                         
-                            <table width="100" style="border: 2px;" >
-                                    <tr>
-                                        <td>
-                                    <h:outputText value="Caracter:" /><br/>
-                                    <p:selectOneMenu label="Caracter" value="#{solicitud.idCaracter}"  converter="entityConverter"
-                                                     styleClass="styleBottom"
-                                                     style="width: 120px;">
-                                        <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                                    </p:selectOneMenu>
-                                        </td> 
-                                        <td>
-                                            <h:outputText value="Nivel de conocimiento:" /><br/>
-                                    <p:selectOneMenu label="Nivel de Conocimiento" value="#{solicitud.idNivelConocimiento}"  
-                                                      style="width: 120px;"
-                                                     >
-                                        <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                                    </p:selectOneMenu>
-                                        </td> 
-                                            </tr>
-                                            <tr>
-                                        <td>
-                                        <h:outputText  value="Prioridad de atencion:" /><br/>
-                                            <p:selectOneMenu label="Prioridad" value="#{solicitud.idPrioridad}"  
-                                                             style="width: 120px;"
-                                                             >
-                                                <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                                            </p:selectOneMenu>
-                                        </td> 
-                                        <td>
-                                            <h:outputText  value="Disponibilidad:" /><br/>
-                                    <p:selectOneMenu label="Disponibilidad" value="#{solicitud.idDisponibilidad}"  
-                                                      style="width: 120px;"
-                                                     >
-                                        <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
-                                    </p:selectOneMenu>
-                                        </td>
-                                                <td >
-                                            <h:outputText value="Duracion:" /><br/>
-                                    <h:inputText label="Duracion" value="#{solicitud.necesidadCapaAux.totalHoras}" 
-                                                  style="width: 50px;"/>
-                                        </td> 
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <h:outputText value="Tema del Curso:" /><br/>
-                                    <p:selectOneMenu label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
-                                                      style="width: 340px;"
-                                                     >
-                                        <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />
-                                    </p:selectOneMenu>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3">
-                                            <h:outputText value="Detalle la necesidad suceptible a resolver:" /><br/>
-                                    <h:inputTextarea 
-                                        label="Problema" value="#{solicitud.necesidadCapaAux.problemaNecesidad}" 
-                                         style="width: 340px; height: 50px; resize: none"  />
-                                    
-                                        </td>
-                                    </tr>
-                                    
-                                    
-                                    
-                                    <tr>
-                                        <td colspan="3">
-                                             <h:outputText value="Participantes por Tipo de Puesto" /><br/>
-                                           <p:dataGrid  id="tipoPuestoEdit"  var="pNec" value="#{solicitud.lstNecPuesto}" 
-                                                         columns="6" rows="1" 
-                                                         >
-                                                    <p:panel id="pnlAtrib" header="#{pNec.rrhhTipoPuesto.nombre}" style="width: 95px; background: none;" >
-                                                            <h:panelGrid styleClass="no-border">
-                                                                <p:row>
-                                                                    <p:column>
-                                                                        <p:inputText id="temp" value="#{pNec.total}" style="width:90%; float: left"/>
-                                                                    </p:column>
-                                                                </p:row>
-                                                            </h:panelGrid>
-                                                    </p:panel>
-                                            </p:dataGrid>
-                                        </td>
-                                    </tr>
-                                    
-                                    <tr>
-                                        <td colspan="3">
-                                           <div align="center" style="background-color: #AFAFAF; height: 1px; width: 100%;" >
-                                            </div>
-                                            <br/>
-                                    <div align="center">
-                                        <p:commandButton id="cb_editar" value="Editar" actionListener="#{solicitud.editarNecDTC}"  ajax="false" 
-                                                         image="ui-icon ui-icon-disk" 
-                                                         update="necesidadesTable" />
-                                    </div>
-                                        </td>
-                                    </tr>
-                                    
-                                    </table>
-                          
-                        </div>
-
-                    </p:dialog>
-                    
                     
 
                 </h:form> 

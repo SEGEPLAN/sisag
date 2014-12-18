@@ -27,7 +27,6 @@ import javax.persistence.Table;
 import javax.persistence.TableGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -54,7 +53,6 @@ import javax.xml.bind.annotation.XmlTransient;
 public class RrhhNecesidad implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    
     @Id
     @Basic(optional = false)
     @NotNull
@@ -104,11 +102,8 @@ public class RrhhNecesidad implements Serializable {
     @JoinColumn(name = "ID_NIVEL_CONOCIMIENTO", referencedColumnName = "ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private GenDominios idNivelConocimiento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhNecesidad", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "rrhhNecesidad", fetch = FetchType.EAGER)
     private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
-    
-   
-    
 
     public RrhhNecesidad() {
     }
@@ -245,9 +240,6 @@ public class RrhhNecesidad implements Serializable {
         this.idNivelConocimiento = idNivelConocimiento;
     }
 
-    
-    
-    
     @XmlTransient
     public List<RrhhNecesidadPuesto> getRrhhNecesidadPuestoList() {
         return rrhhNecesidadPuestoList;

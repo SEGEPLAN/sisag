@@ -16,6 +16,10 @@ import java.util.ResourceBundle;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.model.chart.Axis;
+import org.primefaces.model.chart.AxisType;
+import org.primefaces.model.chart.ChartSeries;
+import org.primefaces.model.chart.HorizontalBarChartModel;
 
 /**
  * @author layala
@@ -33,7 +37,9 @@ public  class catalogosManagedBean implements Serializable{
     // listados
     private List<RrhhTemaCurso> lstCursos;
     
-
+// 
+    private HorizontalBarChartModel horizontalBarModel;
+    
     //OBJETOS
     private RrhhTemaCurso CursoAux;
     private RrhhTemaCurso Curso;
@@ -111,14 +117,43 @@ public  class catalogosManagedBean implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
+     private void createHorizontalBarModel() {
+        horizontalBarModel = new HorizontalBarChartModel();
+        ChartSeries curso = new ChartSeries();
+        for(RrhhTemaCurso t : lstCursos){
+            if(!t.getRrhhNecesidadList().isEmpty()){
+                curso.setLabel("Curso");
+                curso.set(t.getNombre(), t.getRrhhNecesidadList().size());
+            }
+        }
+        horizontalBarModel.addSeries(curso);
+        
+        horizontalBarModel.setTitle("Grafica de Cursos");
+        horizontalBarModel.setLegendPosition("e");
+        horizontalBarModel.setStacked(true);
+         
+        Axis xAxis = horizontalBarModel.getAxis(AxisType.X);
+        xAxis.setLabel("Total de Asignaciones");
+        xAxis.setMin(0);
+        xAxis.setMax(200);
+         
+        Axis yAxis = horizontalBarModel.getAxis(AxisType.Y);
+        yAxis.setLabel("Cursos");    
+        
+              
+    }
+    
+    
     //GETTER Y SETTER
     public List<RrhhTemaCurso> getLstCursos() {
         if(lstCursos == null){
             CursoAux = new RrhhTemaCurso();
             lstCursos = new ArrayList<RrhhTemaCurso>();
-            lstCursos = psCat.getListTemaCurso();
-            
         }
+            lstCursos = psCat.getListTemaCurso();
+            createHorizontalBarModel();
+            
+            
         return lstCursos;
     }
 
@@ -142,6 +177,13 @@ public  class catalogosManagedBean implements Serializable{
         this.Curso = Curso;
     }
     
+public HorizontalBarChartModel getHorizontalBarModel() {
+        return horizontalBarModel;
+    }
+
+    public void setHorizontalBarModel(HorizontalBarChartModel horizontalBarModel) {
+        this.horizontalBarModel = horizontalBarModel;
+    }
 
 
 }

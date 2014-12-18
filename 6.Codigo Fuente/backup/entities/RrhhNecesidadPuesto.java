@@ -8,6 +8,7 @@ package gt.gob.segeplan.sisag.rrhh.entities;
 
 import java.io.Serializable;
 import java.math.BigInteger;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -41,14 +42,11 @@ public class RrhhNecesidadPuesto implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_TIPO_PUESTO", referencedColumnName = "ID_TIPO_PUESTO", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private RrhhTipoPuesto rrhhTipoPuesto;
     @JoinColumn(name = "ID_NECESIDAD", referencedColumnName = "ID_NECESIDAD", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private RrhhNecesidad rrhhNecesidad;
-    
-    
-    
 
     public RrhhNecesidadPuesto() {
     }

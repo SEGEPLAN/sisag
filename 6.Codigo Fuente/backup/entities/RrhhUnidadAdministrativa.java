@@ -8,7 +8,6 @@ package gt.gob.segeplan.sisag.rrhh.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -30,41 +29,42 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ludwin.ayala
  */
 @Entity
-@Table(name = "RRHH_UNIDAD_ADMINISTRATIVA", catalog = "", schema = "SCHE$SISAG")
+@Table(name = "ADSTBCG$DEPENDENCIAS", catalog = "", schema = "SCHE$ADSIS")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "RrhhUnidadAdministrativa.findAll", query = "SELECT r FROM RrhhUnidadAdministrativa r"),
-    @NamedQuery(name = "RrhhUnidadAdministrativa.findByIdUnidadAdmin", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.idUnidadAdmin = :idUnidadAdmin"),
-    @NamedQuery(name = "RrhhUnidadAdministrativa.findByIdSubordinado", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.idSubordinado = :idSubordinado"),
-    @NamedQuery(name = "RrhhUnidadAdministrativa.findByNombre", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.nombre = :nombre"),
-    @NamedQuery(name = "RrhhUnidadAdministrativa.findByDescripcion", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.descripcion = :descripcion"),
-    @NamedQuery(name = "RrhhUnidadAdministrativa.findByRestrictiva", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.restrictiva = :restrictiva")})
 public class RrhhUnidadAdministrativa implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_UNIDAD_ADMIN")
+    @Column(name = "ADSCGDP$ID")
     private BigDecimal idUnidadAdmin;
-    @Column(name = "ID_SUBORDINADO")
-    private BigInteger idSubordinado;
+    
     @Size(max = 100)
-    @Column(name = "NOMBRE")
+    @Column(name = "ADSCGDP$DESCRIPCION")
     private String nombre;
-    @Size(max = 100)
-    @Column(name = "DESCRIPCION")
-    private String descripcion;
-    @Column(name = "RESTRICTIVA")
+    
+    @Column(name = "ADSCGDP$RESTRICTIVA")
     private Character restrictiva;
+    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
+    private List<RrhhTipoPuesto> rrhhTipoPuestoList;
     @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
     private List<SegRol> segRolList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhUnidadAdministrativa", fetch = FetchType.EAGER)
     private List<PoaMetaDireccion> poaMetaDireccionList;
+    
     @OneToMany(mappedBy = "idUnidad", fetch = FetchType.EAGER)
-    private List<RrhhPersona> rrhhPersonaList;
+    private List<RrhhPersona> personaList;
 
     public RrhhUnidadAdministrativa() {
+    }
+    @XmlTransient
+    public List<RrhhPersona> getPersonaList() {
+        return personaList;
+    }
+
+    public void setPersonaList(List<RrhhPersona> personaList) {
+        this.personaList = personaList;
     }
 
     public RrhhUnidadAdministrativa(BigDecimal idUnidadAdmin) {
@@ -79,13 +79,7 @@ public class RrhhUnidadAdministrativa implements Serializable {
         this.idUnidadAdmin = idUnidadAdmin;
     }
 
-    public BigInteger getIdSubordinado() {
-        return idSubordinado;
-    }
-
-    public void setIdSubordinado(BigInteger idSubordinado) {
-        this.idSubordinado = idSubordinado;
-    }
+   
 
     public String getNombre() {
         return nombre;
@@ -95,13 +89,7 @@ public class RrhhUnidadAdministrativa implements Serializable {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
+   
 
     public Character getRestrictiva() {
         return restrictiva;
@@ -109,6 +97,15 @@ public class RrhhUnidadAdministrativa implements Serializable {
 
     public void setRestrictiva(Character restrictiva) {
         this.restrictiva = restrictiva;
+    }
+
+    @XmlTransient
+    public List<RrhhTipoPuesto> getRrhhTipoPuestoList() {
+        return rrhhTipoPuestoList;
+    }
+
+    public void setRrhhTipoPuestoList(List<RrhhTipoPuesto> rrhhTipoPuestoList) {
+        this.rrhhTipoPuestoList = rrhhTipoPuestoList;
     }
 
     @XmlTransient
@@ -127,15 +124,6 @@ public class RrhhUnidadAdministrativa implements Serializable {
 
     public void setPoaMetaDireccionList(List<PoaMetaDireccion> poaMetaDireccionList) {
         this.poaMetaDireccionList = poaMetaDireccionList;
-    }
-
-    @XmlTransient
-    public List<RrhhPersona> getRrhhPersonaList() {
-        return rrhhPersonaList;
-    }
-
-    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
-        this.rrhhPersonaList = rrhhPersonaList;
     }
 
     @Override

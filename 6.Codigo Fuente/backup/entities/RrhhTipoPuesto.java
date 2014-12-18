@@ -10,11 +10,12 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -54,11 +55,12 @@ public class RrhhTipoPuesto implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idTipoPuesto", fetch = FetchType.EAGER)
-    private List<RrhhPersona> rrhhPersonaList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhTipoPuesto", fetch = FetchType.EAGER)
-    private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
+    @JoinColumn(name = "ADSCGDP$ID", referencedColumnName = "ADSCGDP$ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private RrhhUnidadAdministrativa idUnidadAdmin;
     
+    @OneToMany(mappedBy = "rrhhTipoPuesto", fetch = FetchType.EAGER)
+    private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
     
     @Transient 
     private int total;
@@ -102,6 +104,14 @@ public class RrhhTipoPuesto implements Serializable {
         this.restrictiva = restrictiva;
     }
 
+    public RrhhUnidadAdministrativa getIdUnidadAdmin() {
+        return idUnidadAdmin;
+    }
+
+    public void setIdUnidadAdmin(RrhhUnidadAdministrativa idUnidadAdmin) {
+        this.idUnidadAdmin = idUnidadAdmin;
+    }
+
     public int getTotal() {
         return total;
     }
@@ -109,15 +119,10 @@ public class RrhhTipoPuesto implements Serializable {
     public void setTotal(int total) {
         this.total = total;
     }
-    
-    @XmlTransient
-    public List<RrhhPersona> getRrhhPersonaList() {
-        return rrhhPersonaList;
-    }
 
-    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
-        this.rrhhPersonaList = rrhhPersonaList;
-    }
+    
+    
+    
 
     @XmlTransient
     public List<RrhhNecesidadPuesto> getRrhhNecesidadPuestoList() {

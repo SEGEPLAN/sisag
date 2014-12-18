@@ -39,7 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RrhhUnidadAdministrativa.findByNombre", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.nombre = :nombre"),
     @NamedQuery(name = "RrhhUnidadAdministrativa.findByDescripcion", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.descripcion = :descripcion"),
     @NamedQuery(name = "RrhhUnidadAdministrativa.findByRestrictiva", query = "SELECT r FROM RrhhUnidadAdministrativa r WHERE r.restrictiva = :restrictiva")})
-public class RrhhUnidadAdministrativa implements Serializable {
+public class RrhhUnidadAdministrativa1 implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -58,16 +58,16 @@ public class RrhhUnidadAdministrativa implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
+    private List<RrhhTipoPuesto> rrhhTipoPuestoList;
+    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
     private List<SegRol> segRolList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhUnidadAdministrativa", fetch = FetchType.EAGER)
     private List<PoaMetaDireccion> poaMetaDireccionList;
-    @OneToMany(mappedBy = "idUnidad", fetch = FetchType.EAGER)
-    private List<RrhhPersona> rrhhPersonaList;
 
-    public RrhhUnidadAdministrativa() {
+    public RrhhUnidadAdministrativa1() {
     }
 
-    public RrhhUnidadAdministrativa(BigDecimal idUnidadAdmin) {
+    public RrhhUnidadAdministrativa1(BigDecimal idUnidadAdmin) {
         this.idUnidadAdmin = idUnidadAdmin;
     }
 
@@ -112,6 +112,15 @@ public class RrhhUnidadAdministrativa implements Serializable {
     }
 
     @XmlTransient
+    public List<RrhhTipoPuesto> getRrhhTipoPuestoList() {
+        return rrhhTipoPuestoList;
+    }
+
+    public void setRrhhTipoPuestoList(List<RrhhTipoPuesto> rrhhTipoPuestoList) {
+        this.rrhhTipoPuestoList = rrhhTipoPuestoList;
+    }
+
+    @XmlTransient
     public List<SegRol> getSegRolList() {
         return segRolList;
     }
@@ -129,15 +138,6 @@ public class RrhhUnidadAdministrativa implements Serializable {
         this.poaMetaDireccionList = poaMetaDireccionList;
     }
 
-    @XmlTransient
-    public List<RrhhPersona> getRrhhPersonaList() {
-        return rrhhPersonaList;
-    }
-
-    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
-        this.rrhhPersonaList = rrhhPersonaList;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -148,10 +148,10 @@ public class RrhhUnidadAdministrativa implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RrhhUnidadAdministrativa)) {
+        if (!(object instanceof RrhhUnidadAdministrativa1)) {
             return false;
         }
-        RrhhUnidadAdministrativa other = (RrhhUnidadAdministrativa) object;
+        RrhhUnidadAdministrativa1 other = (RrhhUnidadAdministrativa1) object;
         if ((this.idUnidadAdmin == null && other.idUnidadAdmin != null) || (this.idUnidadAdmin != null && !this.idUnidadAdmin.equals(other.idUnidadAdmin))) {
             return false;
         }

@@ -69,10 +69,10 @@
                                    <p:commandLink id="pdf" ajax="false">  
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
-                                    <pe:exporter type="pdf" target="cursosTable" fileName="cursosTable"  
+                                    <pe:exporter type="pdf" target="cursosTable" fileName="Listado_cursos"  
                                                 tableTitle="Listado de Cursos"  
                                                 orientation="Legal"  
-                                                 facetBackground="#F88017" facetFontSize="12" facetFontColor="#0000ff" facetFontStyle="BOLD"  
+                                                facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"   
                                                  cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" />  
                                 </p:commandLink>  
 
@@ -81,9 +81,9 @@
                                 <p:commandLink id="xlsx" ajax="false">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="xlsx" target="cursosTable" fileName="cursosTable" 
+                                    <pe:exporter type="xlsx" target="cursosTable" fileName="Listado_cursos" 
                                                  tableTitle="Listado de Cursos"  
-                                                 facetBackground="#F88017" facetFontSize="10" facetFontColor="#0000ff" facetFontStyle="BOLD"  fontName="Courier New"  
+                                                 facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"    fontName="Courier New"  
                                                  cellFontColor="#00ff00" cellFontSize="8" cellFontStyle="NORMAL"/>  
                                 </p:commandLink> 
                                 </f:facet>
@@ -92,7 +92,6 @@
                         <p:dataTable id="cursosTable"  value="#{catalogos.lstCursos}" 
                                      emptyMessage="No existen cursos ingresadas" var="l" rowKey="#{l.idTema}" 
                                      selectionMode="single" 
-                                   
                                       scrollable="true" scrollHeight="250"  
                                       >  
 
@@ -112,23 +111,25 @@
                                 <h:outputText value="#{l.descripcion}" />
                             </p:column>
 
-                                
-
                                 <p:column sortBy="#{l.rrhhNecesidadList.size()}" filterBy="#{l.rrhhNecesidadList.size()}">
                                 <f:facet name="header">
                                     <h:outputText value="Necesidades Asociadas" />
                                 </f:facet>
                                 <h:outputText value="#{l.rrhhNecesidadList.size()}" />
                             </p:column>
+                                
                         </p:dataTable> 
                         </p:tab>
-                    
+                         
+                         <!--p:tab title="Tendencia" >
+                             <p:chart type="bar" model="#{catalogos.horizontalBarModel}" style="height:200px"/>
+                        </p:tab-->
                     </p:accordionPanel>
 
 
                     <!-- **********************  DIALOG **********************    -->
 
-                    <p:dialog id="detailNew"  header="Registrar Curso al catalogo" showEffect="bounce" hideEffect="bounce"
+                    <p:dialog id="detailNew"  header="Registrar Curso al catalogo" showEffect="blind" hideEffect="blind"
                               widgetVar="dlgNew" modal="true" width="450" height="380">
                         <div align="center">
                                     <table width="100" style="border: 2px;" >
@@ -174,7 +175,7 @@
                     
                     <!-- DLG EDITAR -->
                     
-                    <p:dialog id="detailEdit"  header="Editar Curso" showEffect="bounce" hideEffect="explode"
+                    <p:dialog id="detailEdit"  header="Editar Curso" showEffect="blind" hideEffect="blind"
                               widgetVar="dlgEdit" modal="true" width="450" height="380">
                         <div align="center">
                          

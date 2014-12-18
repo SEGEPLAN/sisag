@@ -41,7 +41,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RrhhPersona.findByTelefono", query = "SELECT r FROM RrhhPersona r WHERE r.telefono = :telefono"),
     @NamedQuery(name = "RrhhPersona.findByCorreoElectronico", query = "SELECT r FROM RrhhPersona r WHERE r.correoElectronico = :correoElectronico"),
     @NamedQuery(name = "RrhhPersona.findByRestrictiva", query = "SELECT r FROM RrhhPersona r WHERE r.restrictiva = :restrictiva")})
-public class RrhhPersona implements Serializable {
+public class RrhhPersona1 implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -65,24 +65,21 @@ public class RrhhPersona implements Serializable {
     private String correoElectronico;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD_ADMIN")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private RrhhUnidadAdministrativa idUnidad;
     @JoinColumn(name = "ID_TIPO_PUESTO", referencedColumnName = "ID_TIPO_PUESTO")
     @ManyToOne(fetch = FetchType.EAGER)
     private RrhhTipoPuesto idTipoPuesto;
     @OneToMany(mappedBy = "idEncargado", fetch = FetchType.EAGER)
-    private List<RrhhPersona> rrhhPersonaList;
+    private List<RrhhPersona1> rrhhPersonaList;
     @JoinColumn(name = "ID_ENCARGADO", referencedColumnName = "ID_PERSONA")
     @ManyToOne(fetch = FetchType.EAGER)
-    private RrhhPersona idEncargado;
+    private RrhhPersona1 idEncargado;
     @OneToMany(mappedBy = "idPersona", fetch = FetchType.EAGER)
     private List<SegUsuario> segUsuarioList;
 
-    public RrhhPersona() {
+    public RrhhPersona1() {
     }
 
-    public RrhhPersona(BigDecimal idPersona) {
+    public RrhhPersona1(BigDecimal idPersona) {
         this.idPersona = idPersona;
     }
 
@@ -142,14 +139,6 @@ public class RrhhPersona implements Serializable {
         this.restrictiva = restrictiva;
     }
 
-    public RrhhUnidadAdministrativa getIdUnidad() {
-        return idUnidad;
-    }
-
-    public void setIdUnidad(RrhhUnidadAdministrativa idUnidad) {
-        this.idUnidad = idUnidad;
-    }
-
     public RrhhTipoPuesto getIdTipoPuesto() {
         return idTipoPuesto;
     }
@@ -159,19 +148,19 @@ public class RrhhPersona implements Serializable {
     }
 
     @XmlTransient
-    public List<RrhhPersona> getRrhhPersonaList() {
+    public List<RrhhPersona1> getRrhhPersonaList() {
         return rrhhPersonaList;
     }
 
-    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
+    public void setRrhhPersonaList(List<RrhhPersona1> rrhhPersonaList) {
         this.rrhhPersonaList = rrhhPersonaList;
     }
 
-    public RrhhPersona getIdEncargado() {
+    public RrhhPersona1 getIdEncargado() {
         return idEncargado;
     }
 
-    public void setIdEncargado(RrhhPersona idEncargado) {
+    public void setIdEncargado(RrhhPersona1 idEncargado) {
         this.idEncargado = idEncargado;
     }
 
@@ -194,10 +183,10 @@ public class RrhhPersona implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof RrhhPersona)) {
+        if (!(object instanceof RrhhPersona1)) {
             return false;
         }
-        RrhhPersona other = (RrhhPersona) object;
+        RrhhPersona1 other = (RrhhPersona1) object;
         if ((this.idPersona == null && other.idPersona != null) || (this.idPersona != null && !this.idPersona.equals(other.idPersona))) {
             return false;
         }

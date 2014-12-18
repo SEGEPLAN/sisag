@@ -38,14 +38,15 @@
 
                                         <div class="mainmenu">
                                            <ul>
-                                           <a href="/sisag_web/faces/Frontend/Inicio.xhtml"><li>
+                                               <p:commandLink id="inicio" action="#{seguridad.navegar('Inicio.xhtml')}" ajax="true" >
+                                           <li>
                                            <i>
                                                <img src="/sisag_web/resources/images/frontEnd/home.png" style="width: 30px; height: 30px;"/>
                                            </i>&nbsp;
                                                <main>Inicio</main>
                                            <desc>Ir al inicio</desc>
                                                </li> 
-                                           </a>
+                                                   </p:commandLink>
                                                 
                                                 <li><i><img src="/sisag_web/resources/images/frontEnd/ayuda.png" style="width: 28px; height: 28px;"/></i>&nbsp;<main>Ayuda</main><desc>Temas de ayuda</desc></li>
                                             </ul>
@@ -62,7 +63,7 @@
                                             <img src="/sisag_web/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
                                         </p:commandLink>  
                                         <p:menu overlay="true" trigger="cl_usr" my="left top" at="left bottom">
-                                            <p:submenu label="#{sessionBean.objUsuario.nombre} - #{sessionBean.objUsuario.idPersona.idTipoPuesto.idUnidadAdmin.nombre}" style="background: none!important; border: 0px!important; "> 
+                                            <p:submenu label="#{sessionBean.objUsuario.nombre} - #{sessionBean.objUsuario.idPersona.idUnidad.nombre}" style="background: none!important; border: 0px!important; "> 
                                                 <p:menuitem value="Mi información"   icon="ui-icon-disk"/>  
                                                 <p:menuitem value="Cambiar Tema"  icon="ui-icon-arrowrefresh-1-w" oncomplete="PF('dlgTheme').show()" />  
                                                 <p:menuitem value="Ayuda"  icon="ui-icon-arrowrefresh-1-w"/>  

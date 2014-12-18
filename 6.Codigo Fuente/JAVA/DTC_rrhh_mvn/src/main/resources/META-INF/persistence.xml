@@ -36,7 +36,9 @@
     <class>gt.gob.segeplan.sisag.rrhh.entities.SegTipoPagina</class>
     <class>gt.gob.segeplan.sisag.rrhh.entities.SegUsuario</class>
     <class>gt.gob.segeplan.sisag.rrhh.entities.GenDominios</class>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.RrhhPersonaDependencia</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.Secuencias</class>
+    <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties/>
   </persistence-unit>

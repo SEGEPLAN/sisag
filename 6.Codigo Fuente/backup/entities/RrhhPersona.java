@@ -16,8 +16,6 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -30,56 +28,52 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ludwin.ayala
  */
 @Entity
-@Table(name = "RRHH_PERSONA", catalog = "", schema = "SCHE$SISAG")
+@Table(name = "ADSTBCG$EMPLEADOS", catalog = "", schema = "SCHE$ADSIS")
 @XmlRootElement
-@NamedQueries({
-    @NamedQuery(name = "RrhhPersona.findAll", query = "SELECT r FROM RrhhPersona r"),
-    @NamedQuery(name = "RrhhPersona.findByIdPersona", query = "SELECT r FROM RrhhPersona r WHERE r.idPersona = :idPersona"),
-    @NamedQuery(name = "RrhhPersona.findByNombres", query = "SELECT r FROM RrhhPersona r WHERE r.nombres = :nombres"),
-    @NamedQuery(name = "RrhhPersona.findByApellidos", query = "SELECT r FROM RrhhPersona r WHERE r.apellidos = :apellidos"),
-    @NamedQuery(name = "RrhhPersona.findByDireccion", query = "SELECT r FROM RrhhPersona r WHERE r.direccion = :direccion"),
-    @NamedQuery(name = "RrhhPersona.findByTelefono", query = "SELECT r FROM RrhhPersona r WHERE r.telefono = :telefono"),
-    @NamedQuery(name = "RrhhPersona.findByCorreoElectronico", query = "SELECT r FROM RrhhPersona r WHERE r.correoElectronico = :correoElectronico"),
-    @NamedQuery(name = "RrhhPersona.findByRestrictiva", query = "SELECT r FROM RrhhPersona r WHERE r.restrictiva = :restrictiva")})
+
 public class RrhhPersona implements Serializable {
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_PERSONA")
+    @Column(name = "ADSCGEM$ID")
     private BigDecimal idPersona;
     @Size(max = 100)
-    @Column(name = "NOMBRES")
+    @Column(name = "ADSCGEM$NOMBRES")
     private String nombres;
     @Size(max = 100)
-    @Column(name = "APELLIDOS")
+    @Column(name = "ADSCGEM$APELLIDOS")
     private String apellidos;
     @Size(max = 100)
-    @Column(name = "DIRECCION")
+    @Column(name = "ADSCGEM$DIRECCION")
     private String direccion;
-    @Column(name = "TELEFONO")
+    @Column(name = "ADSCGEM$TELEFONO_1")
     private Long telefono;
     @Size(max = 100)
-    @Column(name = "CORREO_ELECTRONICO")
+    @Column(name = "ADSCGEM$EMAIL_1")
     private String correoElectronico;
-    @Column(name = "RESTRICTIVA")
-    private Character restrictiva;
-    @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD_ADMIN")
+    @Column(name = "ADSCGEM$RESTRICTIVA")
+    private String restrictiva;
+    
+    
+    @JoinColumn(name = "ADSCGDP$ID", referencedColumnName = "ADSCGDP$ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private RrhhUnidadAdministrativa idUnidad;
-    @JoinColumn(name = "ID_TIPO_PUESTO", referencedColumnName = "ID_TIPO_PUESTO")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private RrhhTipoPuesto idTipoPuesto;
-    @OneToMany(mappedBy = "idEncargado", fetch = FetchType.EAGER)
-    private List<RrhhPersona> rrhhPersonaList;
-    @JoinColumn(name = "ID_ENCARGADO", referencedColumnName = "ID_PERSONA")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private RrhhPersona idEncargado;
+    
+    
     @OneToMany(mappedBy = "idPersona", fetch = FetchType.EAGER)
     private List<SegUsuario> segUsuarioList;
 
     public RrhhPersona() {
+    }
+
+    public RrhhUnidadAdministrativa getIdUnidad() {
+        return idUnidad;
+    }
+
+    public void setIdUnidad(RrhhUnidadAdministrativa idUnidad) {
+        this.idUnidad = idUnidad;
     }
 
     public RrhhPersona(BigDecimal idPersona) {
@@ -134,45 +128,12 @@ public class RrhhPersona implements Serializable {
         this.correoElectronico = correoElectronico;
     }
 
-    public Character getRestrictiva() {
+    public String getRestrictiva() {
         return restrictiva;
     }
 
-    public void setRestrictiva(Character restrictiva) {
+    public void setRestrictiva(String restrictiva) {
         this.restrictiva = restrictiva;
-    }
-
-    public RrhhUnidadAdministrativa getIdUnidad() {
-        return idUnidad;
-    }
-
-    public void setIdUnidad(RrhhUnidadAdministrativa idUnidad) {
-        this.idUnidad = idUnidad;
-    }
-
-    public RrhhTipoPuesto getIdTipoPuesto() {
-        return idTipoPuesto;
-    }
-
-    public void setIdTipoPuesto(RrhhTipoPuesto idTipoPuesto) {
-        this.idTipoPuesto = idTipoPuesto;
-    }
-
-    @XmlTransient
-    public List<RrhhPersona> getRrhhPersonaList() {
-        return rrhhPersonaList;
-    }
-
-    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
-        this.rrhhPersonaList = rrhhPersonaList;
-    }
-
-    public RrhhPersona getIdEncargado() {
-        return idEncargado;
-    }
-
-    public void setIdEncargado(RrhhPersona idEncargado) {
-        this.idEncargado = idEncargado;
     }
 
     @XmlTransient

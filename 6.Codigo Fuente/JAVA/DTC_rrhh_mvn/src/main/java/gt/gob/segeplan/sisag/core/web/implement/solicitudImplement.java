@@ -8,6 +8,7 @@ package gt.gob.segeplan.sisag.core.web.implement;
 import gt.gob.segeplan.sisag.core.web.controller.solicitudController;
 import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
@@ -77,7 +78,22 @@ public class solicitudImplement implements solicitudController{
     @Override
     public List<RrhhTemaCurso> getLstCursosDNC() {
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("Select l from RrhhTemaCurso l");
+        Query q = em.createQuery("Select l from RrhhTemaCurso l WHERE l.restrictiva<>0");
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<RrhhNecesidadPuesto> getLstNecCurso() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhNecesidadPuesto l ");
+        return q.getResultList();
+    }
+    
+    
+    @Override
+    public List<RrhhNecesidadPuesto> getLstNecCursoDist() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l.rrhhNecesidadPuestoList from RrhhNecesidad l ");
         return q.getResultList();
     }
     
@@ -115,7 +131,15 @@ public class solicitudImplement implements solicitudController{
         return q.getResultList();
     }
     
-    
+    @Override
+    public List<RrhhTipoPuesto> getLstTipoPuesto() {
+        EntityManager em = emf.createEntityManager();
+        Query q = null;
+       
+                q = em.createQuery("Select l from RrhhTipoPuesto l");
+        
+        return q.getResultList();
+    }
 
     @Override
     public RrhhNecesidad crearNecSol(RrhhNecesidad objeto) {
@@ -160,7 +184,26 @@ public class solicitudImplement implements solicitudController{
       EntityManager em = emf.createEntityManager();
         try{
             em.getTransaction().begin();
-            em.merge(em.merge(objeto));
+            em.remove(em.merge(objeto));
+            em.getTransaction().commit();
+            del= "SI";
+        }catch (Exception e) {
+            e.printStackTrace();
+            del= "NO";
+            objeto = null;
+        } finally {
+            em.close();
+            return del;
+        }
+    }
+    
+    @Override
+    public String borrarNecPuesto(RrhhNecesidadPuesto objeto) {
+          String del = objeto.toString();
+      EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.remove(em.merge(objeto));
             em.getTransaction().commit();
             del= "SI";
         }catch (Exception e) {
@@ -254,10 +297,11 @@ public class solicitudImplement implements solicitudController{
         return listado;
     }
 
-   
-    
-
-   
-    
+   @Override
+   public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhSolicitudCapacitacion l ");
+        return q.getResultList();
+    }
            
 }

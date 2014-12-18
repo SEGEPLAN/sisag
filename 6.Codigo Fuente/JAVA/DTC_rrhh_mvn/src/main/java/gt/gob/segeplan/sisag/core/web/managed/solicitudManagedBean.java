@@ -9,9 +9,11 @@ import gt.gob.segeplan.sisag.core.web.implement.solicitudImplement;
 import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuesto;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuestoPK;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -37,6 +39,8 @@ public  class solicitudManagedBean implements Serializable{
 
     // listados
     private List<RrhhSolicitudCapacitacion> solicitudesDTC;
+    private List<RrhhSolicitudCapacitacion> LstSolicitudesCapa;
+    private List<RrhhNecesidadPuesto> necPuesto;
     private List<RrhhNecesidad> ListNecesidades;
     
     
@@ -52,6 +56,7 @@ public  class solicitudManagedBean implements Serializable{
      private List<RrhhTemaCurso> catCursos;
 
      private List<RrhhNecesidadPuesto> lstNecPuesto;
+     private List<RrhhNecesidadPuesto> lstNecPuestoAux;
       private List<RrhhTipoPuesto> lstTipoPuesto;
 
 
@@ -66,6 +71,8 @@ public  class solicitudManagedBean implements Serializable{
 
     private RrhhNecesidad necesidadCapa;
     private RrhhNecesidad necesidadCapaAux;
+    private RrhhUnidadAdministrativa unidad;
+    private int totalUnidad;
 
 
     // band
@@ -96,12 +103,83 @@ public  class solicitudManagedBean implements Serializable{
         
         if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty())
             solicitudDTCcreada = usuario.getRrhhSolicitudCapacitacionList().get(0);
-
+        
+        unidad = usuario.getIdPersona().getIdUnidad();
+        
 
     }
 
     // METODOS
+    
+    
+     public void navegar(String url) {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        seguridadManagedBean nmb = (seguridadManagedBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "seguridad");
+        nmb.navegar(url);
 
+    }
+
+     
+     public void llenarCombos(){
+         FacesMessage msg = null;
+         if(necesidadCapa!=null){
+             refreshUsr();
+            getCatCursos();
+             
+             lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
+        idCaracter = necesidadCapa.getIdCaracter().getId().intValue();
+        idPrioridad = necesidadCapa.getIdPrioridad().getId().intValue();
+        idNivelConocimiento = necesidadCapa.getIdNivelConocimiento().getId().intValue();
+        idDisponibilidad = necesidadCapa.getIdDisponibilidad().getId().intValue();
+        
+        catCursos.add(necesidadCapa.getIdTema());
+        
+        idTemaCurso = necesidadCapa.getIdTema().getIdTema().intValue();
+        temaPrincipal = necesidadCapa.getIdTema().getNombre();
+        totalHoras = necesidadCapa.getTotalHoras().intValue();
+        problemaNecesidad = necesidadCapa.getProblemaNecesidad();
+        lstNecPuesto = necesidadCapa.getRrhhNecesidadPuestoList();
+        lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
+        
+            for(RrhhNecesidadPuesto n: lstNecPuesto){
+                RrhhTipoPuesto tp = new RrhhTipoPuesto();
+                tp = n.getRrhhTipoPuesto();
+                 tp.setTotal(n.getTotal());
+                 lstTipoPuesto.add(tp);
+        }        
+
+            
+            
+            
+          } else {
+            msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "No ha seleccionado ninguna fila", null);
+             FacesContext.getCurrentInstance().addMessage(null, msg);
+         }
+    }
+
+     public void borrarCombos(){
+        newNecDTC();
+        idCaracter = 0;
+        idPrioridad = 0;
+        idNivelConocimiento = 0;
+        idDisponibilidad = 0;
+        idTemaCurso = 0;
+        temaPrincipal = "";
+        totalHoras = 0;
+        problemaNecesidad = "";
+        lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
+        lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
+        lstTipoPuesto = psSol.getLstTipoPuesto();
+        necesidadCapa = new RrhhNecesidad();
+        refreshUsr();
+            getCatCursos();
+    }
+
+    public void onRowSelect(SelectEvent event) {
+        necesidadCapa = new RrhhNecesidad();
+        necesidadCapa = (RrhhNecesidad)event.getObject();
+    }
+     
     public void newNecDTC(){
         necesidadCapa = new RrhhNecesidad();
     }
@@ -153,10 +231,40 @@ public  class solicitudManagedBean implements Serializable{
                 necesidadCapa.setIdTema(t);
             }
         }
-                
-        ListNecesidades.add(psSol.crearNecSol(necesidadCapa));
-        necesidadCapa = new RrhhNecesidad();
-        //necesidadCapaAux = new RrhhNecesidad();
+         
+         psSol.crearNecSol(necesidadCapa);
+         
+          if(lstTipoPuesto!=null){
+            lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
+                RrhhNecesidadPuesto necPuesto;
+                RrhhNecesidadPuestoPK necPuestoPK;
+                for (RrhhTipoPuesto tp : lstTipoPuesto) {
+                     necPuesto = new RrhhNecesidadPuesto();
+                     necPuestoPK = new RrhhNecesidadPuestoPK();
+                     
+                     necPuestoPK.setIdNecesidad(necesidadCapa.getIdNecesidad().toBigInteger());
+                     necPuestoPK.setIdTipoPuesto(tp.getIdTipoPuesto().toBigInteger());
+                     
+                     necPuesto.setRrhhTipoPuesto(tp);
+                     if(tp.getTotal()==0){
+                         necPuesto.setTotal(0);
+                     }else{
+                         necPuesto.setTotal(tp.getTotal());
+                     }
+                     necPuesto.setRrhhNecesidadPuestoPK(necPuestoPK);
+                     necPuesto.setRestrictiva(Character.MIN_VALUE);
+                     lstNecPuesto.add(necPuesto);
+                     
+                     
+                        }
+                    }
+        
+        necesidadCapa.setRrhhNecesidadPuestoList(lstNecPuesto);
+        psSol.editarNecSol(necesidadCapa);
+        ListNecesidades.add(necesidadCapa);
+       newNecDTC();
+       refreshUsr();
+       getCatCursos();
         
 }
     
@@ -166,82 +274,95 @@ public  class solicitudManagedBean implements Serializable{
     public void editarNecDTC(){
         
             getLstEstado();
-            necesidadCapaAux.setIdEstado(editado);
-            necesidadCapaAux.setFechaModifica(new Date());
-            necesidadCapaAux.setUsrModifica(usuario.getIdUsuario().toBigInteger());
+            necesidadCapa.setIdEstado(editado);
+            necesidadCapa.setFechaModifica(new Date());
+            necesidadCapa.setUsrModifica(usuario.getIdUsuario().toBigInteger());
 
         for (GenDominios car : catCaracter) {
             if(idCaracter == car.getId().intValue()){
-                necesidadCapaAux.setIdCaracter(car);
+                necesidadCapa.setIdCaracter(car);
             }
         }
         
         for (GenDominios prioridad : catPrioridad) {
             if(idPrioridad == prioridad.getId().intValue()){
-                necesidadCapaAux.setIdPrioridad(prioridad);
+                necesidadCapa.setIdPrioridad(prioridad);
             }
         }
         
         for (GenDominios nivel : catNivelCono) {
             if(idNivelConocimiento == nivel.getId().intValue()){
-                necesidadCapaAux.setIdNivelConocimiento(nivel);
+                necesidadCapa.setIdNivelConocimiento(nivel);
             }
         }
         
         for (GenDominios dispo : catDisponibilidad) {
             if(idDisponibilidad == dispo.getId().intValue()){
-                necesidadCapaAux.setIdDisponibilidad(dispo);
+                necesidadCapa.setIdDisponibilidad(dispo);
             }
         }
         
         for (RrhhTemaCurso t : catCursos) {
             if(idTemaCurso == t.getIdTema().intValue()){
-                necesidadCapaAux.setIdTema(t);
+                necesidadCapa.setIdTema(t);
             }
         }
         
         
-        psSol.editarNecSol(necesidadCapaAux);
+        
+        if(lstTipoPuesto!=null){
+            lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
+                RrhhNecesidadPuesto necPuesto;
+                RrhhNecesidadPuestoPK necPuestoPK;
+                for (RrhhTipoPuesto tp : lstTipoPuesto) {
+                     necPuesto = new RrhhNecesidadPuesto();
+                     necPuestoPK = new RrhhNecesidadPuestoPK();
+                     
+                     necPuestoPK.setIdNecesidad(necesidadCapa.getIdNecesidad().toBigInteger());
+                     necPuestoPK.setIdTipoPuesto(tp.getIdTipoPuesto().toBigInteger());
+                                          
+                     necPuesto.setRrhhTipoPuesto(tp);
+                     
+                     if(tp.getTotal()==0){
+                         necPuesto.setTotal(0);
+                     }else{
+                         necPuesto.setTotal(tp.getTotal());
+                     }
+                     necPuesto.setRrhhNecesidadPuestoPK(necPuestoPK);
+                     necPuesto.setRestrictiva(Character.MIN_VALUE);
+                     lstNecPuesto.add(necPuesto);
+                        }
+                    }
+        
+        necesidadCapa.setRrhhNecesidadPuestoList(lstNecPuesto);
+        
+        psSol.editarNecSol(necesidadCapa);
         ListNecesidades = new ArrayList<RrhhNecesidad>();
         refreshUsr();
         ListNecesidades = usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList();
-        necesidadCapa = new RrhhNecesidad();
+        newNecDTC();
+        
+        getCatCursos();
         
 }
 
 
     
-    public void borrarCombos(){
-        newNecDTC();
-        idCaracter = 0;
-        idPrioridad = 0;
-        idNivelConocimiento = 0;
-        idDisponibilidad = 0;
-        idTemaCurso = 0;
-        temaPrincipal = "";
-        totalHoras = 0;
-        problemaNecesidad = "";
-    }
-
-    public void onRowSelect(SelectEvent event) {
-        necesidadCapaAux = new RrhhNecesidad();
-        necesidadCapaAux = (RrhhNecesidad)event.getObject();
-        //llenarCombos();
-    }
-    
-    
     public void eliminarNecesidad() {
         String band ="";
         String objeto;
          FacesMessage msg = null;
-        if(necesidadCapaAux!=null){
-            ListNecesidades.remove(necesidadCapaAux);
-            band = psSol.borrarNecSol(necesidadCapaAux);
-            objeto = necesidadCapaAux.getIdTema().getNombre();
-
+        if(necesidadCapa!=null){
+            
+            objeto = necesidadCapa.getIdTema().getNombre();
+            ListNecesidades.remove(necesidadCapa);
+            band = psSol.borrarNecSol(necesidadCapa);
+            refreshUsr();
+            getCatCursos();
             if(band.contentEquals("NO")){
-                ListNecesidades.add(necesidadCapaAux);
+                ListNecesidades.add(necesidadCapa);
             }
+             newNecDTC();
              msg = new FacesMessage(FacesMessage.SEVERITY_INFO,band+" Se pudo borrar la necesidad ", objeto);
         } else {
             band = "No ha seleccionado ninguna fila";
@@ -250,17 +371,11 @@ public  class solicitudManagedBean implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
-     public void llenarCombos(){
-        idCaracter = necesidadCapaAux.getIdCaracter().getId().intValue();
-        idPrioridad = necesidadCapaAux.getIdPrioridad().getId().intValue();
-        idNivelConocimiento = necesidadCapaAux.getIdNivelConocimiento().getId().intValue();
-        idDisponibilidad = necesidadCapaAux.getIdDisponibilidad().getId().intValue();
-        idTemaCurso = necesidadCapaAux.getIdTema().getIdTema().intValue();
-        temaPrincipal = necesidadCapaAux.getIdTema().getNombre();
-        totalHoras = necesidadCapaAux.getTotalHoras().intValue();
-        problemaNecesidad = necesidadCapaAux.getProblemaNecesidad();
-    }
-
+     
+   
+    
+    
+    
     // GETTER Y SETTER
     public List<RrhhSolicitudCapacitacion> getSolicitudesDTC() {
         if(solicitudesDTC == null)
@@ -315,37 +430,13 @@ public  class solicitudManagedBean implements Serializable{
     public void setIdCaracter(int idCaracter) {
         this.idCaracter = idCaracter;
     }
-
-    public List<RrhhNecesidadPuesto> getLstNecPuesto() {
-         if(lstNecPuesto == null){
-            lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
-            lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
-
-            lstTipoPuesto = psSol.getLstTipoPuesto_by(usuario.getIdUsuario().intValue());
-
-            if(lstTipoPuesto!=null){
-                RrhhNecesidadPuesto necPuesto;
-
-                for (RrhhTipoPuesto tp : lstTipoPuesto) {
-                     necPuesto = new RrhhNecesidadPuesto();
-                     necPuesto.setRrhhTipoPuesto(tp);
-                     necPuesto.setRestrictiva(Character.MIN_VALUE);
-                     lstNecPuesto.add(necPuesto);
-                        }
-                    }
-         }
-        return lstNecPuesto;
-    }
-
-    public void setLstNecPuesto(List<RrhhNecesidadPuesto> lstNecPuesto) {
-        this.lstNecPuesto = lstNecPuesto;
-    }
-
+    
     public List<RrhhTipoPuesto> getLstTipoPuesto() {
          if(lstTipoPuesto == null){
             lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
-            lstTipoPuesto = psSol.getLstTipoPuesto_by(usuario.getIdUsuario().intValue());
-         }
+             lstTipoPuesto = psSol.getLstTipoPuesto();
+             }
+           
         return lstTipoPuesto;
     }
 
@@ -492,8 +583,13 @@ public  class solicitudManagedBean implements Serializable{
     public List<RrhhTemaCurso> getCatCursos() {
          if(catCursos == null){
             catCursos = new ArrayList<RrhhTemaCurso>();
-            catCursos = psSol.getLstCursosDNC();
          }
+            catCursos = psSol.getLstCursosDNC();
+            if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty()){
+            for(RrhhNecesidad n : usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList()){
+                catCursos.remove(n.getIdTema());
+                }
+            }
         return catCursos;
     }
 
@@ -509,6 +605,42 @@ public  class solicitudManagedBean implements Serializable{
         this.idTemaCurso = idTemaCurso;
     }
 
+    public List<RrhhNecesidadPuesto> getNecPuesto() {
+         if(necPuesto == null){
+            necPuesto = new ArrayList<RrhhNecesidadPuesto>();
+         }
+            necPuesto = psSol.getLstNecCursoDist();
+            
+        return necPuesto;
+    }
 
+    public int getAllWins() {
+        int sum = 0;
+         
+        for(RrhhNecesidadPuesto s : necPuesto) {
+            sum += s.getTotal();
+        }
+         
+        return sum;
+    }
+    
+    
+    public void setNecPuesto(List<RrhhNecesidadPuesto> necPuesto) {
+        this.necPuesto = necPuesto;
+    }
 
+    public List<RrhhSolicitudCapacitacion> getLstSolicitudesCapa() {
+        if(LstSolicitudesCapa == null)
+            LstSolicitudesCapa = new ArrayList<RrhhSolicitudCapacitacion>();
+        LstSolicitudesCapa = psSol.getLstAllSolicitudesCapa();
+        
+        return LstSolicitudesCapa;
+    }
+
+    public void setLstSolicitudesCapa(List<RrhhSolicitudCapacitacion> LstSolicitudesCapa) {
+        this.LstSolicitudesCapa = LstSolicitudesCapa;
+    }
+
+    
+    
 }
