@@ -31,31 +31,7 @@
                 <h:form id="usrForm">  
                     <p:panel toggleable="true">
 
-                        <p:toolbar id="toolbarDTC">
-
-                            <f:facet name="right">
-
-                                <p:commandLink id="pdf" ajax="false">  
-                                    <p:graphicImage value="/resources/images/pdf.png"/>  
-                                    <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
-                                    
-                                    <pe:exporter type="pdf" target="userTable" fileName="Solicitudes" facetBackground="#AAFFBB"  
-                                     datasetPadding="4" encoding="ISO-8859-1"  /> 
-                                    
-                                </p:commandLink>  
-
-
-
-                                <p:commandLink id="xlsx" ajax="false">  
-                                    <p:graphicImage value="/resources/images/excel.png"/>  
-                                    <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                     <pe:exporter type="xlsx" target="userTable" fileName="userTable" encoding="ISO-8859-1"
-                                                  tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
-                                                  facetBackground="#AAFFBB"  
-                                                datasetPadding="4"  />  
-                                </p:commandLink> 
-                            </f:facet>
-                        </p:toolbar>
+                        
                         <br/>
 
                         <p:dataTable id="userTable"  value="#{solicitud.lstSolicitudesCapa}" style="width: 90%; height: 100%; margin: 0 auto;" 
@@ -63,7 +39,7 @@
                                      scrollable="true" scrollHeight="450"   >  
                             
                             <p:column style="width:16px" exportable="false">
-                                <p:rowToggler />
+                                <p:rowToggler id="rowToggler"/>
                             </p:column>
 
                             <p:column sortBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" filterBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" >
@@ -81,21 +57,48 @@
                             </p:column >
                             
 
-                            <p:rowExpansion >
+                            <p:rowExpansion id="expand"  >
+                                <p:toolbar id="toolbarDTC">
+
+                            <f:facet name="right">
+
+                                <p:commandLink id="pdf" ajax="false">  
+                                    <p:graphicImage value="/resources/images/pdf.png"/>  
+                                    <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
+                                    
+                                    <pe:exporter type="pdf" target="necTable2" fileName="Solicitudes" facetBackground="#AAFFBB"  
+                                     datasetPadding="10" encoding="ISO-8859-1"  subTable="true"/> 
+                                    
+                                </p:commandLink>  
+
+
+
+                                <p:commandLink id="xlsx" ajax="false">  
+                                    <p:graphicImage value="/resources/images/excel.png"/>  
+                                    <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
+                                     <pe:exporter type="xlsx" target="necTable2" fileName="Solicitudes" encoding="ISO-8859-1"
+                                                  tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
+                                                  facetBackground="#AAFFBB"  
+                                                datasetPadding="10" subTable="true" />  
+                                </p:commandLink> 
+                            </f:facet>
+                        </p:toolbar>
                                 <p:dataTable id="necTable2"  value="#{l.rrhhNecesidadList}" style="width: 90%; height: 100%; margin: 0 auto;" 
                                              emptyMessage="No existen necesidades actualmente" var="n" rowKey="#{n.idNecesidad}"
                                              scrollable="true" scrollHeight="250"  
                                              >
                                     <f:facet name="header" >
-                                        Elaborado por: #{l.usrCrea.idPersona.nombres} #{l.usrCrea.idPersona.apellidos}
+                                         <h:outputText value="#{l.usrCrea.idPersona.nombres} #{l.usrCrea.idPersona.apellidos}" />
                                             </f:facet>
-                                    <p:column exportable="false">
-                                        <p:dataTable id="tipo2"  value="#{n.rrhhNecesidadPuestoList}" style="width: 90%; height: 100%; margin: 0 auto;" 
-                                                     emptyMessage="No existen puestos asignados" var="tipo" rowKey="#{tipo.rrhhTipoPuesto.idTipoPuesto}" 
+                                    
+                                    
+                                         
+                                         <p:subTable id="tipo2"  value="#{n.rrhhNecesidadPuestoList}" var="tipo"  
                                                      >
                                             <f:facet name="header">
-                                                <h:outputText value="#{n.idTema.nombre}" />
+                                                <h:outputText value="Curso: #{n.idTema.nombre}" />
                                             </f:facet>
+                                              
                                             <p:column >
                                                 <f:facet name="header">
                                                     <h:outputText value="Tipo de Puesto" />
@@ -108,8 +111,11 @@
                                                 </f:facet>
                                                 <h:outputText value="#{tipo.total}" />
                                             </p:column>
-                                        </p:dataTable>
-                                    </p:column>
+                                             <f:facet name="footer">
+                                                <h:outputText value="Total Horas: #{n.totalHoras}" />
+                                        </f:facet>
+                                        </p:subTable>
+                                    
                                 </p:dataTable>
                             </p:rowExpansion>
                             
