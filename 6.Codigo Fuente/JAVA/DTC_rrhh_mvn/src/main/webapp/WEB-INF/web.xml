@@ -29,4 +29,42 @@
     <welcome-file-list>
         <welcome-file>faces/login.xhtml</welcome-file>
     </welcome-file-list>
+    
+    
+    <!-- JasperReports Servlet -->
+    <servlet>
+        <servlet-name>PdfServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.PdfServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>JExcelApiServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.JExcelApiServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RtfServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.RtfServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImageServlet</servlet-name>
+        <servlet-class>net.sf.jasperreports.j2ee.servlets.ImageServlet</servlet-class>
+    </servlet>
+        <!-- JasperReports Servlet Mapping -->   
+    <servlet-mapping>
+        <servlet-name>PdfServlet</servlet-name>
+        <url-pattern>/servlets/report/PDF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JExcelApiServlet</servlet-name>
+        <url-pattern>/servlets/report/EXCEL</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RtfServlet</servlet-name>
+        <url-pattern>/servlets/report/RTF</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageServlet</servlet-name>
+        <url-pattern>/servlets/image</url-pattern>
+    </servlet-mapping>
+    
+    
 </web-app>

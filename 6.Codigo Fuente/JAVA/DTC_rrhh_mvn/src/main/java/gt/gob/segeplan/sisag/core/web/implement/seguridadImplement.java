@@ -327,5 +327,19 @@ public class seguridadImplement implements seguridadController{
     }
     
     
+    
+    
+    /// 
+//    
+//     @Override
+//    public int getTotalEmpleados() {
+//        int total;
+//        EntityManager em = emf.createEntityManager();
+//        Query q = em.createQuery("Select l from RrhhUnidadPersona l WHERE l.restrictiva=N");
+//        //q.setParameter("filtro", "N");
+//        
+//        total = q.getResultList().size();
+//        return total;
+//    }
            
 }

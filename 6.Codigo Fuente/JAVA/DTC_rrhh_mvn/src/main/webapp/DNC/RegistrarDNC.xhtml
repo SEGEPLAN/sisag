@@ -8,12 +8,18 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
-
-    <f:view locale="es_GT"> 
         <h:head>
-            <script src="../resources/js/validacion-1.0.js" type="text/javascript"></script>
-
+            <style type="text/css">
+                .panelGridCenter td,.panelGridCenter tr {
+                    text-align: center;
+                }
+                /* 
+                 .ui-widget-header{
+                      background: #FFFFFF !important; 
+                 } */                
+            </style>
             <h:outputStylesheet library="css" name="theme.min.css" />
+            <h:outputStylesheet library="css" name="sisag.css" />
         </h:head>
 
         <h:body>
@@ -24,28 +30,23 @@
                  
                      <p:growl id="messages" showDetail="true"/>  
                     
-                        <p:tabMenu activeIndex="0" >  
-                            <p:menuitem value="Registrar DNC" immediate="true" action="#{seguridad.navegar('verNecesidades.xhtml')}" ajax="false" icon="ui-icon-search"/>  
-                        </p:tabMenu>
                      <p:accordionPanel multiple="true" activeIndex="0,1">
-                         <p:tab closable="true" title="Direccion #{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.nombre}">
+                         <p:tab closable="true" title="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
                             <h:panelGrid columns="2" cellpadding="0">
                             
                             <h:outputText value="TOTAL EMPLEADOS:" style="font-weight:bold" />
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.rrhhPersonaList.size()}"/>
+                            <h:outputText value="#{solicitud.totalUnidad}"/>
 
 
                             <h:outputText value="ELABORA:" style="font-weight:bold"/>
                             <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.nombres}  #{solicitud.solicitudDTC.usrCrea.idPersona.apellidos} "/>
 
-                            <h:outputText value="PUESTO:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idTipoPuesto.nombre} "/>
-
+                            
                             <h:outputText value="DIRECCION QUE SOLICITA:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.nombre}"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"/>
 
                             <h:outputText value="ACTIVIDADES PRINCIPALES:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.idUnidad.descripcion} "/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion} "/>
                         </h:panelGrid>
                         </p:tab>
                         
@@ -84,8 +85,8 @@
                                    <p:commandLink id="pdf" ajax="false">  
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
-                                    <pe:exporter type="pdf" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.idUnidad.nombre}"  
-                                                 tableTitle="#{sessionBean.objUsuario.idPersona.idUnidad.nombre}" 
+                                    <pe:exporter type="pdf" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  
+                                                 tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
                                                 
                                                  pageOnly="false"
                                                  facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
@@ -98,8 +99,8 @@
                                 <p:commandLink id="xlsx" ajax="false">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="xlsx" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.idUnidad.nombre}" 
-                                                 tableTitle="#{sessionBean.objUsuario.idPersona.idUnidad.nombre}"  
+                                    <pe:exporter type="xlsx" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
+                                                 tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  
                                                  facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
                                                  encoding="ISO-8859-1"
                                                  pageOnly="false"
@@ -180,36 +181,40 @@
                                     <tr>
                                         <td>
                                     <h:outputText value="Caracter:" /><br/>
-                                    <p:selectOneMenu label="Caracter" value="#{solicitud.idCaracter}"  converter="entityConverter"
-                                                     styleClass="styleBottom"
+                                    <p:selectOneMenu label="Caracter" value="#{solicitud.necesidadCapa.idCaracter}"  converter="entityConverter"
+                                                     styleClass="styleBottom" 
                                                      style="width: 120px;">
-                                        <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                        <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                        <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                     </p:selectOneMenu>
                                         </td> 
                                         <td>
                                             <h:outputText value="Nivel de conocimiento:" /><br/>
-                                    <p:selectOneMenu label="Nivel de Conocimiento" value="#{solicitud.idNivelConocimiento}"  
-                                                      style="width: 120px;"
+                                            <p:selectOneMenu label="Nivel de Conocimiento" value="#{solicitud.necesidadCapa.idNivelConocimiento}"  
+                                                      style="width: 120px;" converter="entityConverter"
                                                      >
-                                        <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                        <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                        <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                     </p:selectOneMenu>
                                         </td> 
                                             </tr>
                                             <tr>
                                         <td>
                                         <h:outputText  value="Prioridad de atencion:" /><br/>
-                                            <p:selectOneMenu label="Prioridad" value="#{solicitud.idPrioridad}"  
-                                                             style="width: 120px;"
+                                        <p:selectOneMenu label="Prioridad" value="#{solicitud.necesidadCapa.idPrioridad}"  
+                                                             style="width: 120px;" converter="entityConverter"
                                                              >
-                                                <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                                <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                                <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                             </p:selectOneMenu>
                                         </td> 
                                         <td>
                                             <h:outputText  value="Disponibilidad:" /><br/>
-                                    <p:selectOneMenu label="Disponibilidad" value="#{solicitud.idDisponibilidad}"  
-                                                      style="width: 120px;"
+                                            <p:selectOneMenu label="Disponibilidad" value="#{solicitud.necesidadCapa.idDisponibilidad}"  
+                                                      style="width: 120px;" converter="entityConverter"
                                                      >
-                                        <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c.id}" />
+                                        <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                        <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                     </p:selectOneMenu>
                                         </td>
                                                 <td >
@@ -220,9 +225,10 @@
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                            <p:selectOneMenu label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
-                                                      style="width: 340px;"
+                                    <p:selectOneMenu label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
+                                                      style="width: 340px;" 
                                                      >
+                                                <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                                 <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />
                                             </p:selectOneMenu>
                                     
@@ -289,5 +295,4 @@
                             
             </div>
         </h:body>
-    </f:view>
 </html>  

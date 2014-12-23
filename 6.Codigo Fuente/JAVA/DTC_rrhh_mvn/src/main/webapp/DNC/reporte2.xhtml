@@ -29,19 +29,8 @@
 
             <div align="center"  >
                 <h:form id="usrForm">  
-                    <div id="mostrarTab2" style="display: inline" >
-
-                        <p:tabMenu activeIndex="0" >  
-                            <p:menuitem value="Solicitudes DNC" immediate="true"  action="#{seguridad.navegar('verSolicitudes.xhtml')}" ajax="false" icon="ui-icon-search"/>  
-                        </p:tabMenu>
-
-                    </div>
-                    <br />
-
                     <p:panel toggleable="true">
 
-
-                        <br />
                         <p:toolbar id="toolbarDTC">
 
                             <f:facet name="right">
@@ -51,7 +40,7 @@
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
                                     
                                     <pe:exporter type="pdf" target="userTable" fileName="Solicitudes" facetBackground="#AAFFBB"  
-                                     datasetPadding="4" encoding="ISO-8859-1"/> 
+                                     datasetPadding="4" encoding="ISO-8859-1"  /> 
                                     
                                 </p:commandLink>  
 
@@ -61,9 +50,9 @@
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                                      <pe:exporter type="xlsx" target="userTable" fileName="userTable" encoding="ISO-8859-1"
-                                                  tableTitle="#{sessionBean.objUsuario.idPersona.idUnidad.nombre} #{sessionBean.objUsuario.idPersona.idUnidad.descripcion}" 
+                                                  tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
                                                   facetBackground="#AAFFBB"  
-                                                datasetPadding="4"/>  
+                                                datasetPadding="4"  />  
                                 </p:commandLink> 
                             </f:facet>
                         </p:toolbar>
@@ -77,11 +66,11 @@
                                 <p:rowToggler />
                             </p:column>
 
-                            <p:column sortBy="#{l.usrCrea.idPersona.idUnidad.nombre}" filterBy="#{l.usrCrea.idPersona.idUnidad.nombre}" >
+                            <p:column sortBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" filterBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
-                                <h:outputText value="#{l.usrCrea.idPersona.idUnidad.nombre}" />
+                                <h:outputText value="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" />
                             </p:column>
 
                             <p:column sortBy="#{l.rrhhNecesidadList.size()}" filterBy="#{l.rrhhNecesidadList.size()}">
@@ -90,6 +79,7 @@
                                 </f:facet>
                                 <h:outputText value="#{l.rrhhNecesidadList.size()}" />
                             </p:column >
+                            
 
                             <p:rowExpansion >
                                 <p:dataTable id="necTable2"  value="#{l.rrhhNecesidadList}" style="width: 90%; height: 100%; margin: 0 auto;" 

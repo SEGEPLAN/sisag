@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6e80fcc0-b8ec-47f0-91ef-7be24b8aea92">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false" pdfFontName="Times-Bold"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false" pdfFontName="Times-Roman"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true" pdfFontName="Times-Roman"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<queryString language="SQL">
+		<![CDATA[SELECT
+     RRHH_NECESIDAD."ID_NECESIDAD" AS RRHH_NECESIDAD_ID_NECESIDAD,
+     RRHH_NECESIDAD."ID_SOLICITUD_CAPACITACION" AS RRHH_NECESIDAD_ID_SOLICITUD_CA,
+     RRHH_NECESIDAD."ID_CARACTER" AS RRHH_NECESIDAD_ID_CARACTER,
+     RRHH_NECESIDAD."ID_PRIORIDAD" AS RRHH_NECESIDAD_ID_PRIORIDAD,
+     RRHH_NECESIDAD."ID_NIVEL_CONOCIMIENTO" AS RRHH_NECESIDAD_ID_NIVEL_CONOCI,
+     RRHH_NECESIDAD."HORAS_DIA" AS RRHH_NECESIDAD_HORAS_DIA,
+     RRHH_NECESIDAD."RESTRICTIVA" AS RRHH_NECESIDAD_RESTRICTIVA,
+     RRHH_NECESIDAD."PROBLEMA_NECESIDAD" AS RRHH_NECESIDAD_PROBLEMA_NECESI,
+     RRHH_NECESIDAD."ID_ESTADO" AS RRHH_NECESIDAD_ID_ESTADO,
+     RRHH_NECESIDAD."ID_DISPONIBILIDAD" AS RRHH_NECESIDAD_ID_DISPONIBILID,
+     RRHH_NECESIDAD."TOTAL_HORAS" AS RRHH_NECESIDAD_TOTAL_HORAS,
+     RRHH_NECESIDAD."USR_CREA" AS RRHH_NECESIDAD_USR_CREA,
+     RRHH_NECESIDAD."USR_MODIFICA" AS RRHH_NECESIDAD_USR_MODIFICA,
+     RRHH_NECESIDAD."FECHA_CREA" AS RRHH_NECESIDAD_FECHA_CREA,
+     RRHH_NECESIDAD."FECHA_MODIFICA" AS RRHH_NECESIDAD_FECHA_MODIFICA,
+     RRHH_NECESIDAD."ID_TEMA" AS RRHH_NECESIDAD_ID_TEMA
+FROM
+     "SCHE$SISAG"."RRHH_NECESIDAD" RRHH_NECESIDAD]]>
+	</queryString>
+	<field name="RRHH_NECESIDAD_ID_NECESIDAD" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_ID_SOLICITUD_CA" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_ID_CARACTER" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_ID_PRIORIDAD" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_ID_NIVEL_CONOCI" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_HORAS_DIA" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_RESTRICTIVA" class="java.lang.String"/>
+	<field name="RRHH_NECESIDAD_PROBLEMA_NECESI" class="java.lang.String"/>
+	<field name="RRHH_NECESIDAD_ID_ESTADO" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_ID_DISPONIBILID" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_TOTAL_HORAS" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_USR_CREA" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_USR_MODIFICA" class="java.math.BigDecimal"/>
+	<field name="RRHH_NECESIDAD_FECHA_CREA" class="java.sql.Timestamp"/>
+	<field name="RRHH_NECESIDAD_FECHA_MODIFICA" class="java.sql.Timestamp"/>
+	<field name="RRHH_NECESIDAD_ID_TEMA" class="java.math.BigDecimal"/>
+	<group name="RRHH_NECESIDAD_ID_SOLICITUD_CA">
+		<groupExpression><![CDATA[$F{RRHH_NECESIDAD_ID_SOLICITUD_CA}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<frame>
+					<reportElement mode="Opaque" x="0" y="3" width="721" height="24" forecolor="#B89F7D" backcolor="#000000" uuid="c90bb463-a256-41ff-97f6-275e3e6007d2"/>
+					<textField isStretchWithOverflow="true">
+						<reportElement style="SubTitle" x="2" y="0" width="695" height="24" forecolor="#FFFFFF" uuid="e8c9d44f-9c20-4792-989a-6d547362398c"/>
+						<textElement>
+							<font isBold="false"/>
+						</textElement>
+						<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_SOLICITUD_CA}]]></textFieldExpression>
+					</textField>
+				</frame>
+				<rectangle>
+					<reportElement x="725" y="3" width="77" height="24" backcolor="#666666" uuid="8925aef9-2092-493d-bdc2-fe9e3513e1e4"/>
+					<graphicElement>
+						<pen lineWidth="0.0"/>
+					</graphicElement>
+				</rectangle>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="6"/>
+		</groupFooter>
+	</group>
+	<group name="RRHH_NECESIDAD_ID_NECESIDAD">
+		<groupExpression><![CDATA[$F{RRHH_NECESIDAD_ID_NECESIDAD}]]></groupExpression>
+		<groupHeader>
+			<band height="30">
+				<textField>
+					<reportElement positionType="Float" x="0" y="4" width="802" height="26" forecolor="#000000" uuid="87cd3423-b53b-4e11-866f-e566276a8644"/>
+					<textElement>
+						<font fontName="Times New Roman" size="16" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_NECESIDAD}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="RRHH_NECESIDAD_ID_TEMA">
+		<groupExpression><![CDATA[$F{RRHH_NECESIDAD_ID_TEMA}]]></groupExpression>
+	</group>
+	<group name="RRHH_NECESIDAD_TOTAL_HORAS">
+		<groupExpression><![CDATA[$F{RRHH_NECESIDAD_TOTAL_HORAS}]]></groupExpression>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#000000" uuid="4f848b1f-ac77-40bb-b70b-5b9194e6c559"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="f794d6f1-7373-4e89-bbcc-d4b4a8e0406f"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[Reporte]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="75dcc26c-6522-46b4-adfe-485e9d0b3d45"/>
+					<textElement textAlignment="Right">
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Solicitudes DNC]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#CC0000" uuid="2bfb2fb6-6f69-4cde-bade-7e65570cb9b7"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="553" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="7b747cdc-f8c6-40cc-bcf0-11efb6106d19"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="18" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="18" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="0" width="797" height="18" uuid="75eb2f06-8924-405c-966d-5cc9b977cba3"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="0" y="0" width="66" height="18" uuid="2d52b31e-bb59-4cfe-9c23-271f04b8d01d"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_CARACTER}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="66" y="0" width="66" height="18" uuid="361a2981-ec89-4513-9c8a-93fe7336b83d"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_PRIORIDAD}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="132" y="0" width="66" height="18" uuid="57460052-4cf8-4550-8a4a-f5b1a1a7be87"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_NIVEL_CONOCI}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="198" y="0" width="66" height="18" uuid="4d200c64-a987-4bc4-821f-bfeaebf8a818"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_HORAS_DIA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="264" y="0" width="66" height="18" uuid="1fdc3a70-5352-4e9b-b644-20b68ce55643"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_RESTRICTIVA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="330" y="0" width="66" height="18" uuid="dd5ffb37-1391-438c-a6ae-2c8d0855018b"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_PROBLEMA_NECESI}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="396" y="0" width="66" height="18" uuid="41c3a912-3780-4bf9-934c-37905d0a53d2"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_ESTADO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="462" y="0" width="66" height="18" uuid="cfc9e766-76b5-4f5f-afb5-e2cc404c7b20"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_ID_DISPONIBILID}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="528" y="0" width="66" height="18" uuid="d2d5aa4a-e620-4dad-b62c-76513ac92a31"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_USR_CREA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="594" y="0" width="66" height="18" uuid="b59a905e-45b1-42d7-ad6a-2d8cbd92ba1b"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_USR_MODIFICA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="660" y="0" width="66" height="18" uuid="7262e3e9-aadc-464c-b607-62ba8b7a07c7"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_FECHA_CREA}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="726" y="0" width="66" height="18" uuid="396477b4-f7dd-4d5f-a47a-e4d0dc219c5f"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{RRHH_NECESIDAD_FECHA_MODIFICA}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="7" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="3" width="555" height="1" uuid="211089ef-b22a-4fec-b65b-d48f9d26b41c"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="802" height="25" forecolor="#D0B48E" backcolor="#000000" uuid="a5effb90-4440-49df-8baa-6b3455ad5e3c"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="bae1b34c-fa48-4bc4-b215-cb9ca7c6bfc5"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" uuid="c05a2823-2586-4e6a-a8e0-b49720d4680a"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="53051393-f424-4c8f-9e63-fb85cfd9f191"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

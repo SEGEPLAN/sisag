@@ -39,4 +39,5 @@ public interface seguridadController {
     
     // MODULO
     public List<SegModulo> getLstModulo_By(int band, String tipo);
+//    public int getTotalEmpleados();
 }

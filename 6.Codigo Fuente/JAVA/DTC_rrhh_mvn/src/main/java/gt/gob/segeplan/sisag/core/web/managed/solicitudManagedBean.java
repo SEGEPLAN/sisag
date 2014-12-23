@@ -14,14 +14,25 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.UUID;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import org.primefaces.event.SelectEvent;
 
 /**
@@ -42,6 +53,8 @@ public  class solicitudManagedBean implements Serializable{
     private List<RrhhSolicitudCapacitacion> LstSolicitudesCapa;
     private List<RrhhNecesidadPuesto> necPuesto;
     private List<RrhhNecesidad> ListNecesidades;
+    
+    private List<RrhhNecesidadPuesto> lstNecesidadesPuesto;
     
     
 
@@ -73,17 +86,8 @@ public  class solicitudManagedBean implements Serializable{
     private RrhhNecesidad necesidadCapaAux;
     private RrhhUnidadAdministrativa unidad;
     private int totalUnidad;
-
-
-    // band
-    private int idCaracter;
-    private int idNivelConocimiento;
-    private int idPrioridad;
-    private int idDisponibilidad;
     private int idTemaCurso;
-    private int totalHoras;
-    private String problemaNecesidad;
-    private String temaPrincipal;
+   
 
 
     public solicitudManagedBean() {
@@ -104,9 +108,12 @@ public  class solicitudManagedBean implements Serializable{
         if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty())
             solicitudDTCcreada = usuario.getRrhhSolicitudCapacitacionList().get(0);
         
-        unidad = usuario.getIdPersona().getIdUnidad();
-        
-
+        unidad = usuario.getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin();
+       for(RrhhUnidadPersona up: unidad.getRrhhUnidadPersonaList()){
+           if(up.getRestrictiva().contentEquals("N")){
+               totalUnidad++;
+           }
+       }
     }
 
     // METODOS
@@ -127,29 +134,16 @@ public  class solicitudManagedBean implements Serializable{
             getCatCursos();
              
              lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
-        idCaracter = necesidadCapa.getIdCaracter().getId().intValue();
-        idPrioridad = necesidadCapa.getIdPrioridad().getId().intValue();
-        idNivelConocimiento = necesidadCapa.getIdNivelConocimiento().getId().intValue();
-        idDisponibilidad = necesidadCapa.getIdDisponibilidad().getId().intValue();
-        
-        catCursos.add(necesidadCapa.getIdTema());
-        
-        idTemaCurso = necesidadCapa.getIdTema().getIdTema().intValue();
-        temaPrincipal = necesidadCapa.getIdTema().getNombre();
-        totalHoras = necesidadCapa.getTotalHoras().intValue();
-        problemaNecesidad = necesidadCapa.getProblemaNecesidad();
+
         lstNecPuesto = necesidadCapa.getRrhhNecesidadPuestoList();
         lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
-        
+        idTemaCurso = necesidadCapa.getIdTema().getIdTema().intValue();
             for(RrhhNecesidadPuesto n: lstNecPuesto){
                 RrhhTipoPuesto tp = new RrhhTipoPuesto();
                 tp = n.getRrhhTipoPuesto();
                  tp.setTotal(n.getTotal());
                  lstTipoPuesto.add(tp);
         }        
-
-            
-            
             
           } else {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "No ha seleccionado ninguna fila", null);
@@ -158,21 +152,13 @@ public  class solicitudManagedBean implements Serializable{
     }
 
      public void borrarCombos(){
-        newNecDTC();
-        idCaracter = 0;
-        idPrioridad = 0;
-        idNivelConocimiento = 0;
-        idDisponibilidad = 0;
-        idTemaCurso = 0;
-        temaPrincipal = "";
-        totalHoras = 0;
-        problemaNecesidad = "";
         lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
         lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
         lstTipoPuesto = psSol.getLstTipoPuesto();
         necesidadCapa = new RrhhNecesidad();
+        idTemaCurso = 0;
         refreshUsr();
-            getCatCursos();
+        getCatCursos();
     }
 
     public void onRowSelect(SelectEvent event) {
@@ -201,36 +187,11 @@ public  class solicitudManagedBean implements Serializable{
         }
             getLstEstado();
             necesidadCapa.setIdEstado(creado);
-
-        for (GenDominios car : catCaracter) {
-            if(idCaracter == car.getId().intValue()){
-                necesidadCapa.setIdCaracter(car);
-            }
-        }
-        
-        for (GenDominios prioridad : catPrioridad) {
-            if(idPrioridad == prioridad.getId().intValue()){
-                necesidadCapa.setIdPrioridad(prioridad);
-            }
-        }
-        
-        for (GenDominios nivel : catNivelCono) {
-            if(idNivelConocimiento == nivel.getId().intValue()){
-                necesidadCapa.setIdNivelConocimiento(nivel);
-            }
-        }
-        
-        for (GenDominios dispo : catDisponibilidad) {
-            if(idDisponibilidad == dispo.getId().intValue()){
-                necesidadCapa.setIdDisponibilidad(dispo);
-            }
-        }
-        
-         for (RrhhTemaCurso t : catCursos) {
-            if(idTemaCurso == t.getIdTema().intValue()){
-                necesidadCapa.setIdTema(t);
-            }
-        }
+        for (RrhhTemaCurso t : catCursos) {
+                    if(idTemaCurso == t.getIdTema().intValue()){
+                        necesidadCapa.setIdTema(t);
+                    }
+                }
          
          psSol.crearNecSol(necesidadCapa);
          
@@ -255,16 +216,15 @@ public  class solicitudManagedBean implements Serializable{
                      necPuesto.setRestrictiva(Character.MIN_VALUE);
                      lstNecPuesto.add(necPuesto);
                      
-                     
                         }
                     }
         
         necesidadCapa.setRrhhNecesidadPuestoList(lstNecPuesto);
         psSol.editarNecSol(necesidadCapa);
         ListNecesidades.add(necesidadCapa);
-       newNecDTC();
        refreshUsr();
        getCatCursos();
+       necesidadCapa = new RrhhNecesidad();
         
 }
     
@@ -277,39 +237,14 @@ public  class solicitudManagedBean implements Serializable{
             necesidadCapa.setIdEstado(editado);
             necesidadCapa.setFechaModifica(new Date());
             necesidadCapa.setUsrModifica(usuario.getIdUsuario().toBigInteger());
-
-        for (GenDominios car : catCaracter) {
-            if(idCaracter == car.getId().intValue()){
-                necesidadCapa.setIdCaracter(car);
-            }
-        }
         
-        for (GenDominios prioridad : catPrioridad) {
-            if(idPrioridad == prioridad.getId().intValue()){
-                necesidadCapa.setIdPrioridad(prioridad);
-            }
-        }
-        
-        for (GenDominios nivel : catNivelCono) {
-            if(idNivelConocimiento == nivel.getId().intValue()){
-                necesidadCapa.setIdNivelConocimiento(nivel);
-            }
-        }
-        
-        for (GenDominios dispo : catDisponibilidad) {
-            if(idDisponibilidad == dispo.getId().intValue()){
-                necesidadCapa.setIdDisponibilidad(dispo);
-            }
-        }
-        
-        for (RrhhTemaCurso t : catCursos) {
+            for (RrhhTemaCurso t : catCursos) {
             if(idTemaCurso == t.getIdTema().intValue()){
                 necesidadCapa.setIdTema(t);
             }
         }
-        
-        
-        
+            
+            
         if(lstTipoPuesto!=null){
             lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
                 RrhhNecesidadPuesto necPuesto;
@@ -340,8 +275,7 @@ public  class solicitudManagedBean implements Serializable{
         ListNecesidades = new ArrayList<RrhhNecesidad>();
         refreshUsr();
         ListNecesidades = usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList();
-        newNecDTC();
-        
+        necesidadCapa = new RrhhNecesidad();
         getCatCursos();
         
 }
@@ -373,7 +307,36 @@ public  class solicitudManagedBean implements Serializable{
     
      
    
-    
+    public void downloadPDF(){
+    Map hm = new HashMap();
+
+        String fileName = "C:\\repositorio\\sisag_clone\\sisag\\6.Codigo Fuente\\JAVA\\DTC_rrhh_mvn\\src\\main\\webapp\\REPORTES\\report1.jasper";
+                UUID uu = new UUID(3, 4);
+
+                String outFileName =  "C:\\TempReport\\" + UUID.randomUUID().toString() + ".pdf";
+
+        try {
+           
+            
+            JasperPrint print = JasperFillManager.fillReport(
+                            fileName,
+                            hm,
+                            new JREmptyDataSource());
+                    JRExporter exporter =
+                    new net.sf.jasperreports.engine.export.JRPdfExporter();
+                    exporter.setParameter(
+                    JRExporterParameter.OUTPUT_FILE_NAME,
+                    outFileName);
+                    exporter.setParameter(
+                    JRExporterParameter.JASPER_PRINT, print);
+                    JasperExportManager.exportReportToPdfFile(print, outFileName);
+                    print = null;
+                    exporter = null;
+                    JasperViewer.viewReport(print,false);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+    }
     
     
     // GETTER Y SETTER
@@ -421,15 +384,6 @@ public  class solicitudManagedBean implements Serializable{
     public void setNecesidadCapaAux(RrhhNecesidad necesidadCapaAux) {
         this.necesidadCapaAux = necesidadCapaAux;
     }
-
-
-    public int getIdCaracter() {
-        return idCaracter;
-    }
-
-    public void setIdCaracter(int idCaracter) {
-        this.idCaracter = idCaracter;
-    }
     
     public List<RrhhTipoPuesto> getLstTipoPuesto() {
          if(lstTipoPuesto == null){
@@ -468,31 +422,6 @@ public  class solicitudManagedBean implements Serializable{
         this.lstTipoPuesto = lstTipoPuesto;
     }
 
-
-    public int getIdNivelConocimiento() {
-        return idNivelConocimiento;
-    }
-
-    public void setIdNivelConocimiento(int idNivelConocimiento) {
-        this.idNivelConocimiento = idNivelConocimiento;
-    }
-
-    public int getIdPrioridad() {
-        return idPrioridad;
-    }
-
-    public void setIdPrioridad(int idPrioridad) {
-        this.idPrioridad = idPrioridad;
-    }
-
-    public int getIdDisponibilidad() {
-        return idDisponibilidad;
-    }
-
-    
-    public void setIdDisponibilidad(int idDisponibilidad) {
-        this.idDisponibilidad = idDisponibilidad;
-    }
 
     public List<GenDominios> getCatCaracter() {
         if(catCaracter == null){
@@ -556,29 +485,7 @@ public  class solicitudManagedBean implements Serializable{
         this.ListNecesidades = ListNecesidades;
     }
 
-    public int getTotalHoras() {
-        return totalHoras;
-    }
-
-    public void setTotalHoras(int totalHoras) {
-        this.totalHoras = totalHoras;
-    }
-
-    public String getProblemaNecesidad() {
-        return problemaNecesidad;
-    }
-
-    public void setProblemaNecesidad(String problemaNecesidad) {
-        this.problemaNecesidad = problemaNecesidad;
-    }
-
-    public String getTemaPrincipal() {
-        return temaPrincipal;
-    }
-
-    public void setTemaPrincipal(String temaPrincipal) {
-        this.temaPrincipal = temaPrincipal;
-    }
+   
 
     public List<RrhhTemaCurso> getCatCursos() {
          if(catCursos == null){
@@ -589,6 +496,9 @@ public  class solicitudManagedBean implements Serializable{
             for(RrhhNecesidad n : usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList()){
                 catCursos.remove(n.getIdTema());
                 }
+            }
+            if(necesidadCapa.getIdNecesidad()!=null){
+                catCursos.add(necesidadCapa.getIdTema());
             }
         return catCursos;
     }
@@ -639,6 +549,25 @@ public  class solicitudManagedBean implements Serializable{
 
     public void setLstSolicitudesCapa(List<RrhhSolicitudCapacitacion> LstSolicitudesCapa) {
         this.LstSolicitudesCapa = LstSolicitudesCapa;
+    }
+
+    public int getTotalUnidad() {
+        return totalUnidad;
+    }
+
+    public void setTotalUnidad(int totalUnidad) {
+        this.totalUnidad = totalUnidad;
+    }
+
+    public List<RrhhNecesidadPuesto> getLstNecesidadesPuesto() {
+         if(lstNecesidadesPuesto == null)
+            lstNecesidadesPuesto = new ArrayList<RrhhNecesidadPuesto>();
+        lstNecesidadesPuesto = psSol.getLstAllNecesidadesPuesto();
+        return lstNecesidadesPuesto;
+    }
+
+    public void setLstNecesidadesPuesto(List<RrhhNecesidadPuesto> lstNecesidadesPuesto) {
+        this.lstNecesidadesPuesto = lstNecesidadesPuesto;
     }
 
     

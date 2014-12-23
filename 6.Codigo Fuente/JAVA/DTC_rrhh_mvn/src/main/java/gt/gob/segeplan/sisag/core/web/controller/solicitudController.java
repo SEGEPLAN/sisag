@@ -29,6 +29,7 @@ public interface solicitudController {
      public List<RrhhNecesidadPuesto> getLstNecCurso();
      public List<RrhhNecesidadPuesto> getLstNecCursoDist();
     public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa();
+    public List<RrhhNecesidadPuesto> getLstAllNecesidadesPuesto();
      
     // ABC Solicitudes
     public RrhhSolicitudCapacitacion crearSolicitudDTC(RrhhSolicitudCapacitacion objeto); // registrar 

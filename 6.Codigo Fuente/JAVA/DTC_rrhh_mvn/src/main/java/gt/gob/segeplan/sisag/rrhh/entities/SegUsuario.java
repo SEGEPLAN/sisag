@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ludwin.ayala
  */
 @Entity
-@Table(name = "SEG_USUARIO", catalog = "", schema = "SCHE$SISAG")
+@Table(name = "SEG_USUARIO")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "SegUsuario.findAll", query = "SELECT s FROM SegUsuario s"),
@@ -82,7 +82,7 @@ public class SegUsuario implements Serializable {
     private List<SegSesion> segSesionList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "segUsuario", fetch = FetchType.EAGER)
     private List<SegRolUsuario> segRolUsuarioList;
-    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ID_PERSONA")
+    @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ADSCGEM$ID")
     @ManyToOne(fetch = FetchType.EAGER)
     private RrhhPersona idPersona;
 

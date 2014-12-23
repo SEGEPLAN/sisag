@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ludwin.ayala
  */
 @Entity
-@Table(name = "RRHH_TIPO_PUESTO", catalog = "", schema = "SCHE$SISAG")
+@Table(name = "RRHH_TIPO_PUESTO")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RrhhTipoPuesto.findAll", query = "SELECT r FROM RrhhTipoPuesto r"),
@@ -54,8 +54,7 @@ public class RrhhTipoPuesto implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idTipoPuesto", fetch = FetchType.EAGER)
-    private List<RrhhPersona> rrhhPersonaList;
+   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhTipoPuesto", fetch = FetchType.EAGER)
     private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
     
@@ -110,14 +109,7 @@ public class RrhhTipoPuesto implements Serializable {
         this.total = total;
     }
     
-    @XmlTransient
-    public List<RrhhPersona> getRrhhPersonaList() {
-        return rrhhPersonaList;
-    }
-
-    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
-        this.rrhhPersonaList = rrhhPersonaList;
-    }
+   
 
     @XmlTransient
     public List<RrhhNecesidadPuesto> getRrhhNecesidadPuestoList() {

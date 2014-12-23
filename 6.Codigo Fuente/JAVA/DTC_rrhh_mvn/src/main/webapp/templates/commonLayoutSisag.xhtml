@@ -58,15 +58,15 @@
                                         <p:commandLink id="cl_usr"  style="font-size: 25px; color: #326295;" >   
                                             <img src="/sisag_web/resources/images/32/personal_32.png" style="width: 28px; height: 28px;"/>
                                         </p:commandLink>
-                                        <p:spacer width="2" height="1"/>   
+                                        <p:spacer width="2" height="0"/>   
                                         <p:commandLink id="cl_out" action="#{seguridad.logout}" style="font-size: 25px; color: #326295;" >
                                             <img src="/sisag_web/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
                                         </p:commandLink>  
                                         <p:menu overlay="true" trigger="cl_usr" my="left top" at="left bottom">
-                                            <p:submenu label="#{sessionBean.objUsuario.nombre} - #{sessionBean.objUsuario.idPersona.idUnidad.nombre}" style="background: none!important; border: 0px!important; "> 
-                                                <p:menuitem value="Mi información"   icon="ui-icon-disk"/>  
+                                            <p:submenu label="#{sessionBean.objUsuario.nombre} #{seguridad.unidad.descripcion}" style="background: none!important; border: 0px!important; "> 
+                                                
                                                 <p:menuitem value="Cambiar Tema"  icon="ui-icon-arrowrefresh-1-w" oncomplete="PF('dlgTheme').show()" />  
-                                                <p:menuitem value="Ayuda"  icon="ui-icon-arrowrefresh-1-w"/>  
+                                                
                                                 <p:menuitem value="Acerca de"  icon="ui-icon-arrowrefresh-1-w"/>  
                                             </p:submenu>
                                         </p:menu>

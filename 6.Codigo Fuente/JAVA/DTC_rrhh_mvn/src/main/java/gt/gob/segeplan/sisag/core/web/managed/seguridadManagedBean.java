@@ -7,6 +7,7 @@ package gt.gob.segeplan.sisag.core.web.managed;
 import gt.gob.segeplan.sisag.core.web.implement.seguridadImplement;
 import gt.gob.segeplan.sisag.core.web.utils.aplicationBean;
 import gt.gob.segeplan.sisag.core.web.utils.themeCustomer;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPaginaAsignada;
@@ -94,7 +95,7 @@ public  class seguridadManagedBean implements Serializable{
     
     ResourceBundle datos = ResourceBundle.getBundle("SISAG");
     private String path;
-    
+    private RrhhUnidadAdministrativa unidad;
     
     // seguridad
     
@@ -137,6 +138,8 @@ public  class seguridadManagedBean implements Serializable{
         // captura del context path y URL
         HttpServletRequest ct = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         cp = ct.getContextPath() + ct.getServletPath();
+        
+        
     }
     
     public void relogin(){
@@ -237,7 +240,8 @@ public  class seguridadManagedBean implements Serializable{
 
                       //   5. SE SUBEN VARIABLES DE SESION DE USUARIO.
                         FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", u);
-                        usr = u.getIdUsuario(); 
+                        usr = u.getIdUsuario();
+                        unidad = u.getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin();
                          
                         //    6. SE TRAEN LOS ROLES Y PRIVILEGIOS DEL USUARIO
                         funciones_usr(u);
@@ -758,6 +762,29 @@ public  class seguridadManagedBean implements Serializable{
             return retval;
         }        
     }
+
+    public RrhhUnidadAdministrativa getUnidad() {
+        return unidad;
+    }
+
+    public void setUnidad(RrhhUnidadAdministrativa unidad) {
+        this.unidad = unidad;
+    }
     
+    
+    // imagenes galeria
+//     private List<String> images;
+//    
+//    public List<String> getImages() {
+//        if(images == null){
+//            images = new ArrayList<String>();
+//        for (int i = 1; i <= 3; i++) {
+//            images.add("segeplan" + i + ".jpg");
+//        }
+//        } 
+//        
+//        
+//        return images;
+//    }
     
 }

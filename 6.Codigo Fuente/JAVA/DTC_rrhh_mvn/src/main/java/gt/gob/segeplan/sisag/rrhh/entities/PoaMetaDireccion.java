@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ludwin.ayala
  */
 @Entity
-@Table(name = "POA_META_DIRECCION", catalog = "", schema = "SCHE$SISAG")
+@Table(name = "POA_META_DIRECCION")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "PoaMetaDireccion.findAll", query = "SELECT p FROM PoaMetaDireccion p"),

@@ -303,5 +303,13 @@ public class solicitudImplement implements solicitudController{
         Query q = em.createQuery("Select l from RrhhSolicitudCapacitacion l ");
         return q.getResultList();
     }
-           
+      
+   
+    @Override
+   public List<RrhhNecesidadPuesto> getLstAllNecesidadesPuesto() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhNecesidadPuesto l ");
+        return q.getResultList();
+    }
+   
 }

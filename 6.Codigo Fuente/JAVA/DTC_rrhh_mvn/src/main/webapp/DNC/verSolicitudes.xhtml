@@ -61,7 +61,7 @@
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                                      <pe:exporter type="xlsx" target="userTable" fileName="userTable" encoding="ISO-8859-1"
-                                                  tableTitle="#{sessionBean.objUsuario.idPersona.idUnidad.nombre} #{sessionBean.objUsuario.idPersona.idUnidad.descripcion}" 
+                                                  tableTitle="#{seguridad.unidad.descripcion}" 
                                                   facetBackground="#AAFFBB"  
                                                 datasetPadding="4"/>  
                                 </p:commandLink> 
@@ -77,11 +77,11 @@
                                 <p:rowToggler />
                             </p:column>
 
-                            <p:column sortBy="#{l.usrCrea.idPersona.idUnidad.nombre}" filterBy="#{l.usrCrea.idPersona.idUnidad.nombre}" >
+                            <p:column sortBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" filterBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
-                                <h:outputText value="#{l.usrCrea.idPersona.idUnidad.nombre}" />
+                                <h:outputText value="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" />
                             </p:column>
 
                             <p:column sortBy="#{l.rrhhNecesidadList.size()}" filterBy="#{l.rrhhNecesidadList.size()}">
