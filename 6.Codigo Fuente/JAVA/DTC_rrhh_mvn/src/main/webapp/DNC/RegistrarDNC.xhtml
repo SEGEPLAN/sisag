@@ -225,8 +225,15 @@
                                     </tr>
                                     <tr>
                                         <td colspan="3">
-                                    <p:selectOneMenu label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
-                                                      style="width: 340px;" 
+                                    <p:selectOneMenu id="temaEdit" label="Tema del Curso" value="#{solicitud.necesidadCapa.idTema}"  
+                                                      style="width: 340px;" converter="entityConverter" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
+                                                     >
+                                                <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                                <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso}" />
+                                            </p:selectOneMenu>
+                                    
+                                    <p:selectOneMenu id="temaNuevo" label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
+                                                      style="width: 340px;" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
                                                      >
                                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                                 <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />

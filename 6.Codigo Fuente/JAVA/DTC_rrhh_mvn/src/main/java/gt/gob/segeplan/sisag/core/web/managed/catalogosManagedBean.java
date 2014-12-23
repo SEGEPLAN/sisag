@@ -85,6 +85,7 @@ public  class catalogosManagedBean implements Serializable{
         Curso.setRestrictiva(1);
         lstCursos.add(psCat.crearTemaCurso(Curso));
         Curso = new RrhhTemaCurso();
+        createHorizontalBarModel(lstCursos);
 }
     
     public void editarCurso(){
@@ -92,6 +93,7 @@ public  class catalogosManagedBean implements Serializable{
         lstCursos = new ArrayList<RrhhTemaCurso>();
             lstCursos = psCat.getListTemaCurso();
              Curso = new RrhhTemaCurso();
+             createHorizontalBarModel(lstCursos);
         }
     
     public void eliminarCurso() {
@@ -119,13 +121,13 @@ public  class catalogosManagedBean implements Serializable{
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
     
-     private void createHorizontalBarModel() {
+     private void createHorizontalBarModel(List<RrhhTemaCurso> cursos) {
         horizontalBarModel = new HorizontalBarChartModel();
         ChartSeries curso = new ChartSeries();
-        for(RrhhTemaCurso t : lstCursos){
+        for(RrhhTemaCurso t : cursos){
             if(!t.getRrhhNecesidadList().isEmpty()){
                 curso.setLabel("Curso");
-                curso.set(t.getNombre().substring(0, 10), t.getRrhhNecesidadList().size());
+                curso.set(t.getNombre().substring(0, 6), t.getRrhhNecesidadList().size());
             }
         }
         horizontalBarModel.addSeries(curso);
@@ -154,9 +156,10 @@ public  class catalogosManagedBean implements Serializable{
            // Curso = new RrhhTemaCurso();
             lstCursos = new ArrayList<RrhhTemaCurso>();
             lstCursos = psCat.getListTemaCurso();
+             createHorizontalBarModel(lstCursos);
         }
             
-            createHorizontalBarModel();
+            
             
             
         return lstCursos;

@@ -62,9 +62,7 @@ public class RrhhTemaCurso implements Serializable {
     private int restrictiva;
     @OneToMany(mappedBy = "idTema", fetch = FetchType.EAGER)
     private List<RrhhNecesidad> rrhhNecesidadList;
-    @JoinColumn(name = "ID_META", referencedColumnName = "ID_META")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private PoaMeta idMeta;
+    
 
     public RrhhTemaCurso() {
     }
@@ -114,13 +112,7 @@ public class RrhhTemaCurso implements Serializable {
         this.rrhhNecesidadList = rrhhNecesidadList;
     }
 
-    public PoaMeta getIdMeta() {
-        return idMeta;
-    }
-
-    public void setIdMeta(PoaMeta idMeta) {
-        this.idMeta = idMeta;
-    }
+    
 
     @Override
     public int hashCode() {

@@ -70,8 +70,7 @@ public class PoaMeta implements Serializable {
     private GenUnidadMedida idUnidadMedida;
     @OneToMany(mappedBy = "idMeta", fetch = FetchType.EAGER)
     private List<GenSolicitudFinaciera> genSolicitudFinacieraList;
-    @OneToMany(mappedBy = "idMeta", fetch = FetchType.EAGER)
-    private List<RrhhTemaCurso> rrhhTemaCursoList;
+    
 
     public PoaMeta() {
     }
@@ -163,14 +162,7 @@ public class PoaMeta implements Serializable {
         this.genSolicitudFinacieraList = genSolicitudFinacieraList;
     }
 
-    @XmlTransient
-    public List<RrhhTemaCurso> getRrhhTemaCursoList() {
-        return rrhhTemaCursoList;
-    }
-
-    public void setRrhhTemaCursoList(List<RrhhTemaCurso> rrhhTemaCursoList) {
-        this.rrhhTemaCursoList = rrhhTemaCursoList;
-    }
+    
 
     @Override
     public int hashCode() {

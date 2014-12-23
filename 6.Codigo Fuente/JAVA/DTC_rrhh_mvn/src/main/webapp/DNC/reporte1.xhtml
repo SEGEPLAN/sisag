@@ -45,7 +45,12 @@
                                 <p:commandLink id="xls" ajax="false">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="xlsx" target="playersSubTable" fileName="Solicitudes" subTable="true"  />  
+                                    <pe:exporter type="xlsx" target="playersSubTable" fileName="Solicitudes" subTable="true"  
+                                                 facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
+                                                 encoding="ISO-8859-1"
+                                                 pageOnly="false"
+                                                 cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL"
+                                                 />  
 
                                 </p:commandLink>  
                             </f:facet>
