@@ -650,23 +650,17 @@ public  class solicitudManagedBean implements Serializable{
     public List<RrhhUnidadAdministrativa> getLstSolicitudesValidadas() {
          List<RrhhSolicitudCapacitacion> LstSolicitudesCapaAux = new ArrayList<RrhhSolicitudCapacitacion>();
          LstSolicitudesCapaAux = psSol.getLstAllSolicitudesCapa();
-         
          LstSolicitudesValidadas = new ArrayList<RrhhUnidadAdministrativa>();
-         if(LstUnidadesAdmin == null){
-          LstUnidadesAdmin = new ArrayList<RrhhUnidadAdministrativa>();
-            LstUnidadesAdmin = psSol.getLstUnidades();
-            }
+         getLstUnidadesAdmin();
+         
          if(!LstSolicitudesCapaAux.isEmpty())
         for(RrhhSolicitudCapacitacion sol : LstSolicitudesCapaAux){
             if(sol.getIdEstado().getId().intValue()==19){
+                LstUnidadesAdmin.remove(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
                 sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin().setSolicitudDNC(sol);
-                
                     LstSolicitudesValidadas.add(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
-                    LstUnidadesAdmin.remove(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
             }
         }
-         
-//         getLstSolicitudesCapa();
         return LstSolicitudesValidadas;
     }
 
@@ -675,8 +669,10 @@ public  class solicitudManagedBean implements Serializable{
     }
 
     public List<RrhhUnidadAdministrativa> getLstUnidadesAdmin() {
-         if(LstUnidadesAdmin == null)
-            LstUnidadesAdmin = new ArrayList<RrhhUnidadAdministrativa>();
+         if(LstUnidadesAdmin == null){
+             LstUnidadesAdmin = new ArrayList<RrhhUnidadAdministrativa>();
+         LstUnidadesAdmin = psSol.getLstUnidades();
+         }
         return LstUnidadesAdmin;
     }
 

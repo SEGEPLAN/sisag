@@ -36,13 +36,13 @@
 
                         <p:dataTable id="uniTable"  value="#{solicitud.lstSolicitudesValidadas}" style="width: 90%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen unidades actualmente" var="l" rowKey="#{l.idUnidadAdmin}" 
-                                     scrollable="true" scrollHeight="250"   >  
+                                     scrollable="true" scrollHeight="150"   >  
                             
                              <f:facet name="header">
                                                 <h:outputText value="Unidades que han creado solicitud" />
                                             </f:facet>
 
-                            <p:column sortBy="#{l.descripcion}" >
+                            <p:column sortBy="#{l.descripcion}" filterBy="#{l.descripcion}" >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
@@ -56,7 +56,7 @@
                                 <h:outputText value="#{l.solicitudDNC.fechaCrea}" />
                             </p:column >
                             
-                            <p:column >
+                            <p:column sortBy="#{l.solicitudDNC.rrhhNecesidadList.size()}">
                                 <f:facet name="header">
                                     <h:outputText value="Total de Necesidades" />
                                 </f:facet>
@@ -76,13 +76,13 @@
 
                         <p:dataTable id="unidadesTable"  value="#{solicitud.lstUnidadesAdmin}" style="width: 90%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen unidades actualmente" var="l" rowKey="#{l.idUnidadAdmin}" 
-                                     scrollable="true" scrollHeight="250"   >  
+                                     scrollable="true" scrollHeight="150"   >  
                             
                             <f:facet name="header">
                                                 <h:outputText value="Unidades faltantes" />
                                             </f:facet>
 
-                            <p:column sortBy="#{l.descripcion}" >
+                            <p:column sortBy="#{l.descripcion}" filterBy="#{l.descripcion}" >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
