@@ -67,6 +67,9 @@ public class RrhhSolicitudCapacitacion implements Serializable {
     private GenDominios idEstado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitudCapacitacion", fetch = FetchType.EAGER)
     private List<RrhhNecesidad> rrhhNecesidadList;
+    
+    @Column(name = "ANIO")
+    private int anio;
 
     public RrhhSolicitudCapacitacion() {
     }
@@ -113,6 +116,14 @@ public class RrhhSolicitudCapacitacion implements Serializable {
 
     public void setIdEstado(GenDominios idEstado) {
         this.idEstado = idEstado;
+    }
+
+    public int getAnio() {
+        return anio;
+    }
+
+    public void setAnio(int anio) {
+        this.anio = anio;
     }
 
     @XmlTransient

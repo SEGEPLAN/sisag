@@ -18,6 +18,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -44,6 +45,9 @@ public class RrhhUnidadAdministrativa implements Serializable {
     private String descripcion;
     @Column(name = "ADSCGDP$RESTRICTIVA")
     private String restrictiva;
+    
+    @Transient 
+    private RrhhSolicitudCapacitacion solicitudDNC;
     
     
     @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
@@ -118,6 +122,14 @@ public class RrhhUnidadAdministrativa implements Serializable {
 //    public void setRrhhPersonaList(List<RrhhPersona> rrhhPersonaList) {
 //        this.rrhhPersonaList = rrhhPersonaList;
 //    }
+
+    public RrhhSolicitudCapacitacion getSolicitudDNC() {
+        return solicitudDNC;
+    }
+
+    public void setSolicitudDNC(RrhhSolicitudCapacitacion solicitudDNC) {
+        this.solicitudDNC = solicitudDNC;
+    }
 
     
 }

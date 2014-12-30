@@ -12,6 +12,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -304,6 +305,21 @@ public class solicitudImplement implements solicitudController{
         return q.getResultList();
     }
       
+   
+   @Override
+   public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapaValid(int anio) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhSolicitudCapacitacion l WHERE l.anio=:anio AND l.idEstado.id = 19");
+         q.setParameter("anio",anio);
+        return q.getResultList();
+    }
+   
+   @Override
+   public List<RrhhUnidadAdministrativa> getLstUnidades() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhUnidadAdministrativa l ");
+        return q.getResultList();
+    }
    
     @Override
    public List<RrhhNecesidadPuesto> getLstAllNecesidadesPuesto() {

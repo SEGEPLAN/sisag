@@ -127,7 +127,16 @@ public  class catalogosManagedBean implements Serializable{
         for(RrhhTemaCurso t : cursos){
             if(!t.getRrhhNecesidadList().isEmpty()){
                 curso.setLabel("Curso");
-                curso.set(t.getNombre().substring(0, 6), t.getRrhhNecesidadList().size());
+                String[] palabra = t.getNombre().split(" ");
+                String nombre = "";
+                
+                if(palabra.length>2){
+                    nombre = palabra[0].toString()+" "+palabra[1].toString()
+                        +" "+palabra[2].toString();
+                }else{
+                    nombre = palabra[0].toString();
+                }
+                curso.set(nombre, t.getRrhhNecesidadList().size());
             }
         }
         horizontalBarModel.addSeries(curso);

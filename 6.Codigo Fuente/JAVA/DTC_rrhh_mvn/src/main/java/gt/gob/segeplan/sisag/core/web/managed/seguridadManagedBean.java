@@ -18,6 +18,8 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -271,7 +273,11 @@ public  class seguridadManagedBean implements Serializable{
                             HttpSession sesion = null;
                             sesion = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
                             sesion.setAttribute("usuario", u);
-
+                            
+                            solicitudManagedBean solMB = (solicitudManagedBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "solicitud");
+                            Date fecha = new Date();
+                             Calendar c = Calendar.getInstance();
+                            solMB.enviarFecha(c.get(Calendar.YEAR));
                         } catch (Exception e) {
                         }
                     } else {

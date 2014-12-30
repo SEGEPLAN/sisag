@@ -30,7 +30,7 @@
                  
                      <p:growl id="messages" showDetail="true"/>  
                     
-                     <p:accordionPanel multiple="true" activeIndex="0,1">
+                     <p:accordionPanel id="tablaDNC" multiple="true" activeIndex="0,1" rendered="#{solicitud.solicitudDTC.idEstado.id eq 18?'true':'false'}">
                          <p:tab closable="true" title="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
                             <h:panelGrid columns="2" cellpadding="0">
                             
@@ -50,7 +50,7 @@
                         </h:panelGrid>
                         </p:tab>
                         
-                        <p:tab title="Necesidades Detectadas" >
+                        <p:tab title="NECESIDADES DETECTADAS" >
                             <p:toolbar id="toolbarDTC">
                             <f:facet name="left">
                                  <p:commandButton id="cb_nuevo" icon="ui-icon-document"  
@@ -167,10 +167,64 @@
                                 <h:outputText value="#{l.totalHoras}" />
                             </p:column>
                         </p:dataTable> 
+                        <p:commandButton  id="cb_validar" value="Validar" actionListener="#{solicitud.validarSolicitud}"  
+                                       ajax="false" image="ui-icon ui-icon-disk" 
+                                       
+                                       update="resumenDNC tablaDNC"               />
                         </p:tab>
                     
                     </p:accordionPanel>
+                     
+                     
+                                        
 
+                     
+                     <p:accordionPanel id="resumenDNC" multiple="true" activeIndex="0,1" rendered="#{solicitud.solicitudDTC.idEstado.id eq 19?'true':'false'}">
+                         <p:tab closable="true" title="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
+                             
+                            <h:panelGrid >
+                                 
+                                
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <p:dataList value="#{solicitud.listNecesidades}" var="nece" type="ordered">
+                                    <f:facet name="header" >
+                                        Necesidades Detectadas
+                                    </f:facet>
+                                 <h:outputText value="#{nece.idTema.descripcion}" style="font-weight:bold"/>
+                                 -
+                                 <h:outputText value="#{nece.totalHoras} Horas" />
+                                  
+                                     
+                                    
+                                </p:dataList>
+                                    </p:column>
+                                    
+                                </p:row>
+                                <p:row >
+                                    <p:column >
+                                        <h:outputText value="VALIDADO POR: " style="font-weight:bold"/>
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.nombres}  #{solicitud.solicitudDTC.usrCrea.idPersona.apellidos} "/>
+                                    </p:column>
+                                </p:row>
+                                <p:row >
+                                    <p:column >
+                                        <h:outputText value="FECHA: " style="font-weight:bold"/>
+                                    </p:column>
+                                    <p:column >
+                                        <h:outputText value="#{solicitud.solicitudDTC.fechaCrea} "/>
+                                    </p:column>
+                                </p:row>
+                            
+                            </h:panelGrid>
+                             
+
+                         </p:tab>
+                     </p:accordionPanel>
+                     
+                     
 
                     <!-- **********************  DIALOG **********************    -->
 
@@ -181,56 +235,68 @@
                                     <tr>
                                         <td>
                                     <h:outputText value="Caracter:" /><br/>
-                                    <p:selectOneMenu label="Caracter" value="#{solicitud.necesidadCapa.idCaracter}"  converter="entityConverter"
+                                    <p:selectOneMenu id="sel_caracter" label="Caracter" value="#{solicitud.necesidadCapa.idCaracter}"  converter="entityConverter"
                                                      styleClass="styleBottom" 
                                                      style="width: 120px;">
                                         <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                         <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                     </p:selectOneMenu>
+                                    
+                                    <p:tooltip for ="sel_caracter" value="Es una categoría para establecer el tipo de necesidad, puede ser interna de la persona o externa de la Institución." />
+                                    
                                         </td> 
                                         <td>
                                             <h:outputText value="Nivel de conocimiento:" /><br/>
-                                            <p:selectOneMenu label="Nivel de Conocimiento" value="#{solicitud.necesidadCapa.idNivelConocimiento}"  
+                                            <p:selectOneMenu id="sel_nivel" label="Nivel de Conocimiento" value="#{solicitud.necesidadCapa.idNivelConocimiento}"  
                                                       style="width: 120px;" converter="entityConverter"
                                                      >
                                         <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                         <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                     </p:selectOneMenu>
+                                            <p:tooltip for ="sel_nivel" value="Establece la necesidad si es necesario que  se inicie con el tema de capacitación o es complemento del tema." />
                                         </td> 
                                             </tr>
                                             <tr>
                                         <td>
                                         <h:outputText  value="Prioridad de atencion:" /><br/>
-                                        <p:selectOneMenu label="Prioridad" value="#{solicitud.necesidadCapa.idPrioridad}"  
+                                        <p:selectOneMenu id="sel_prioridad" label="Prioridad" value="#{solicitud.necesidadCapa.idPrioridad}"  
                                                              style="width: 120px;" converter="entityConverter"
                                                              >
                                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                                 <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                             </p:selectOneMenu>
+                                        
+                                         <p:tooltip for ="sel_prioridad" value="El nivel de prioridad permite organizar el desarrollo de las capacitaciones en la duración, e importancia para las actividades a desarrollar en el transcurso del año." />
+                                        
                                         </td> 
                                         <td>
                                             <h:outputText  value="Disponibilidad:" /><br/>
-                                            <p:selectOneMenu label="Disponibilidad" value="#{solicitud.necesidadCapa.idDisponibilidad}"  
+                                            <p:selectOneMenu id="sel_dispo" label="Disponibilidad" value="#{solicitud.necesidadCapa.idDisponibilidad}"  
                                                       style="width: 120px;" converter="entityConverter"
                                                      >
                                         <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                         <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
                                     </p:selectOneMenu>
+                                                                                     <p:tooltip for ="sel_dispo" value="Establece la facilidad de los participantes ya sea por la mañana o por la tarde." />
                                         </td>
                                                 <td >
-                                            <h:outputText value="Duracion:" /><br/>
-                                    <h:inputText label="Duracion" value="#{solicitud.necesidadCapa.totalHoras}" 
+                                            <h:outputText value="Duracion (Horas):" /><br/>
+                                            <h:inputText id="in_duracion" label="Duracion" value="#{solicitud.necesidadCapa.totalHoras}" 
                                                   style="width: 50px;"/>
+                                    <p:tooltip for ="in_duracion" value="Ésta permite hacer una sugerencia del tiempo efectivo de capacitación del tema." />
                                         </td> 
                                     </tr>
                                     <tr>
                                         <td colspan="3">
+                                            <h:outputText value="Tema / Curso:" /><br/>
                                     <p:selectOneMenu id="temaEdit" label="Tema del Curso" value="#{solicitud.necesidadCapa.idTema}"  
                                                       style="width: 340px;" converter="entityConverter" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
                                                      >
-                                                <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                                <f:selectItem  itemValue="" itemLabel="Seleccionar Curso"  />
                                                 <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso}" />
                                             </p:selectOneMenu>
+                                    
+                                    <p:tooltip for="temaEdit" value="Establece el curso relacionado a la necesidad detectada." />
                                     
                                     <p:selectOneMenu id="temaNuevo" label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
                                                       style="width: 340px;" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
@@ -238,7 +304,7 @@
                                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                                 <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />
                                             </p:selectOneMenu>
-                                    
+                                    <p:tooltip for="temaNuevo" value="Establece el curso relacionado a la necesidad detectada." />
                                         </td>
                                     </tr>
                                     <tr>
@@ -255,8 +321,8 @@
                                     
                                     <tr>
                                         <td colspan="3">
-                                             <h:outputText value="Participantes" /><br/>
-                                            <p:dataTable  var="pNec" value="#{solicitud.lstTipoPuesto}" editable="true" editMode="cell" widgetVar="tipo">
+                                             <h:outputText id="necPuestos" value="Participantes:" /><br/>
+                                             <p:dataTable   var="pNec" value="#{solicitud.lstTipoPuesto}" editable="true" editMode="cell" widgetVar="tipo">
                                                             <p:column headerText="Tipo Empleado">
                                                                    <h:outputText value="#{pNec.nombre}" />
                                                                </p:column>
@@ -268,6 +334,8 @@
                                                                 </p:cellEditor>
                                                             </p:column>
                                              </p:dataTable>
+                                             
+                                             <p:tooltip for="necPuestos"  value="Se establece el numero de participantes según el tipo de puesto." />
                                         </td>
                                     </tr>
                                     

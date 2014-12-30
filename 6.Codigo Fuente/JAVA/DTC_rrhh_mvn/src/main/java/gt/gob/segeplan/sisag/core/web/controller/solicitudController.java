@@ -11,6 +11,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import java.util.List;
 
 public interface solicitudController {
@@ -29,7 +30,10 @@ public interface solicitudController {
      public List<RrhhNecesidadPuesto> getLstNecCurso();
      public List<RrhhNecesidadPuesto> getLstNecCursoDist();
     public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa();
+    public List<RrhhUnidadAdministrativa> getLstUnidades();
     public List<RrhhNecesidadPuesto> getLstAllNecesidadesPuesto();
+    
+     public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapaValid(int anio);
      
     // ABC Solicitudes
     public RrhhSolicitudCapacitacion crearSolicitudDTC(RrhhSolicitudCapacitacion objeto); // registrar 

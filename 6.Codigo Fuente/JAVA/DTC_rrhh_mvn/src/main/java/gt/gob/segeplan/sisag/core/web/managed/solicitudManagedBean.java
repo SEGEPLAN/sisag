@@ -18,6 +18,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -51,6 +52,11 @@ public  class solicitudManagedBean implements Serializable{
     // listados
     private List<RrhhSolicitudCapacitacion> solicitudesDTC;
     private List<RrhhSolicitudCapacitacion> LstSolicitudesCapa;
+    
+    
+    private List<RrhhUnidadAdministrativa> LstSolicitudesValidadas;
+    private List<RrhhUnidadAdministrativa> LstUnidadesAdmin;
+    
     private List<RrhhNecesidadPuesto> necPuesto;
     private List<RrhhNecesidad> ListNecesidades;
     
@@ -75,6 +81,7 @@ public  class solicitudManagedBean implements Serializable{
 
      private GenDominios creado;
      private GenDominios validado;
+     private GenDominios enviado;
      private GenDominios editado;
 
     // objetos
@@ -87,6 +94,7 @@ public  class solicitudManagedBean implements Serializable{
     private RrhhUnidadAdministrativa unidad;
     private int totalUnidad;
     private int idTemaCurso;
+    private int fecha;
    
 
 
@@ -103,11 +111,12 @@ public  class solicitudManagedBean implements Serializable{
         necesidadCapa = new RrhhNecesidad();
         necesidadCapaAux = new RrhhNecesidad();
 
-        refreshUsr();
         
-        if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty())
-            solicitudDTCcreada = usuario.getRrhhSolicitudCapacitacionList().get(0);
+        //getLstEstado();
         
+//        if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty()){
+//            solicitudDTCcreada = usuario.getRrhhSolicitudCapacitacionList().get(0);
+//        }
         unidad = usuario.getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin();
        for(RrhhUnidadPersona up: unidad.getRrhhUnidadPersonaList()){
            if(up.getRestrictiva().contentEquals("N")){
@@ -119,7 +128,42 @@ public  class solicitudManagedBean implements Serializable{
 
     // METODOS
     
+    public void enviarFecha(int fechaRecibida){
+        fecha = fechaRecibida;
+        Calendar c = Calendar.getInstance();
+        //refreshUsr();
+        getLstEstado();
+        if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty()){
+            solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+            solicitudDTC = solicitudDTCcreada;
+        }else{
+            solicitudDTC = new RrhhSolicitudCapacitacion();
+            solicitudDTC.setFechaCrea(new Date());
+            solicitudDTC.setIdEstado(creado);
+            solicitudDTC.setUsrCrea(usuario);
+            solicitudDTC.setAnio(c.get(Calendar.YEAR));
+            solicitudDTC.setRestrictiva(Character.MIN_VALUE);
+            //solicitudDTCcreada = psSol.crearSolicitudDTC(solicitudDTC);
+            //necesidadCapa.setIdSolicitudCapacitacion(solicitudDTCcreada);
+        
+        }
+    }
     
+    
+    public RrhhSolicitudCapacitacion devuelveSolicitud(List<RrhhSolicitudCapacitacion> listado){
+        RrhhSolicitudCapacitacion auxSol = new RrhhSolicitudCapacitacion();
+        for(RrhhSolicitudCapacitacion sc : listado){
+                if(sc.getAnio() == fecha){
+                    auxSol = sc;
+                }else{
+                    auxSol = new RrhhSolicitudCapacitacion();
+                }
+            }
+        return auxSol;
+    
+    }
+            
+            
      public void navegar(String url) {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         seguridadManagedBean nmb = (seguridadManagedBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "seguridad");
@@ -176,10 +220,14 @@ public  class solicitudManagedBean implements Serializable{
     }
     
     public void guardarNecDTC(){
+        Calendar c = Calendar.getInstance();
         
         if(solicitudDTCcreada.getIdSolicitudCapacitacion()==null){
             solicitudDTC.setFechaCrea(new Date());
+            solicitudDTC.setIdEstado(creado);
+            solicitudDTC.setAnio(c.get(Calendar.YEAR));
             solicitudDTC.setRestrictiva(Character.MIN_VALUE);
+            solicitudDTC.setUsrCrea(usuario);
             solicitudDTCcreada = psSol.crearSolicitudDTC(solicitudDTC);
             necesidadCapa.setIdSolicitudCapacitacion(solicitudDTCcreada);
         }
@@ -222,10 +270,15 @@ public  class solicitudManagedBean implements Serializable{
                     }
         
         necesidadCapa.setRrhhNecesidadPuestoList(lstNecPuesto);
+        
         psSol.editarNecSol(necesidadCapa);
         ListNecesidades.add(necesidadCapa);
        refreshUsr();
        getCatCursos();
+       
+       solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+            solicitudDTC = solicitudDTCcreada;
+       
        necesidadCapa = new RrhhNecesidad();
        idTemaCurso = 0;
         
@@ -271,7 +324,10 @@ public  class solicitudManagedBean implements Serializable{
         psSol.editarNecSol(necesidadCapa);
         ListNecesidades = new ArrayList<RrhhNecesidad>();
         refreshUsr();
-        ListNecesidades = usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList();
+        solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+            solicitudDTC = solicitudDTCcreada;
+        
+        ListNecesidades = solicitudDTCcreada.getRrhhNecesidadList();
         getCatCursos();
         
 }
@@ -302,7 +358,27 @@ public  class solicitudManagedBean implements Serializable{
     }
     
      
-   
+    public void validarSolicitud() {
+          FacesMessage msg = null;
+        
+//        solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+        solicitudDTCcreada.setIdEstado(validado);
+        solicitudDTCcreada.setUsrCrea(usuario);
+        solicitudDTCcreada.setFechaCrea(new Date());
+        psSol.editarSolicitudDTC(solicitudDTCcreada);
+        //solicitudDTC = solicitudDTCcreada;
+         msg = new FacesMessage(FacesMessage.SEVERITY_INFO," Se envio la solicitud ", "Exitosamente");
+         FacesContext.getCurrentInstance().addMessage(null, msg);
+         
+         refreshUsr();
+         solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+            solicitudDTC = solicitudDTCcreada;
+            
+         navegar("solicitudEnviada.xhtml");
+    }
+    
+    
+    
     public void downloadPDF(){
     Map hm = new HashMap();
 
@@ -337,9 +413,12 @@ public  class solicitudManagedBean implements Serializable{
     
     // GETTER Y SETTER
     public List<RrhhSolicitudCapacitacion> getSolicitudesDTC() {
-        if(solicitudesDTC == null)
+        if(solicitudesDTC == null){
             solicitudesDTC = new ArrayList<RrhhSolicitudCapacitacion>();
+            getLstEstado();
+        }
         solicitudesDTC = psSol.getListSolicitudDTC_byUsr(0, usuario.getIdUsuario().intValue());
+        
         return solicitudesDTC;
     }
 
@@ -349,7 +428,13 @@ public  class solicitudManagedBean implements Serializable{
 
     public RrhhSolicitudCapacitacion getSolicitudDTC() {
         solicitudDTC.setUsrCrea(usuario);
-
+        solicitudDTC = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+        if(solicitudDTC.getIdSolicitudCapacitacion()==null){
+            solicitudDTC.setUsrCrea(usuario);
+            solicitudDTC.setIdEstado(creado);
+            
+        }
+        
         return solicitudDTC;
     }
 
@@ -393,15 +478,25 @@ public  class solicitudManagedBean implements Serializable{
 
     public List<GenDominios> getLstEstado() {
         if(lstEstado == null){
+            creado = new GenDominios();
+            enviado = new GenDominios();
+            validado = new GenDominios();
+            editado = new GenDominios();
+            
             lstEstado = new ArrayList<GenDominios>();
             lstEstado = psSol.getLstCatalogo(17);
 
-            creado = new GenDominios();
             for (GenDominios estado : lstEstado) {
                 if(estado.getId().intValue()==18){
                     creado = estado;
                 }
-                if(estado.getId().intValue()==21){
+                if(estado.getId().intValue()==19){
+                    validado = estado;
+                }
+                if(estado.getId().intValue()==20){
+                    enviado = estado;
+                }
+                 if(estado.getId().intValue()==21){
                     editado = estado;
                 }
             }
@@ -472,7 +567,7 @@ public  class solicitudManagedBean implements Serializable{
             ListNecesidades = new ArrayList<RrhhNecesidad>();
              }
             if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty() &&  !usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList().isEmpty()){
-                ListNecesidades = usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList();
+                ListNecesidades = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList()).getRrhhNecesidadList();
             }
         return ListNecesidades;
     }
@@ -489,7 +584,7 @@ public  class solicitudManagedBean implements Serializable{
          }
             catCursos = psSol.getLstCursosDNC();
             if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty()){
-            for(RrhhNecesidad n : usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList()){
+            for(RrhhNecesidad n : devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList()).getRrhhNecesidadList()){
                 catCursos.remove(n.getIdTema());
                 }
             }
@@ -530,9 +625,12 @@ public  class solicitudManagedBean implements Serializable{
     }
 
     public List<RrhhSolicitudCapacitacion> getLstSolicitudesCapa() {
-        if(LstSolicitudesCapa == null)
+        if(LstSolicitudesCapa == null){
             LstSolicitudesCapa = new ArrayList<RrhhSolicitudCapacitacion>();
-        LstSolicitudesCapa = psSol.getLstAllSolicitudesCapa();
+            
+        }
+        LstSolicitudesCapa = psSol.getLstAllSolicitudesCapaValid(fecha);
+
         
         return LstSolicitudesCapa;
     }
@@ -547,6 +645,43 @@ public  class solicitudManagedBean implements Serializable{
 
     public void setTotalUnidad(int totalUnidad) {
         this.totalUnidad = totalUnidad;
+    }
+
+    public List<RrhhUnidadAdministrativa> getLstSolicitudesValidadas() {
+         List<RrhhSolicitudCapacitacion> LstSolicitudesCapaAux = new ArrayList<RrhhSolicitudCapacitacion>();
+         LstSolicitudesCapaAux = psSol.getLstAllSolicitudesCapa();
+         
+         LstSolicitudesValidadas = new ArrayList<RrhhUnidadAdministrativa>();
+         if(LstUnidadesAdmin == null){
+          LstUnidadesAdmin = new ArrayList<RrhhUnidadAdministrativa>();
+            LstUnidadesAdmin = psSol.getLstUnidades();
+            }
+         if(!LstSolicitudesCapaAux.isEmpty())
+        for(RrhhSolicitudCapacitacion sol : LstSolicitudesCapaAux){
+            if(sol.getIdEstado().getId().intValue()==19){
+                sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin().setSolicitudDNC(sol);
+                
+                    LstSolicitudesValidadas.add(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
+                    LstUnidadesAdmin.remove(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
+            }
+        }
+         
+//         getLstSolicitudesCapa();
+        return LstSolicitudesValidadas;
+    }
+
+    public void setLstSolicitudesValidadas(List<RrhhUnidadAdministrativa> LstSolicitudesValidadas) {
+        this.LstSolicitudesValidadas = LstSolicitudesValidadas;
+    }
+
+    public List<RrhhUnidadAdministrativa> getLstUnidadesAdmin() {
+         if(LstUnidadesAdmin == null)
+            LstUnidadesAdmin = new ArrayList<RrhhUnidadAdministrativa>();
+        return LstUnidadesAdmin;
+    }
+
+    public void setLstUnidadesAdmin(List<RrhhUnidadAdministrativa> LstUnidadesAdmin) {
+        this.LstUnidadesAdmin = LstUnidadesAdmin;
     }
 
     public List<RrhhNecesidadPuesto> getLstNecesidadesPuesto() {
