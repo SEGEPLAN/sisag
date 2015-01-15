@@ -14,6 +14,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -21,6 +22,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.TableGenerator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -50,7 +52,11 @@ public class SegUsuario implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Column(name = "ID_USUARIO")
+    @Column(name = "ID_USUARIO", nullable = false)
+    @GeneratedValue(generator = "SEG_USUARIO_GEN")
+    @TableGenerator(name = "SEG_USUARIO_GEN", table = "SECUENCIAS",
+            pkColumnName = "ID", valueColumnName = "VALOR",
+            pkColumnValue = "SEG_USUARIO", allocationSize = 1)
     private BigDecimal idUsuario;
     @Size(max = 50)
     @Column(name = "NOMBRE")
@@ -65,7 +71,7 @@ public class SegUsuario implements Serializable {
     @Column(name = "RESPUESTA")
     private String respuesta;
     @Column(name = "ESTADO")
-    private Character estado;
+    private int estado;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Correo electrónico no válido")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 100)
     @Column(name = "EMAIL")
@@ -133,11 +139,11 @@ public class SegUsuario implements Serializable {
         this.respuesta = respuesta;
     }
 
-    public Character getEstado() {
+    public int getEstado() {
         return estado;
     }
 
-    public void setEstado(Character estado) {
+    public void setEstado(int estado) {
         this.estado = estado;
     }
 

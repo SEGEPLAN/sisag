@@ -7,149 +7,188 @@
       xmlns:ui="http://java.sun.com/jsf/facelets">
 
 
-        <h:head>
-            <title>
-                <ui:insert name="nombreModulo">Bienvenido</ui:insert> :: <ui:insert name="nombrePagina">Nombre Pagina</ui:insert>
-            </title>
-        </h:head>
+    <h:head>
+        <title>
+            <ui:insert name="nombreModulo">Bienvenido</ui:insert> :: <ui:insert name="nombrePagina">Nombre Pagina</ui:insert>
+        </title>
+    </h:head>
 
-        <h:body>  
+    <h:body>  
 
-            <p:layout fullPage="true">
+        <p:layout fullPage="true">
 
-                <p:layoutUnit position="north" size="80"  resizable="false" closable="false" collapsible="false"
-                              style=" border-style: hidden !important; padding: 0px; "
-                              >
-                    <ui:insert name="menu">
-                        <h:form>
-                            <div class="main-container">
-                                <table width="100%" class="mainmenu" style="border-style: hidden !important"  >
-                                    <tr>
-                                        <td>
-                                    <h:panelGrid id="pg_logo" onclick="PF('fpLayoutWidget').toggle('center_west')">                                            
-                                        <div align="left" style="width: 100px;">
-                                            <img src="/sisag_web/resources/images/LogIn/logoSEGEPLAN.png" style="width: 90px; height: 50px;" />
-                                        </div>
-
-                                    </h:panelGrid>
-                                    </td>
+            <p:layoutUnit position="north" size="100"  resizable="false" closable="false" collapsible="false"
+                          style=" border-style: hidden !important; padding: 0px; "
+                          >
+                <ui:insert name="menu">
+                    <h:form>
+                        <div class="main-container">
+                            <table width="100%" class="mainmenu" style="border-style: hidden !important"  >
+                                <tr>
                                     <td>
+                                <h:panelGrid id="pg_logo" onclick="PF('fpLayoutWidget').toggle('center_west')">                                            
+                                    <div align="left" style="width: 100px;">
+                                        <img src="/sisag/resources/images/LogIn/logoSEGEPLAN.png" style="width: 90px; height: 50px;" />
+                                        <div><b>SISTEMA DNC</b></div> 
+                                    </div>
+
+                                </h:panelGrid>
+                                </td>
+                                <td>
 
 
-                                        <div class="mainmenu">
-                                           <ul>
-                                               <p:commandLink id="inicio" action="#{seguridad.navegar('Inicio.xhtml')}" ajax="true" >
-                                           <li>
-                                           <i>
-                                               <img src="/sisag_web/resources/images/frontEnd/home.png" style="width: 30px; height: 30px;"/>
-                                           </i>&nbsp;
-                                               <main>Inicio</main>
-                                           <desc>Ir al inicio</desc>
-                                               </li> 
-                                                   </p:commandLink>
-                                                
-                                                <li><i><img src="/sisag_web/resources/images/frontEnd/ayuda.png" style="width: 28px; height: 28px;"/></i>&nbsp;<main>Ayuda</main><desc>Temas de ayuda</desc></li>
-                                            </ul>
-                                        </div>
-                                    </td>
-                                    <td align="right" style="padding: 5px">
-                                     <div align="">
+                                    <div class="mainmenu">
+                                        <ul>
+                                            <p:commandLink id="inicio" action="#{seguridad.navegar('Inicio.xhtml')}" ajax="true" >
+                                                <li>
+                                                    <i>
+                                                        <img src="/sisag/resources/images/frontEnd/home.png" style="width: 30px; height: 30px;"/>
+                                                    </i>&nbsp;
+                                                <main>Inicio</main>
+                                                <desc>Ir al inicio</desc>
+                                                </li> 
+                                            </p:commandLink>
+
+                                            <li><i><img src="/sisag/resources/images/frontEnd/ayuda.png" style="width: 28px; height: 28px;"/>
+                                                </i>&nbsp;<main>Ayuda</main>
+                                            <desc><h:outputLink value="mailto:francisco.rodas@segeplan.gob.gt">
+                                                    <f:param name="subject" value="DNC Ayuda" />
+                                                    <f:param name="body" value="Asunto" />
+                                                    
+                                                    <h:outputText value="Enviar Correo"  style="color: #EFEFEF;"/>
+                                                </h:outputLink>
+                                            </desc>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                <td align="right" style="padding: 5px">
+                                    <div align="">
                                         <!-- Usuario: -->
                                         <p:commandLink id="cl_usr"  style="font-size: 25px; color: #326295;" >   
-                                            <img src="/sisag_web/resources/images/32/personal_32.png" style="width: 28px; height: 28px;"/>
+                                            <img src="/sisag/resources/images/32/personal_32.png" style="width: 40px; height: 28px;"/>
                                         </p:commandLink>
-                                        <p:spacer width="2" height="0"/>   
+                                          
                                         <p:commandLink id="cl_out" action="#{seguridad.logout}" style="font-size: 25px; color: #326295;" >
-                                            <img src="/sisag_web/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
+                                            <img src="/sisag/resources/images/32/door_out_32.png" style="width: 40px; height: 28px;"/>
                                         </p:commandLink>  
                                         <p:menu overlay="true" trigger="cl_usr" my="left top" at="left bottom">
-                                            <p:submenu label="#{sessionBean.objUsuario.nombre} #{seguridad.unidad.descripcion}" style="background: none!important; border: 0px!important; "> 
-                                                
+                                            <p:submenu label="#{sessionBean.objUsuario.idPersona.nombres} #{seguridad.unidad.descripcion}" style="background: none!important; border: 0px!important; "> 
+
                                                 <p:menuitem value="Cambiar Tema"  icon="ui-icon-arrowrefresh-1-w" oncomplete="PF('dlgTheme').show()" />  
-                                                
-                                                <p:menuitem value="Acerca de"  icon="ui-icon-arrowrefresh-1-w"/>  
+
+                                                <p:menuitem value="Acerca de"  icon="ui-icon-arrowrefresh-1-w" oncomplete="PF('dlgAcerca').show()"/>  
                                             </p:submenu>
                                         </p:menu>
                                         <p:tooltip for="cl_out" value="Salir"/>
                                     </div>
 
-                                    </td>
+                                </td>
 
-                                    </tr>
-                                </table>
-                            </div>
-                        </h:form>
-                        <!--<div style="height: 7px; background: #E2E2E2;"/>-->
-                        <div class="backgroundLine" />
-                    </ui:insert>
-                </p:layoutUnit>
+                                </tr>
+                            </table>
+                        </div>
+                    </h:form>
+                    <!--<div style="height: 7px; background: #E2E2E2;"/>-->
+                    <div class="backgroundLine" />
+                </ui:insert>
+            </p:layoutUnit>
 
-                <p:layoutUnit position="south" size="60" resizable="false" closable="false" collapsible="false">
-                    <!--div align="center" style="width: 100%; height: 100%;">
-                        <img src="/sisag_web/resources/images/footer.png" style="width: 100%; height: 100%;" />
-                    </div-->
-                    <div align="center" style="width: 100%; height: 100%;">
-                        <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
-                    </div>         
-                    
-                </p:layoutUnit>
+            <p:layoutUnit position="south" size="60" resizable="false" closable="false" collapsible="false">
+                <!--div align="center" style="width: 100%; height: 100%;">
+                    <img src="/sisag/resources/images/footer.png" style="width: 100%; height: 100%;" />
+                </div-->
+                <div align="center" style="width: 100%; height: 100%;">
+                    <p:clock pattern="HH:mm:ss dd.MM.yyyy" mode="server" />
 
-                <p:layoutUnit position="west"  size="243" resizable="false" closable="false" collapsible="false"
-                              style="height: 95% !important;  width:230px !important; border-style: hidden !important; background-color: #EFEFEF;" 
-                              >
-                    <ui:insert name="panelMenu">                                        
-                        <ui:include src="menuPanel.xhtml"></ui:include>
-                    </ui:insert>
-                </p:layoutUnit>
+                </div>         
 
-                <!--p:layoutUnit position="east" size="200" resizable="false" closable="false" collapsible="false">
-                     <ui:insert name="panelAvisos">                                        
-                                        <ui:include src="noticesPanel.xhtml"></ui:include>
-                                    </ui:insert>
-                </p:layoutUnit-->
+            </p:layoutUnit>
 
-                <p:layoutUnit position="center">
-                    <ui:insert name="stpes"></ui:insert>
-                    <ui:insert name="sectionTitle">Contenido</ui:insert>
-                    <ui:insert name="content">
-                        contenido
-                    </ui:insert>
-                </p:layoutUnit>
+            <p:layoutUnit position="west"  size="243" resizable="false" closable="false" collapsible="false"
+                          style="height: 95% !important;  width:250px !important; border-style: hidden !important; background-color: #EFEFEF;" 
+                          >
+                <ui:insert name="panelMenu">                                        
+                    <ui:include src="menuPanel.xhtml"></ui:include>
+                </ui:insert>
+            </p:layoutUnit>
 
-            </p:layout>
+            <!--p:layoutUnit position="east" size="200" resizable="false" closable="false" collapsible="false">
+                 <ui:insert name="panelAvisos">                                        
+                                    <ui:include src="noticesPanel.xhtml"></ui:include>
+                                </ui:insert>
+            </p:layoutUnit-->
 
-            <p:idleMonitor timeout="1800000"   
-                           onactive="idleDialog.show()"  onidle="idleDialog.hide()"/>  
-            <h:form id="caduca">
-                <p:dialog header="Sesión Caducada" resizable="false"  modal="true"  closable="false" 
-                          widgetVar="idleDialog"  width="400">  
-                    <p:outputLabel id="caduc" value="Su sesión ha caducado, por favor vuelva a acceder al SINAF" />
+            <p:layoutUnit position="center">
+                
+                <ui:insert name="sectionTitle">Contenido</ui:insert>
+                <ui:insert name="content">
+                    contenido
+                </ui:insert>
+            </p:layoutUnit>
 
-                    <p:commandLink id="cl_out" action="#{seguridad.logout}" style="font-size: 25px; color: #326295;" >
-                        <img src="/sinaf/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
-                    </p:commandLink> 
-                    <p:ajax listener="#{usuarios.logout}" immediate="true" />
+        </p:layout>
 
-                </p:dialog>
-            </h:form>
+        <p:idleMonitor timeout="1800000"   
+                       onactive="idleDialog.show()"  onidle="idleDialog.hide()"/>  
+        <h:form id="caduca">
+            <p:dialog header="Sesión Caducada" resizable="false"  modal="true"  closable="false" 
+                      widgetVar="idleDialog"  width="400">  
+                <p:outputLabel id="caduc" value="Su sesión ha caducado, por favor vuelva a acceder al SINAF" />
 
-        </h:body>
+                <p:commandLink id="cl_out" action="#{seguridad.logout}" style="font-size: 25px; color: #326295;" >
+                    <img src="/sinaf/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
+                </p:commandLink> 
+                <p:ajax listener="#{usuarios.logout}" immediate="true" />
 
-<h:form id="formtema" >
-     <p:dialog header="Seleccionar Tema" widgetVar="dlgTheme" 
-               modal="true" closable="true"
-               showEffect="bounce" hideEffect="bounce" 
-               width="320" height="80">  
-     <h:panelGrid columns="2">
+            </p:dialog>
+        </h:form>
 
-         <p:selectOneMenu  value="#{cambiadorTemas.tema}" >
-            <f:selectItems value="#{cambiadorTemas.themes}" />
-          </p:selectOneMenu> 
-          <p:commandButton value="Cambiar" action="#{cambiadorTemas.cambiar}" ajax="false"/>
-   </h:panelGrid>
-  </p:dialog>
+    </h:body>
 
-</h:form>
+    <p:dialog header="Acerca de" widgetVar="dlgAcerca" 
+              modal="true" closable="true" resizable="false"
+                  showEffect="bounce" hideEffect="bounce" 
+                  width="410" height="200">  
+        <h:panelGrid columns="2" style="alignment-adjust: central">
+            <table align="center">
+                <tr>
+                    <td>
+                        <img src="/sisag/resources/images/LogIn/logoSEGEPLAN.png" style="width: 90px; height: 50px;" />
+                                        <b>SISTEMA DNC</b>
+                    </td>
+                    <td>
+                       Sistema de Detección de Necesidades de Capacitacion Version 1.0.
+                    </td>
+                </tr>
+            </table>
+                
+                
+                 <br/><br/>  
+               
+                Desarrollado por <br/> 
+                Ing. Ludwin René Ayala Sánchez<br/> 
+                DIRECCION DE INFORMATICA
+              </h:panelGrid>  
+        </p:dialog>
+    
+    
+    <h:form id="formtema" >
+        <p:dialog header="Seleccionar Tema" widgetVar="dlgTheme" 
+                  modal="true" closable="true" resizable="false"
+                  showEffect="bounce" hideEffect="bounce" 
+                  width="320" height="80">  
+            <h:panelGrid columns="2">
 
+                <p:selectOneMenu  value="#{cambiadorTemas.tema}" >
+                    <f:selectItems value="#{cambiadorTemas.themes}" />
+                </p:selectOneMenu> 
+                <p:commandButton value="Cambiar" action="#{cambiadorTemas.cambiar}" ajax="false"/>
+            </h:panelGrid>
+        </p:dialog>
 
+            
+
+    </h:form>
+    
 </html>

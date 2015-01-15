@@ -54,7 +54,7 @@ public class SegRol implements Serializable {
     @Column(name = "DESCRIPCION")
     private String descripcion;
     @Column(name = "RESTRICTIVA")
-    private Character restrictiva;
+    private int restrictiva;
     @OneToMany(mappedBy = "idRol", fetch = FetchType.EAGER)
     private List<SegPaginaAsignada> segPaginaAsignadaList;
     @JoinColumn(name = "ID_UNIDAD_ADMIN", referencedColumnName = "ADSCGDP$ID")
@@ -94,11 +94,11 @@ public class SegRol implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public Character getRestrictiva() {
+    public int getRestrictiva() {
         return restrictiva;
     }
 
-    public void setRestrictiva(Character restrictiva) {
+    public void setRestrictiva(int restrictiva) {
         this.restrictiva = restrictiva;
     }
 

@@ -58,7 +58,8 @@ public class RrhhPersona implements Serializable {
     @Column(name = "ADSCGEM$EMAIL_1")
     private String correoElectronico;
     
-    
+    @Column(name = "ADSCGEM$RESTRICTIVA")
+    private String restrictiva;
     
     @Column(name = "ADSCGEM$SEXO")
     private int sexo;
@@ -75,9 +76,12 @@ public class RrhhPersona implements Serializable {
     private List<SegUsuario> segUsuarioList;
     
     
-    @OneToOne(mappedBy = "rrhhPersona", fetch = FetchType.EAGER)
-    private RrhhUnidadPersona rrhhUnidadPersonaList;
+    @OneToMany(mappedBy = "rrhhPersona", fetch = FetchType.EAGER)
+    private List<RrhhUnidadPersona> rrhhUnidadPersonas;
     
+    
+    @Transient 
+    private RrhhUnidadPersona rrhhUnidadPersonaList;
     
 
     public RrhhPersona() {
@@ -159,11 +163,18 @@ public class RrhhPersona implements Serializable {
         this.userIdIng = userIdIng;
     }
 
+    public String getRestrictiva() {
+        return restrictiva;
+    }
+
+    public void setRestrictiva(String restrictiva) {
+        this.restrictiva = restrictiva;
+    }
+
     
     
 
     public RrhhUnidadPersona getRrhhUnidadPersonaList() {
-        
         return rrhhUnidadPersonaList;
     }
 
@@ -171,6 +182,25 @@ public class RrhhPersona implements Serializable {
         this.rrhhUnidadPersonaList = rrhhUnidadPersonaList;
     }
 
+    
+    public List<RrhhUnidadPersona> getRrhhUnidadPersonas() {
+        if(rrhhUnidadPersonaList==null){
+        for(RrhhUnidadPersona r: rrhhUnidadPersonas){
+            if(r.getRestrictiva().contains("N")){
+                rrhhUnidadPersonaList = r;
+            }
+         }
+        }
+        return rrhhUnidadPersonas;
+    }
+
+    public void setRrhhUnidadPersonas(List<RrhhUnidadPersona> rrhhUnidadPersonas) {
+        this.rrhhUnidadPersonas = rrhhUnidadPersonas;
+    }
+
+    
+    
+    
     @XmlTransient
     public List<SegUsuario> getSegUsuarioList() {
         return segUsuarioList;

@@ -36,7 +36,7 @@ public class SegRolUsuario implements Serializable {
     @EmbeddedId
     protected SegRolUsuarioPK segRolUsuarioPK;
     @Column(name = "RESTRICTIVA")
-    private Character restrictiva;
+    private int restrictiva;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO", insertable = false, updatable = false)
     @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private SegUsuario segUsuario;
@@ -63,11 +63,11 @@ public class SegRolUsuario implements Serializable {
         this.segRolUsuarioPK = segRolUsuarioPK;
     }
 
-    public Character getRestrictiva() {
+    public int getRestrictiva() {
         return restrictiva;
     }
 
-    public void setRestrictiva(Character restrictiva) {
+    public void setRestrictiva(int restrictiva) {
         this.restrictiva = restrictiva;
     }
 

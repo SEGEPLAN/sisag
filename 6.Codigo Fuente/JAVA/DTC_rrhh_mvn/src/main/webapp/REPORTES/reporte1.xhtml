@@ -38,7 +38,9 @@
                                 <p:commandLink id="pdf" ajax="false">  
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="pdf" target="playersSubTable" fileName="Solicitudes" subTable="true"/>  
+                                    <pe:exporter type="pdf" facetBackground="#38B0DE" 
+                                                 
+                                                 target="playersSubTable" fileName="Solicitudes" subTable="true"/>  
 
                                 </p:commandLink>  
 

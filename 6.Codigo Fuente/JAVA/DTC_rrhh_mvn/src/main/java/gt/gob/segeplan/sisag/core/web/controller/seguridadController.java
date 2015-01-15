@@ -4,6 +4,8 @@ package gt.gob.segeplan.sisag.core.web.controller;
  * @author layala
  */
 
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhPersona;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
 import gt.gob.segeplan.sisag.rrhh.entities.SegRol;
@@ -17,6 +19,9 @@ public interface seguridadController {
     public SegUsuario findUsuario(int band); // buscar Usuario
     public List<SegUsuario> getLstUsuario(); // traer listado total
     public List<SegUsuario> getLstUsuario_by(int band, int tipo);
+    public List<RrhhPersona> getLstPersonas();
+    public List<RrhhPersona> getLstPersonasAsig();
+   public List<RrhhPersona> getLstPersonas_byUnidad(RrhhUnidadAdministrativa unidad);
   
     // ABC Usuario
     public SegUsuario crearUsuario(SegUsuario objeto); // registrar  Usuario
@@ -27,6 +32,7 @@ public interface seguridadController {
    // LOGIN
     public SegUsuario login(SegUsuario objeto);
     public SegUsuario findByUsuario(String nombre);
+    public SegRol findRol(int band);
  
     
     

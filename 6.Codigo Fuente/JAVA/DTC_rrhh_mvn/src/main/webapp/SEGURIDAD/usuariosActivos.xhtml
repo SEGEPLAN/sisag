@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+    <h:head>
+        <style type="text/css">
+            .panelGridCenter td,.panelGridCenter tr {
+                text-align: center;
+            }
+            /* 
+             .ui-widget-header{
+                  background: #FFFFFF !important; 
+             } */                
+        </style>
+        <h:outputStylesheet library="css" name="theme.min.css" />
+        <h:outputStylesheet library="css" name="sisag.css" />
+    </h:head>
+
+    <h:body>
+
+        <div align="center"  >
+
+            <h:form id="userForm">  
+
+                <p:growl id="messages" showDetail="true"/>  
+
+                <p:toolbar id="toolbarDTC">
+
+
+
+                    <f:facet name="right">
+
+                        <p:commandLink id="pdf" ajax="false">  
+                            <p:graphicImage value="/resources/images/pdf.png"/>  
+                            <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
+                            <pe:exporter type="pdf" target="usuarios" fileName="UsuariosActivos"  
+                                         tableTitle="Usuarios Activos" 
+
+                                         pageOnly="false"
+                                         facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
+                                         encoding="ISO-8859-1"
+                                         cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" />  
+                        </p:commandLink>  
+
+
+
+                        <p:commandLink id="xlsx" ajax="false">  
+                            <p:graphicImage value="/resources/images/excel.png"/>  
+                            <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
+                            <pe:exporter type="xlsx" target="usuarios" fileName="UsuariosActivos" 
+                                         tableTitle="Usuarios Activos"  
+                                         facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
+                                         encoding="ISO-8859-1"
+                                         pageOnly="false"
+                                         cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL"/>  
+                        </p:commandLink> 
+                    </f:facet>
+                </p:toolbar>
+                <br/>
+                <p:dataTable id="usuarios"  value="#{seguridad.lstUsrActivos}" 
+                             emptyMessage="No existen Usuarios Creados" var="l" rowKey="#{l.idUsuario}" 
+                             scrollable="true" scrollHeight="300"
+                             style="margin-bottom:0">
+                    <f:facet name="header">
+                        Usuarios Activos DNC
+                    </f:facet>
+                   <p:column headerText="ID" filterBy="#{l.idPersona.idPersona}">
+                        <h:outputText value="#{l.idPersona.idPersona}" />
+                    </p:column>
+                    <p:column headerText="Unidad" filterMatchMode="contains" sortBy="#{l.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  filterBy="#{l.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
+                        <h:outputText value="#{l.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" />
+                    </p:column>
+                    
+                    <p:column headerText="Nombre" filterBy="#{l.idPersona.nombres}">
+                        <h:outputText value="#{l.idPersona.nombres}" />
+                    </p:column>
+                    <p:column headerText="Apellidos" filterBy="#{l.idPersona.apellidos}"> 
+                        <h:outputText value="#{l.idPersona.apellidos}" />
+                    </p:column>
+                    
+                    <p:column headerText="Usuario" filterBy="#{l.nombre}"> 
+                        <h:outputText value="#{l.nombre}" />
+                    </p:column>
+                    
+                    <p:column headerText="e-mail" filterBy="#{l.nombre}"> 
+                        <h:outputText value="#{l.email}" />
+                    </p:column>
+                </p:dataTable> 
+
+
+                <!-- DLG EDITAR -->
+
+
+            </h:form> 
+
+        </div>
+    </h:body>
+</html>  

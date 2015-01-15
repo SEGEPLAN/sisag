@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>gt.gob.segeplan</groupId>
-    <artifactId>DTC_rrhh_mvn</artifactId>
+    <artifactId>DNC_rrhh_mvn</artifactId>
     <version>1.0</version>
     <packaging>war</packaging>
 
-    <name>DTC_rrhh_mvn</name>
+    <name>DNC_rrhh_mvn</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>

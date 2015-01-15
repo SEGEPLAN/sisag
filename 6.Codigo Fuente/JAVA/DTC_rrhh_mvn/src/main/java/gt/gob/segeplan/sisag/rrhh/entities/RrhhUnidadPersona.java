@@ -46,8 +46,9 @@ public class RrhhUnidadPersona implements Serializable {
     @JoinColumn(name = "ADSCGED$ID_DEPENDENCIA", referencedColumnName = "ADSCGDP$ID", insertable = false, updatable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     private RrhhUnidadAdministrativa rrhhUnidadAdmin;
+    
     @JoinColumn(name = "ADSCGED$ID_EMPLEADO", referencedColumnName = "ADSCGEM$ID", insertable = false, updatable = false)
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     private RrhhPersona rrhhPersona;
 
     public RrhhUnidadPersona() {

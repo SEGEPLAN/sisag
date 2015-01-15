@@ -299,9 +299,10 @@ public class solicitudImplement implements solicitudController{
     }
 
    @Override
-   public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa() {
+   public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa(int anio) {
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("Select l from RrhhSolicitudCapacitacion l ");
+        Query q = em.createQuery("Select l from RrhhSolicitudCapacitacion l WHERE l.anio=:anio");
+           q.setParameter("anio",anio);
         return q.getResultList();
     }
       
@@ -320,6 +321,14 @@ public class solicitudImplement implements solicitudController{
         Query q = em.createQuery("Select l from RrhhUnidadAdministrativa l ");
         return q.getResultList();
     }
+   
+   @Override
+   public List<RrhhUnidadAdministrativa> getLstUsrXUnidadCreadas() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin from SegUsuario l WHERE l.estado=1");
+        return q.getResultList();
+    }
+   
    
     @Override
    public List<RrhhNecesidadPuesto> getLstAllNecesidadesPuesto() {

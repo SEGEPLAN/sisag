@@ -56,12 +56,12 @@
                                         <div align="">
                                             <!-- Usuario: -->
                                             <p:commandLink id="cl_usr"  style="font-size: 25px; color: #326295;" >   
-                                                <img src="/sisag_web/resources/images/32/personal_32.png" style="width: 28px; height: 28px;"/>
+                                                <img src="/sisag/resources/images/32/personal_32.png" style="width: 28px; height: 28px;"/>
                                             </p:commandLink>
                                             <p:spacer width="5" height="1"  />    
 
                                             <p:commandLink id="cl_out" action="#{seguridad.logout}" style="font-size: 25px; color: #326295;" >
-                                                <img src="/sisag_web/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
+                                                <img src="/sisag/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
                                             </p:commandLink>  
 
                                             <p:menu overlay="true" trigger="cl_usr" my="left top" at="left bottom">
@@ -155,7 +155,7 @@
                     <p:outputLabel id="caduc" value="Su sesión ha caducado, por favor vuelva a acceder al SINAF" />
 
                     <p:commandLink id="cl_out" action="#{seguridad.logout}" style="font-size: 25px; color: #326295;" >
-                        <img src="/sisag_web/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
+                        <img src="/sisag/resources/images/32/door_out_32.png" style="width: 28px; height: 28px;"/>
                     </p:commandLink> 
                     <p:ajax listener="#{seguridad.logout}" immediate="true" />
 

@@ -68,7 +68,7 @@ public class RrhhNecesidad implements Serializable {
     private BigDecimal horasDia;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @Size(max = 100)
+    @Size(max = 500)
     @Column(name = "PROBLEMA_NECESIDAD")
     private String problemaNecesidad;
     @Column(name = "TOTAL_HORAS")

@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -42,7 +42,7 @@
                                                 <h:outputText value="Unidades que han creado solicitud" />
                                             </f:facet>
 
-                            <p:column sortBy="#{l.descripcion}" filterBy="#{l.descripcion}" >
+                            <p:column sortBy="#{l.descripcion}" >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
@@ -72,8 +72,41 @@
                             
                         </p:dataTable>  
 
-                        <br/>
+                        <br/><br/>
 
+                        <p:toolbar id="toolbarUs" style="width: 90%;">
+
+
+
+                    <f:facet name="right">
+
+                        <p:commandLink id="pdf" ajax="false">  
+                            <p:graphicImage value="/resources/images/pdf.png"/>  
+                            <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
+                            <pe:exporter type="pdf" target="unidadesTable" fileName="Faltante"  
+                                         tableTitle="Usuarios Faltantes" 
+
+                                         pageOnly="false"
+                                         facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
+                                         encoding="ISO-8859-1"
+                                         cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" />  
+                        </p:commandLink>  
+
+
+
+                        <p:commandLink id="xlsx" ajax="false">  
+                            <p:graphicImage value="/resources/images/excel.png"/>  
+                            <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
+                            <pe:exporter type="xlsx" target="unidadesTable" fileName="Faltantes" 
+                                         tableTitle="Usuarios Faltantes"  
+                                         facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
+                                         encoding="ISO-8859-1"
+                                         pageOnly="false"
+                                         cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL"/>  
+                        </p:commandLink> 
+                    </f:facet>
+                </p:toolbar>
+                        
                         <p:dataTable id="unidadesTable"  value="#{solicitud.lstUnidadesAdmin}" style="width: 90%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen unidades actualmente" var="l" rowKey="#{l.idUnidadAdmin}" 
                                      scrollable="true" scrollHeight="150"   >  
@@ -82,13 +115,15 @@
                                                 <h:outputText value="Unidades faltantes" />
                                             </f:facet>
 
-                            <p:column sortBy="#{l.descripcion}" filterBy="#{l.descripcion}" >
+                            
+                            
+                            <p:column sortBy="#{l.descripcion}"  >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
                                 <h:outputText value="#{l.descripcion}" />
                             </p:column>
-
+                            
                             <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Estado" />

@@ -1,4 +1,3 @@
-<?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
@@ -8,7 +7,12 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
+     
+    
     <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+           
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type; charset=UTF-8"/>
         <style type="text/css">
             .panelGridCenter td,.panelGridCenter tr {
                 text-align: center;
@@ -18,35 +22,35 @@
                   background: #FFFFFF !important; 
              } */                
         </style>
+        <script language="javascript">
+            function checkInputNumber(ob) {
+                var invalidChars = /[^0-9]/gi;
+                if (invalidChars.test(ob.value)) {
+                    ob.value = ob.value.replace(invalidChars, "");
+                }
+            }
+        </script>
         <h:outputStylesheet library="css" name="theme.min.css" />
-        <h:outputStylesheet library="css" name="sisag.css" />
     </h:head>
 
-    <h:body>
+    <h:body >
 
         <div align="center"  >
 
             <h:form id="dtcForm">  
 
-                <p:growl id="messages" showDetail="true"/>  
+                <p:growl id="messages" showDetail="true" showSummary="false" />  
 
                 <p:accordionPanel id="tablaDNC" multiple="true" activeIndex="0,1" rendered="#{solicitud.solicitudDTC.idEstado.id eq 18?'true':'false'}">
-                    <p:tab closable="true" title="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
+                    <p:tab closable="true" title="SOLICITUD DE NECESIDADES DE CAPACITACION #{solicitud.fecha}">
                         <h:panelGrid columns="2" cellpadding="0">
 
-                            <h:outputText value="TOTAL EMPLEADOS:" style="font-weight:bold" />
-                            <h:outputText value="#{solicitud.totalUnidad}"/>
-
+                            <h:outputText value="UNIDAD:" style="font-weight:bold" />
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"/>
 
                             <h:outputText value="ELABORA:" style="font-weight:bold"/>
                             <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.nombres}  #{solicitud.solicitudDTC.usrCrea.idPersona.apellidos} "/>
 
-
-                            <h:outputText value="DIRECCION QUE SOLICITA:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"/>
-
-                            <h:outputText value="ACTIVIDADES PRINCIPALES:" style="font-weight:bold"/>
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion} "/>
                         </h:panelGrid>
                     </p:tab>
 
@@ -58,31 +62,45 @@
                                                  actionListener="#{solicitud.borrarCombos()}"
                                                  update=":#{p:component('detailNewNec')}"
                                                  oncomplete="PF('dlgNew').show()" ajax="true" immediate="true"
+                                                 
                                                  />
-                                <p:commandButton id="cb_editar"  icon="ui-icon-folder-open"   
+                                <span class="ui-separator">
+                                    <span class="ui-icon ui-icon-grip-dotted-vertical" />
+                                </span>
+                                <p:commandButton id="cb_editar"  icon="ui-icon-pencil"   
                                                  value="Editar" 
                                                  disabled="#{solicitud.solicitudDTC.rrhhNecesidadList.size()>0?'false':'true'}"
                                                  actionListener="#{solicitud.llenarCombos()}"
                                                  update=":#{p:component('detailNewNec')}"
-                                                 oncomplete="PF('dlgNew').show()" ajax="true" immediate="true"
+                                                 oncomplete="PF('dlgNew').show();" ajax="true" immediate="true"
+                                                 onclick="PF('blkUi').show();" 
+
                                                  />
-
-
+                                <p:blockUI block=":dtcForm"  trigger="cb_editar" widgetVar="blkUi">  
+                                    Preparando...<br />
+                                    <p:graphicImage value="../resources/images/loadingBar.gif" width="380px;" height="50px;"/>
+                                </p:blockUI>
 
                                 <span class="ui-separator">
                                     <span class="ui-icon ui-icon-grip-dotted-vertical" />
                                 </span>
-                                <p:commandButton id="eliminar" title="Eliminar" icon="ui-icon-trash" 
+                                    <p:commandButton id="eliminar" title="Borrar" value="Borrar" icon="ui-icon-trash" 
                                                  action="#{solicitud.eliminarNecesidad}"
+                                                 disabled="#{solicitud.solicitudDTC.rrhhNecesidadList.size()>0?'false':'true'}"
                                                  update=":necesidadesTable"
                                                  ajax="false" immediate="true"
+                                                 onclick="PF('blkUi2').show();" 
                                                  />
+                                <p:blockUI block=":dtcForm"  trigger="eliminar" widgetVar="blkUi2">  
+                                    Eliminando...<br />
+                                    <p:graphicImage value="../resources/images/loadingBar.gif" width="380px;" height="50px;"/>
+                                </p:blockUI>
                             </f:facet>
 
 
                             <f:facet name="right">
 
-                                <p:commandLink id="pdf" ajax="false">  
+                                <p:commandLink id="pdf" ajax="false" immediate="true">  
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
                                     <pe:exporter type="pdf" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  
@@ -91,12 +109,13 @@
                                                  pageOnly="false"
                                                  facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
                                                  encoding="ISO-8859-1"
-                                                 cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" />  
+                                                 cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" 
+                                                 />  
                                 </p:commandLink>  
 
 
 
-                                <p:commandLink id="xlsx" ajax="false">  
+                                <p:commandLink id="xlsx" ajax="false" immediate="true">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                                     <pe:exporter type="xlsx" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
@@ -110,68 +129,78 @@
                         </p:toolbar>
                         <br/>
                         <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" 
-                                     emptyMessage="No existen necesidades ingresadas" var="l" rowKey="#{l.idNecesidad}" 
+                                     emptyMessage="No existen necesidades ingresadas actualmente" var="l" rowKey="#{l.idNecesidad}" 
                                      selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
                                      resizableColumns="true"
                                      scrollable="true" scrollHeight="250"  
                                      >  
 
+
                             <p:ajax event="rowSelect" listener="#{solicitud.onRowSelect}" update=":dtcForm:detailNewNec" 
                                     />
 
-                            <p:column sortBy="#{l.idCaracter.nombre}" filterBy="#{l.idCaracter.nombre}" >
+                            <p:column sortBy="#{l.idTema.nombre}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Curso" />
+                                </f:facet>
+                                <h:outputText value="#{l.idTema.nombre}" />
+                            </p:column>
+                            
+                            <p:column sortBy="#{l.idCaracter.nombre}"  >
                                 <f:facet name="header">
                                     <h:outputText value="Carácter" />
                                 </f:facet>
                                 <h:outputText value="#{l.idCaracter.nombre}" />
                             </p:column>
-                            <p:column sortBy="#{l.problemaNecesidad}" filterBy="#{l.problemaNecesidad}">
-                                <f:facet name="header">
-                                    <h:outputText value="Problematica" />
-                                </f:facet>
-                                <h:outputText value="#{l.problemaNecesidad}" />
-                            </p:column>
-
-                            <p:column sortBy="#{l.idPrioridad.nombre}" filterBy="#{l.idPrioridad.nombre}">
-                                <f:facet name="header">
-                                    <h:outputText value="Prioridad" />
-                                </f:facet>
-                                <h:outputText value="#{l.idPrioridad.nombre}" />
-                            </p:column>
-
-                            <p:column sortBy="#{l.idTema.nombre}" filterBy="#{l.idTema.nombre}">
-                                <f:facet name="header">
-                                    <h:outputText value="Tema" />
-                                </f:facet>
-                                <h:outputText value="#{l.idTema.nombre}" />
-                            </p:column>
-
-                            <p:column sortBy="#{l.idNivelConocimiento.nombre}" filterBy="#{l.idNivelConocimiento.nombre}">
+                            <p:column sortBy="#{l.idNivelConocimiento.nombre}" >
                                 <f:facet name="header">
                                     <h:outputText value="Nivel" />
                                 </f:facet>
                                 <h:outputText value="#{l.idNivelConocimiento.nombre}" />
                             </p:column>
+                            
+                            <p:column sortBy="#{l.idPrioridad.nombre}" >
+                                <f:facet name="header">
+                                    <h:outputText value="Prioridad" />
+                                </f:facet>
+                                <h:outputText value="#{l.idPrioridad.nombre}" />
+                            </p:column>
+                            
 
-                            <p:column sortBy="#{l.idDisponibilidad.nombre}" filterBy="#{l.idDisponibilidad.nombre}">
+                            <p:column sortBy="#{l.idDisponibilidad.nombre}" >
                                 <f:facet name="header">
                                     <h:outputText value="Disponibilidad" />
                                 </f:facet>
                                 <h:outputText value="#{l.idDisponibilidad.nombre}" />
                             </p:column>
 
-                            <p:column sortBy="#{l.totalHoras}" filterBy="#{l.totalHoras}">
+                            <p:column sortBy="#{l.totalHoras}" >
                                 <f:facet name="header">
-                                    <h:outputText value="Duracion" />
+                                    <h:outputText value="Duracion (Hrs)" />
                                 </f:facet>
                                 <h:outputText value="#{l.totalHoras}" />
                             </p:column>
-                        </p:dataTable> 
-                        <p:commandButton  id="cb_validar" value="Validar" actionListener="#{solicitud.validarSolicitud}" 
-                                          disabled="#{solicitud.solicitudDTC.rrhhNecesidadList.size()>0?'false':'true'}"
-                                          ajax="false" image="ui-icon ui-icon-disk" 
+                            <p:column sortBy="#{l.problemaNecesidad}">
+                                <f:facet name="header">
+                                    <h:outputText value="Detalle" />
+                                </f:facet>
+                                <h:outputText value="#{l.problemaNecesidad}" />
+                            </p:column>
 
-                                          update="resumenDNC tablaDNC"               />
+                            
+                        </p:dataTable> 
+
+
+
+
+
+
+                        <p:commandButton value="Enviar Solicitud"  disabled="#{solicitud.solicitudDTC.rrhhNecesidadList.size()>0?'false':'true'}"
+                                         onclick="PF('dlgConfirm').show();" 
+                                         immediate="true" type="button" />
+
+
+
                     </p:tab>
 
                 </p:accordionPanel>
@@ -190,7 +219,7 @@
                                 <p:column colspan="2">
                                     <p:dataList value="#{solicitud.listNecesidades}" var="nece" type="ordered">
                                         <f:facet name="header" >
-                                            Necesidades Detectadas
+                                            UD HA SOLICITDADO LAS SIGUIENTES NECESIDADES DE CAPACITACION PARA EL #{solicitud.fecha}
                                         </f:facet>
                                         <h:outputText value="#{nece.idTema.descripcion}" style="font-weight:bold"/>
                                         -
@@ -204,7 +233,7 @@
                             </p:row>
                             <p:row >
                                 <p:column >
-                                    <h:outputText value="VALIDADO POR: " style="font-weight:bold"/>
+                                    <h:outputText value="ENVIADO POR: " style="font-weight:bold"/>
                                 </p:column>
                                 <p:column >
                                     <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.nombres}  #{solicitud.solicitudDTC.usrCrea.idPersona.apellidos} "/>
@@ -212,10 +241,12 @@
                             </p:row>
                             <p:row >
                                 <p:column >
-                                    <h:outputText value="FECHA: " style="font-weight:bold"/>
+                                    <h:outputText value="FECHA DE ENVIO: " style="font-weight:bold"/>
                                 </p:column>
                                 <p:column >
-                                    <h:outputText value="#{solicitud.solicitudDTC.fechaCrea} "/>
+                                    <h:outputText value="#{solicitud.solicitudDTC.fechaCrea} ">
+                                        <f:convertDateTime pattern="MM/dd/yyyy hh:mm a" />
+                                    </h:outputText>
                                 </p:column>
                             </p:row>
 
@@ -229,15 +260,44 @@
 
                 <!-- **********************  DIALOG **********************    -->
 
-                <p:dialog id="detailNewNec"  header="Registrar Necesidad de Capacitacion" showEffect="blind" hideEffect="blind"
-                          widgetVar="dlgNew" modal="true" width="450" height="380">
+                <p:dialog id="detailNewNec" onShow="PF('blkUi').hide();" header="Registrar Necesidad de Capacitacion" showEffect="blind" hideEffect="blind"
+                          widgetVar="dlgNew" modal="true" width="500" height="520" closable="false" 
+                          >
                     <div align="center">
                         <table width="100" style="border: 2px;" >
+                            <tr>
+                                <td colspan="3">
+                            <h:outputText value="Tema / Curso:" /><br/>
+                            <p:selectOneMenu id="temaEdit" label="Tema del Curso" value="#{solicitud.necesidadCapa.idTema}"  
+                                             style="width: 340px;" converter="entityConverter" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
+                                            required="true"
+                                             >
+                                <f:selectItem  itemValue="" itemLabel="Seleccionar Curso"  />
+                                <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso}" />
+                            </p:selectOneMenu>
+
+                            <p:tooltip for="temaEdit" value="Establece el curso relacionado a la necesidad detectada." />
+
+                            <p:selectOneMenu id="temaNuevo" label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
+                                             style="width: 340px;" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
+                                             filter="true" filterMatchMode="startsWith"
+                                             required="true"
+                                             >
+                                <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
+                                <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" 
+
+                                               />
+                            </p:selectOneMenu>
+                            <p:tooltip for="temaNuevo" value="Establece el curso relacionado a la necesidad detectada." />
+                            </td>
+                            </tr>
+
                             <tr>
                                 <td>
                             <h:outputText value="Caracter:" /><br/>
                             <p:selectOneMenu id="sel_caracter" label="Caracter" value="#{solicitud.necesidadCapa.idCaracter}"  converter="entityConverter"
                                              styleClass="styleBottom" 
+                                             required="true"
                                              style="width: 120px;">
                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                 <f:selectItems value="#{solicitud.catCaracter}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
@@ -250,6 +310,7 @@
                             <h:outputText value="Nivel de conocimiento:" /><br/>
                             <p:selectOneMenu id="sel_nivel" label="Nivel de Conocimiento" value="#{solicitud.necesidadCapa.idNivelConocimiento}"  
                                              style="width: 120px;" converter="entityConverter"
+                                             required="true"
                                              >
                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                 <f:selectItems value="#{solicitud.catNivelCono}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
@@ -262,6 +323,7 @@
                             <h:outputText  value="Prioridad de atencion:" /><br/>
                             <p:selectOneMenu id="sel_prioridad" label="Prioridad" value="#{solicitud.necesidadCapa.idPrioridad}"  
                                              style="width: 120px;" converter="entityConverter"
+                                             required="true"
                                              >
                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                 <f:selectItems value="#{solicitud.catPrioridad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
@@ -274,6 +336,7 @@
                             <h:outputText  value="Disponibilidad:" /><br/>
                             <p:selectOneMenu id="sel_dispo" label="Disponibilidad" value="#{solicitud.necesidadCapa.idDisponibilidad}"  
                                              style="width: 120px;" converter="entityConverter"
+                                             required="true"
                                              >
                                 <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
                                 <f:selectItems value="#{solicitud.catDisponibilidad}" var="c" itemLabel="#{c.nombre}" itemValue="#{c}" />
@@ -283,56 +346,41 @@
                             <td >
                             <h:outputText value="Duracion (Horas):" /><br/>
                             <h:inputText id="in_duracion" label="Duracion" value="#{solicitud.necesidadCapa.totalHoras}" 
-                                         style="width: 50px;"/>
-                            <p:tooltip for ="in_duracion" value="Ésta permite hacer una sugerencia del tiempo efectivo de capacitación del tema." />
+                                         style="width: 50px;" onkeyup="checkInputNumber(this)" 
+                                         required="true"
+                                         >
+                                <f:validateLongRange for="in_duracion" minimum="4"  maximum="200" id="it_duarcion"/>
+                            </h:inputText>
+                            <p:tooltip for ="in_duracion" value="Ésta permite hacer una sugerencia del tiempo efectivo de capacitación del tema, entre un rango de 4 a 40Hrs." />
                             </td> 
                             </tr>
                             <tr>
                                 <td colspan="3">
-                            <h:outputText value="Tema / Curso:" /><br/>
-                            <p:selectOneMenu id="temaEdit" label="Tema del Curso" value="#{solicitud.necesidadCapa.idTema}"  
-                                             style="width: 340px;" converter="entityConverter" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
-                                             >
-                                <f:selectItem  itemValue="" itemLabel="Seleccionar Curso"  />
-                                <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso}" />
-                            </p:selectOneMenu>
-
-                            <p:tooltip for="temaEdit" value="Establece el curso relacionado a la necesidad detectada." />
-
-                            <p:selectOneMenu id="temaNuevo" label="Tema del Curso" value="#{solicitud.idTemaCurso}"  
-                                             style="width: 340px;" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
-                                             >
-                                <f:selectItem  itemValue="" itemLabel="Seleccionar"  />
-                                <f:selectItems value="#{solicitud.catCursos}" var="curso" itemLabel="#{curso.nombre}" itemValue="#{curso.idTema}" />
-                            </p:selectOneMenu>
-                            <p:tooltip for="temaNuevo" value="Establece el curso relacionado a la necesidad detectada." />
-                            </td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">
                             <h:outputText value="Detalle la necesidad suceptible a resolver:" /><br/>
-                            <h:inputTextarea 
-                                label="Problema" value="#{solicitud.necesidadCapa.problemaNecesidad}" 
-                                style="width: 340px; height: 50px; resize: none"  />
+                            <h:inputTextarea required="true"
+                                             label="Problema" value="#{solicitud.necesidadCapa.problemaNecesidad}" 
+                                             style="width: 340px; height: 50px; resize: none"  />
 
                             </td>
                             </tr>
+
 
 
 
                             <tr>
                                 <td colspan="3">
                             <h:outputText id="necPuestos" value="Participantes:" /><br/>
+
+
+
                             <p:dataTable   var="pNec" value="#{solicitud.lstTipoPuesto}" editable="true" editMode="cell" widgetVar="tipo">
                                 <p:column headerText="Tipo Empleado">
                                     <h:outputText value="#{pNec.nombre}" />
                                 </p:column>
 
                                 <p:column headerText="Total">
-                                    <p:cellEditor>
-                                        <f:facet name="output"><h:outputText value="#{pNec.total}" /></f:facet>
-                                        <f:facet name="input"><p:inputText value="#{pNec.total}" style="width:96%" label="Year"/></f:facet>
-                                    </p:cellEditor>
+                                    <p:inputText value="#{pNec.total}" autocomplete="false" onkeyup="checkInputNumber(this)" style="width:96%" label="Total"/>
+
                                 </p:column>
                             </p:dataTable>
 
@@ -346,13 +394,34 @@
                                     </div>
                                     <br/>
                                     <div align="center">
-                                        <p:commandButton  id="cb_guardar" value="Guardar" actionListener="#{solicitud.guardarNecDTC}"  
-                                                          ajax="false" image="ui-icon ui-icon-disk" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
-                                                          update="necesidadesTable" />
+                                        <p:commandButton id="cb_cancelar" value="Cerrar"  ajax="false" 
+                                                         image="ui-icon ui-icon-closethick"
+                                                         actionListener="#{solicitud.newNecDTC}" 
+                                                         immediate="true"
+                                                         oncomplete="dlgNew.hide();"
 
-                                        <p:commandButton id="cb_editar" value="Editar" action="#{solicitud.editarNecDTC}"  ajax="false" 
+
+                                                         />
+                                        <p:spacer width="40px;"/>
+
+                                       
+
+                                        <p:commandButton  id="cb_guardar" value="Guardar" action="#{solicitud.guardarNecDTC}"  
+                                                           image="ui-icon ui-icon-disk" rendered="#{solicitud.necesidadCapa.idNecesidad==null?'true':'false'}"
+                                                          update=":#{p:component('necesidadesTable')} :#{p:component('messages')} " 
+                                                          oncomplete="if(!args.validationFailed)dlgNew.hide();"
+                                                          ajax="false"
+                                                          />
+
+                                        <p:commandButton id="cb_editar" value="Editar" action="#{solicitud.editarNecDTC}"  
                                                          image="ui-icon ui-icon-disk" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
-                                                         update="necesidadesTable cb_editar cb_validar" />
+                                                          update=":#{p:component('necesidadesTable')} :#{p:component('messages')} :#{p:component('cb_editar')} :#{p:component('cb_validar')} " 
+                                                          oncomplete="if(!args.validationFailed)dlgNew.hide();"
+                                                          ajax="false"
+                                                         />
+
+
+
                                     </div>
                                 </td>
                             </tr>
@@ -364,11 +433,38 @@
 
                 </p:dialog> 
 
+
+
                 <!-- DLG EDITAR -->
 
+                <p:dialog id="dialogConfirm"  header="Esta a punto de enviar la solicitud de capacitacion #{solicitud.fecha}"  showEffect="blind" hideEffect="blind"
+                          widgetVar="dlgConfirm" modal="true" width="300" height="100" closable="false" resizable="false" >
 
+                    <IMG SRC="../resources/images/about.png"/>
+                    Por lo tanto no podra modificarla posteriormente, esta seguro?
+                    <br/><br/>
+
+                    <div align="center">
+                        <p:commandButton id="validarBtn" action="#{solicitud.validarSolicitud}" value="Enviar" 
+                                         image="ui-icon ui-icon-disk" 
+                                         ajax="false" immediate="true"
+                                         />
+
+
+
+                        <p:spacer width="20px;"/>
+                        <p:commandButton value="Cancelar" type="button" 
+                                         onclick="PF('dlgConfirm').hide();" 
+                                         styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </div>
+
+                </p:dialog>
             </h:form> 
 
+            <h:form id="dtcForm2">
+
+            </h:form>
         </div>
+        
     </h:body>
 </html>  

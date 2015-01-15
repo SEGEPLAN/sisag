@@ -54,6 +54,10 @@ public class SegModulo implements Serializable {
     private Character restrictiva;
     @OneToMany(mappedBy = "idModulo", fetch = FetchType.EAGER)
     private List<SegPagina> segPaginaList;
+    
+    
+    @Column(name = "ORDEN")
+    private int orden;
 
     public SegModulo() {
     }
@@ -92,6 +96,14 @@ public class SegModulo implements Serializable {
 
     public void setRestrictiva(Character restrictiva) {
         this.restrictiva = restrictiva;
+    }
+
+    public int getOrden() {
+        return orden;
+    }
+
+    public void setOrden(int orden) {
+        this.orden = orden;
     }
 
     @XmlTransient

@@ -1,5 +1,5 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
@@ -39,7 +39,7 @@
                                      scrollable="true" scrollHeight="450"   >  
                             
                             <p:column style="width:16px" exportable="false">
-                                <p:rowToggler id="rowToggler"/>
+                                <p:rowToggler id="rowToggler" />
                             </p:column>
 
                             <p:column sortBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" filterBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" >
@@ -49,7 +49,7 @@
                                 <h:outputText value="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" />
                             </p:column>
 
-                            <p:column sortBy="#{l.rrhhNecesidadList.size()}" filterBy="#{l.rrhhNecesidadList.size()}">
+                            <p:column sortBy="#{l.rrhhNecesidadList.size()}" >
                                 <f:facet name="header">
                                     <h:outputText value="Total Necesidades" />
                                 </f:facet>
@@ -66,7 +66,7 @@
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
                                     
-                                    <pe:exporter type="pdf" target="necTable2" fileName="Solicitudes" facetBackground="#AAFFBB"  
+                                    <pe:exporter type="pdf" target="necTable2" fileName="Solicitudes" facetBackground="#38B0DE"  
                                      datasetPadding="10" encoding="ISO-8859-1"  subTable="true"/> 
                                     
                                 </p:commandLink>  
@@ -78,7 +78,7 @@
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                                      <pe:exporter type="xlsx" target="necTable2" fileName="Solicitudes" encoding="ISO-8859-1"
                                                   tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
-                                                  facetBackground="#AAFFBB"  
+                                                  facetBackground="#38B0DE"  
                                                 datasetPadding="10" subTable="true" />  
                                 </p:commandLink> 
                             </f:facet>

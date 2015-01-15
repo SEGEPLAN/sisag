@@ -29,9 +29,10 @@ public interface solicitudController {
      public List<RrhhTemaCurso> getLstCursosDNC();
      public List<RrhhNecesidadPuesto> getLstNecCurso();
      public List<RrhhNecesidadPuesto> getLstNecCursoDist();
-    public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa();
+    public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapa(int anio);
     public List<RrhhUnidadAdministrativa> getLstUnidades();
     public List<RrhhNecesidadPuesto> getLstAllNecesidadesPuesto();
+    public List<RrhhUnidadAdministrativa> getLstUsrXUnidadCreadas();
     
      public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapaValid(int anio);
      

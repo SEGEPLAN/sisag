@@ -7,16 +7,26 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
+    <f:view contentType="text/html">
+ 
 
-    <f:view locale="es_GT"> 
-        <h:head >
-           
-        </h:head>
-         <h:outputStylesheet library="css" name="theme.min.css" />
+ 
+        <h:head>
+ 
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+            <meta http-equiv="X-UA-Compatible" content="IE=8" />
+            <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE8"/>
+            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type; charset=UTF-8"/>
+            
+        </f:facet>
+            <h:outputStylesheet library="css" name="theme.min.css" />
             <h:outputStylesheet library="css" name="mainMenu.css" />
             <h:outputStylesheet library="css" name="sisag.css" />
             <h:outputStylesheet library="css" name="font-awesome.css" />
-            <h:outputScript library="js" name="locales.js" />
+            
+        </h:head>
+            
 
         <h:body>
 
@@ -24,6 +34,6 @@
                 <!-- contenido -->
             </ui:composition>
         </h:body>
-    </f:view>
+        </f:view>
 </html>
 

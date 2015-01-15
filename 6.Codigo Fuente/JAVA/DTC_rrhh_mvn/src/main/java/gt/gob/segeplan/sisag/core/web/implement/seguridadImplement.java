@@ -6,6 +6,8 @@ package gt.gob.segeplan.sisag.core.web.implement;
 
 
 import gt.gob.segeplan.sisag.core.web.controller.seguridadController;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhPersona;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
 import gt.gob.segeplan.sisag.rrhh.entities.SegRol;
@@ -47,7 +49,35 @@ public class seguridadImplement implements seguridadController{
     @Override
     public List<SegUsuario> getLstUsuario() {
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("Select l from SegUsuario l");
+        Query q = em.createQuery("Select l from SegUsuario l where l.estado = 1");
+        return q.getResultList();
+    }
+    
+    
+    @Override
+    public List<RrhhPersona> getLstPersonas() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhPersona l WHERE l.rrhhUnidadPersonaList.restrictiva=:filtro1 AND l.restrictiva=:filtro2");
+        q.setParameter("filtro1","N");
+        q.setParameter("filtro2","N");
+        return q.getResultList();
+    }
+    
+    @Override
+    public List<RrhhPersona> getLstPersonas_byUnidad(RrhhUnidadAdministrativa unidad) {
+        EntityManager em = emf.createEntityManager();
+        Query q = null;
+        q = em.createQuery("Select l.rrhhPersona from RrhhUnidadPersona l where l.rrhhUnidadAdmin.idUnidadAdmin=:filtro AND l.restrictiva=:filtro2");
+                q.setParameter("filtro",unidad.getIdUnidadAdmin());
+                q.setParameter("filtro2","N");
+        return q.getResultList();
+    }
+    
+    
+    @Override
+    public List<RrhhPersona> getLstPersonasAsig() {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l.idPersona from SegUsuario l ");
         return q.getResultList();
     }
 
@@ -65,19 +95,17 @@ public class seguridadImplement implements seguridadController{
 
     @Override
     public SegUsuario crearUsuario(SegUsuario objeto) {
-        EntityManager em = emf.createEntityManager();
-        try {
-            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-            transaction.begin();
+        
+         EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
             em.persist(objeto);
-            em.joinTransaction();
-            em.flush();
-            transaction.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             objeto = null;
         } finally {
-            //em.close();
+            em.close();
             return objeto;
         }
                
@@ -87,19 +115,15 @@ public class seguridadImplement implements seguridadController{
     @Override
     public SegUsuario editarUsuario(SegUsuario objeto) {
        EntityManager em = emf.createEntityManager();
-        
-       try {
-            UserTransaction transaction = (UserTransaction) new InitialContext().lookup("java:comp/UserTransaction");
-            transaction.begin();
+        try{
+            em.getTransaction().begin();
             em.merge(objeto);
-            em.joinTransaction();
-            em.flush();
-            transaction.commit();
+            em.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
             objeto = null;
         } finally {
-            //em.close();
+            em.close();
             return objeto;
         }
         
@@ -154,6 +178,26 @@ public class seguridadImplement implements seguridadController{
     }
     
     
+    
+    @Override
+    public SegRol findRol(int band) {
+    
+        SegRol model = null; 
+        EntityManager em = emf.createEntityManager();
+        try{
+           Query q = null;
+           q = em.createQuery("Select o from SegRol o WHERE o.idRol  =:filtro");
+	       q.setParameter("filtro", band);
+           model = (SegRol) q.getSingleResult();
+            }
+                catch (NoResultException nre){
+            }
+        finally{
+            em.close();
+        }
+    return model; 
+        
+    }
     
     
     

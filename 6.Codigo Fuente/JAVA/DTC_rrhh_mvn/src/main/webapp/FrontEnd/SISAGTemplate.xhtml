@@ -7,39 +7,46 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:pe="http://primefaces.org/ui/extensions">
 
-        <h:body>
+    <h:head>
+        <f:facet name="first"> 
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+            <meta content="text/html; charset=UTF-8" http-equiv="content-type"/> 
+        </f:facet> 
+    </h:head>
 
-            <ui:composition template="../templates/commonLayoutSisag.xhtml">            
-                <ui:define name="nombreModulo">SISAG</ui:define> 
-                <ui:define name="nombrePagina">Inicio</ui:define>
-                <!-- titulo superior a menu -->
-                <ui:define name="sectionTitle">
-                   
-                </ui:define>            
+    <h:body>
 
-                
-   <!-- configuracion de panel de menu  -->
-                 
-                <ui:define name="panelMenu">
-                    <ui:include src="../templates/menuPanel.xhtml"></ui:include>                
-                </ui:define>
+        <ui:composition template="../templates/commonLayoutSisag.xhtml">            
+            <ui:define name="nombreModulo">SISAG</ui:define> 
+            <ui:define name="nombrePagina">DNC</ui:define>
+            <!-- titulo superior a menu -->
+            <ui:define name="sectionTitle">
+
+            </ui:define>            
 
 
-                <!-- contenido -->
-                <ui:define name="content" >
-                    <div class="contentFrame" > 
-                        <iframe src="#{navegacion.paginaActual}" name="contenidos" allowfullscreen="" frameborder="0">
-                        
-                       </iframe>
-                    </div>
-                </ui:define>
-                
-                
-                <ui:define name="pie" >
-                    PIE
-                </ui:define>
-            </ui:composition>
-        </h:body>
- 
+            <!-- configuracion de panel de menu  -->
+
+            <ui:define name="panelMenu">
+                <ui:include src="../templates/menuPanel.xhtml"></ui:include>                
+            </ui:define>
+
+
+            <!-- contenido -->
+            <ui:define name="content" >
+                <div class="contentFrame" > 
+                    <iframe src="#{navegacion.paginaActual}" name="contenidos"  frameborder="0">
+
+                    </iframe>
+                </div>
+            </ui:define>
+
+
+            <ui:define name="pie" >
+                PIE
+            </ui:define>
+        </ui:composition>
+    </h:body>
+
 </html>
 

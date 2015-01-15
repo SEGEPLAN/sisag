@@ -10,6 +10,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.GenDominios;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidad;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuesto;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhNecesidadPuestoPK;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhSolicitudCapacitacion;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTemaCurso;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhTipoPuesto;
@@ -17,6 +18,7 @@ import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.SegUsuario;
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -96,6 +98,9 @@ public  class solicitudManagedBean implements Serializable{
     private int idTemaCurso;
     private int fecha;
    
+     private List<RrhhPersona> lstPersonasByUnidad;
+     private String cadena ="";
+    
 
 
     public solicitudManagedBean() {
@@ -111,18 +116,16 @@ public  class solicitudManagedBean implements Serializable{
         necesidadCapa = new RrhhNecesidad();
         necesidadCapaAux = new RrhhNecesidad();
 
-        
-        //getLstEstado();
-        
-//        if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty()){
-//            solicitudDTCcreada = usuario.getRrhhSolicitudCapacitacionList().get(0);
-//        }
+        if(usuario.getIdPersona().getRrhhUnidadPersonaList()!=null)
         unidad = usuario.getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin();
-       for(RrhhUnidadPersona up: unidad.getRrhhUnidadPersonaList()){
-           if(up.getRestrictiva().contentEquals("N")){
-               totalUnidad++;
-           }
-       }
+        
+        //lstPersonasByUnidad = psSeg.getLstPersonas_byUnidad(unidad);
+        //totalUnidad = lstPersonasByUnidad.size();
+//       for(RrhhUnidadPersona up: unidad.getRrhhUnidadPersonaList()){
+//           if(up.getRestrictiva().contentEquals("N")){
+//               totalUnidad++;
+//           }
+//       }
        
     }
 
@@ -143,13 +146,15 @@ public  class solicitudManagedBean implements Serializable{
             solicitudDTC.setUsrCrea(usuario);
             solicitudDTC.setAnio(c.get(Calendar.YEAR));
             solicitudDTC.setRestrictiva(Character.MIN_VALUE);
-            //solicitudDTCcreada = psSol.crearSolicitudDTC(solicitudDTC);
+            solicitudDTCcreada = psSol.crearSolicitudDTC(solicitudDTC);
             //necesidadCapa.setIdSolicitudCapacitacion(solicitudDTCcreada);
         
         }
+            getListNecesidades();
+            //borrarCombos();
     }
     
-    
+    // Devuelve la solicitud del año en curso
     public RrhhSolicitudCapacitacion devuelveSolicitud(List<RrhhSolicitudCapacitacion> listado){
         RrhhSolicitudCapacitacion auxSol = new RrhhSolicitudCapacitacion();
         for(RrhhSolicitudCapacitacion sc : listado){
@@ -157,6 +162,7 @@ public  class solicitudManagedBean implements Serializable{
                     auxSol = sc;
                 }else{
                     auxSol = new RrhhSolicitudCapacitacion();
+                    auxSol.setRrhhNecesidadList(new ArrayList<RrhhNecesidad>());
                 }
             }
         return auxSol;
@@ -172,22 +178,77 @@ public  class solicitudManagedBean implements Serializable{
     }
 
      
+      public void verSolicitud() {
+          FacesMessage msg = null;
+          if(solicitudDTCaux.getIdSolicitudCapacitacion()!=null){
+           System.out.println("Se selecciono la solicitud--->"+solicitudDTCaux.getUsrCrea().getNombre());
+          }
+           msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "No ha seleccionado ninguna fila", null);
+             FacesContext.getCurrentInstance().addMessage(null, msg);
+    }
+     
+      
+      public int validateNec(){
+       
+        int band = 0;
+        
+          if((necesidadCapa.getIdCaracter()==null) ||
+                  (necesidadCapa.getIdCaracter().getId().intValue() == 0)){
+           cadena+=" Caracter, ";
+           band = 1;
+          }
+           if((necesidadCapa.getIdNivelConocimiento()==null) ||
+                  (necesidadCapa.getIdNivelConocimiento().getId().intValue() == 0)){
+           cadena+=" Nivel Conocimiento, ";
+           band = 1;
+          }
+            if((necesidadCapa.getIdDisponibilidad()==null) ||
+                  (necesidadCapa.getIdDisponibilidad().getId().intValue() == 0)){
+           cadena+=" Disponibilidad,";
+           band = 1;
+          }
+             if((necesidadCapa.getIdPrioridad()==null) ||
+                  (necesidadCapa.getIdPrioridad().getId().intValue() == 0)){
+           cadena+=" Prioridad,";
+           band = 1;
+          }
+              if((necesidadCapa.getIdTema()==null) ||
+                  (necesidadCapa.getIdTema().getIdTema().intValue() == 0)){
+           cadena+=" Curso,";
+          }
+               if((necesidadCapa.getProblemaNecesidad()==null) ||
+                  (necesidadCapa.getProblemaNecesidad().contains(""))){
+           cadena+=" Problematica,";
+           band = 1;
+          }
+           if((necesidadCapa.getTotalHoras()==null) ||
+                  (necesidadCapa.getTotalHoras().intValue() == 0)){
+           cadena+=" Total Horas,";
+           band = 1;
+          }
+           
+           
+           
+           return band;
+        }
+      
      public void llenarCombos(){
          FacesMessage msg = null;
-         if(necesidadCapa!=null){
-             refreshUsr();
+         if(necesidadCapa.getIdNecesidad()!=null){
+             //refreshUsr();
             getCatCursos();
              
-             lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
-
-        lstNecPuesto = necesidadCapa.getRrhhNecesidadPuestoList();
-        lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
-            for(RrhhNecesidadPuesto n: lstNecPuesto){
-                RrhhTipoPuesto tp = new RrhhTipoPuesto();
-                tp = n.getRrhhTipoPuesto();
-                 tp.setTotal(n.getTotal());
-                 lstTipoPuesto.add(tp);
-        }        
+//             lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
+//
+//        lstNecPuesto = necesidadCapa.getRrhhNecesidadPuestoList();
+//        
+//        lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
+//            for(RrhhNecesidadPuesto n: lstNecPuesto){
+//                RrhhTipoPuesto tp = new RrhhTipoPuesto();
+//                tp = n.getRrhhTipoPuesto();
+//                 tp.setTotal(n.getTotal());
+//                 lstTipoPuesto.add(tp);
+//        }        
             
           } else {
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "No ha seleccionado ninguna fila", null);
@@ -197,22 +258,46 @@ public  class solicitudManagedBean implements Serializable{
 
      public void borrarCombos(){
 //        refreshUsr();
-//        getCatCursos();
+        getCatCursos();
+       necesidadCapa = new RrhhNecesidad();
         idTemaCurso = 0;
         lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
-        lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
-        lstTipoPuesto = psSol.getLstTipoPuesto();
-        necesidadCapa = new RrhhNecesidad();
+         lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
+         
+         lstTipoPuesto = psSol.getLstTipoPuesto();
+        
        
     }
 
     public void onRowSelect(SelectEvent event) {
         necesidadCapa = new RrhhNecesidad();
         necesidadCapa = (RrhhNecesidad)event.getObject();
+        
+        lstNecPuesto = new ArrayList<RrhhNecesidadPuesto>();
+
+        lstNecPuesto = necesidadCapa.getRrhhNecesidadPuestoList();
+        
+        lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
+            for(RrhhNecesidadPuesto n: lstNecPuesto){
+                RrhhTipoPuesto tp = new RrhhTipoPuesto();
+                tp = n.getRrhhTipoPuesto();
+                 tp.setTotal(n.getTotal());
+                 lstTipoPuesto.add(tp);
+        }     
+    }
+    
+    
+    public void onRowSelectSoli(SelectEvent event) {
+        solicitudDTCaux = new RrhhSolicitudCapacitacion();
+        solicitudDTCaux = (RrhhSolicitudCapacitacion)event.getObject();
     }
      
     public void newNecDTC(){
         necesidadCapa = new RrhhNecesidad();
+    }
+    
+    public void newSoliDTC(){
+        solicitudDTCaux = new RrhhSolicitudCapacitacion();
     }
 
     public void refreshUsr(){
@@ -220,6 +305,7 @@ public  class solicitudManagedBean implements Serializable{
     }
     
     public void guardarNecDTC(){
+
         Calendar c = Calendar.getInstance();
         
         if(solicitudDTCcreada.getIdSolicitudCapacitacion()==null){
@@ -242,7 +328,9 @@ public  class solicitudManagedBean implements Serializable{
                 necesidadCapa.setIdTema(t);
             }
         }
-         
+         if(necesidadCapa.getTotalHoras().intValue()>100)
+            necesidadCapa.setTotalHoras(new BigInteger("100"));
+            
          psSol.crearNecSol(necesidadCapa);
          
           if(lstTipoPuesto!=null){
@@ -269,26 +357,33 @@ public  class solicitudManagedBean implements Serializable{
                         }
                     }
         
+            
         necesidadCapa.setRrhhNecesidadPuestoList(lstNecPuesto);
         
         psSol.editarNecSol(necesidadCapa);
         ListNecesidades.add(necesidadCapa);
-       refreshUsr();
-       getCatCursos();
-       
+        refreshUsr();
+       //getCatCursos();
+      
        solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
-            solicitudDTC = solicitudDTCcreada;
-       
+             solicitudDTCcreada.setRrhhNecesidadList(new ArrayList<RrhhNecesidad>());
+       solicitudDTCcreada.setRrhhNecesidadList(ListNecesidades);
+       solicitudDTC = solicitudDTCcreada;
+//       
+//       
+//       solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+//            solicitudDTC = solicitudDTCcreada;
+//       ListNecesidades = solicitudDTCcreada.getRrhhNecesidadList();
        necesidadCapa = new RrhhNecesidad();
        idTemaCurso = 0;
-        
+//        }
 }
     
     
     
     
     public void editarNecDTC(){
-        
+//        
             getLstEstado();
             necesidadCapa.setIdEstado(editado);
             necesidadCapa.setFechaModifica(new Date());
@@ -318,18 +413,39 @@ public  class solicitudManagedBean implements Serializable{
                      lstNecPuesto.add(necPuesto);
                         }
                     }
+//        if(necesidadCapa.getTotalHoras().intValue()>100)
+//            necesidadCapa.setTotalHoras(new BigInteger("100"));
         
         necesidadCapa.setRrhhNecesidadPuestoList(lstNecPuesto);
         
         psSol.editarNecSol(necesidadCapa);
-        ListNecesidades = new ArrayList<RrhhNecesidad>();
-        refreshUsr();
-        solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
-            solicitudDTC = solicitudDTCcreada;
         
-        ListNecesidades = solicitudDTCcreada.getRrhhNecesidadList();
-        getCatCursos();
+        RrhhNecesidad borrarNec = new RrhhNecesidad();
+        for (RrhhNecesidad nece : ListNecesidades) {
+            if(nece.getIdNecesidad()==necesidadCapa.getIdNecesidad()){
+                borrarNec = nece;
+                
+            }
+            
+        }
+        ListNecesidades.remove(borrarNec);
+        ListNecesidades.add(necesidadCapa);
         
+         solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+       
+             solicitudDTCcreada.setRrhhNecesidadList(new ArrayList<RrhhNecesidad>());
+       solicitudDTCcreada.setRrhhNecesidadList(ListNecesidades);
+       solicitudDTC = solicitudDTCcreada;
+       necesidadCapa = new RrhhNecesidad();
+        
+//        ListNecesidades = new ArrayList<RrhhNecesidad>();
+//        refreshUsr();
+//        solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+//            solicitudDTC = solicitudDTCcreada;
+//        
+//        ListNecesidades = solicitudDTCcreada.getRrhhNecesidadList();
+       // getCatCursos();
+//        }
 }
 
 
@@ -338,18 +454,18 @@ public  class solicitudManagedBean implements Serializable{
         String band ="";
         String objeto;
          FacesMessage msg = null;
-        if(necesidadCapa!=null){
+        if(necesidadCapa.getIdNecesidad()!=null){
             
             objeto = necesidadCapa.getIdTema().getNombre();
             ListNecesidades.remove(necesidadCapa);
             band = psSol.borrarNecSol(necesidadCapa);
             refreshUsr();
-            getCatCursos();
+            //getCatCursos();
             if(band.contentEquals("NO")){
                 ListNecesidades.add(necesidadCapa);
             }
-             newNecDTC();
-             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,band+" Se pudo borrar la necesidad ", objeto);
+             msg = new FacesMessage(FacesMessage.SEVERITY_INFO,"Se borro la necesidad "+objeto, null);
+             necesidadCapa = new RrhhNecesidad();
         } else {
             band = "No ha seleccionado ninguna fila";
             msg = new FacesMessage(FacesMessage.SEVERITY_INFO, band, null);
@@ -360,21 +476,17 @@ public  class solicitudManagedBean implements Serializable{
      
     public void validarSolicitud() {
           FacesMessage msg = null;
-        
-//        solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
         solicitudDTCcreada.setIdEstado(validado);
         solicitudDTCcreada.setUsrCrea(usuario);
         solicitudDTCcreada.setFechaCrea(new Date());
         psSol.editarSolicitudDTC(solicitudDTCcreada);
-        //solicitudDTC = solicitudDTCcreada;
+        // refreshUsr();
          msg = new FacesMessage(FacesMessage.SEVERITY_INFO," Se envio la solicitud ", "Exitosamente");
          FacesContext.getCurrentInstance().addMessage(null, msg);
-         
-         refreshUsr();
-         solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
+         //solicitudDTCcreada = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList());
             solicitudDTC = solicitudDTCcreada;
             
-         navegar("solicitudEnviada.xhtml");
+         navegar("RegistrarDNC.xhtml");
     }
     
     
@@ -469,7 +581,7 @@ public  class solicitudManagedBean implements Serializable{
     public List<RrhhTipoPuesto> getLstTipoPuesto() {
          if(lstTipoPuesto == null){
             lstTipoPuesto = new ArrayList<RrhhTipoPuesto>();
-             lstTipoPuesto = psSol.getLstTipoPuesto();
+//             lstTipoPuesto = psSol.getLstTipoPuesto();
              }
            
         return lstTipoPuesto;
@@ -565,10 +677,14 @@ public  class solicitudManagedBean implements Serializable{
     public List<RrhhNecesidad> getListNecesidades() {
          if(ListNecesidades == null){
             ListNecesidades = new ArrayList<RrhhNecesidad>();
-             }
             if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty() &&  !usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList().isEmpty()){
                 ListNecesidades = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList()).getRrhhNecesidadList();
             }
+         
+         }
+//            if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty() &&  !usuario.getRrhhSolicitudCapacitacionList().get(0).getRrhhNecesidadList().isEmpty()){
+//                ListNecesidades = devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList()).getRrhhNecesidadList();
+//            }
         return ListNecesidades;
     }
 
@@ -578,12 +694,14 @@ public  class solicitudManagedBean implements Serializable{
 
    
 
+    
     public List<RrhhTemaCurso> getCatCursos() {
          if(catCursos == null){
             catCursos = new ArrayList<RrhhTemaCurso>();
-         }
             catCursos = psSol.getLstCursosDNC();
+         }
             if(!usuario.getRrhhSolicitudCapacitacionList().isEmpty()){
+            
             for(RrhhNecesidad n : devuelveSolicitud(usuario.getRrhhSolicitudCapacitacionList()).getRrhhNecesidadList()){
                 catCursos.remove(n.getIdTema());
                 }
@@ -627,11 +745,8 @@ public  class solicitudManagedBean implements Serializable{
     public List<RrhhSolicitudCapacitacion> getLstSolicitudesCapa() {
         if(LstSolicitudesCapa == null){
             LstSolicitudesCapa = new ArrayList<RrhhSolicitudCapacitacion>();
-            
+            LstSolicitudesCapa = psSol.getLstAllSolicitudesCapaValid(fecha);
         }
-        LstSolicitudesCapa = psSol.getLstAllSolicitudesCapaValid(fecha);
-
-        
         return LstSolicitudesCapa;
     }
 
@@ -649,18 +764,33 @@ public  class solicitudManagedBean implements Serializable{
 
     public List<RrhhUnidadAdministrativa> getLstSolicitudesValidadas() {
          List<RrhhSolicitudCapacitacion> LstSolicitudesCapaAux = new ArrayList<RrhhSolicitudCapacitacion>();
-         LstSolicitudesCapaAux = psSol.getLstAllSolicitudesCapa();
+         LstSolicitudesCapaAux = psSol.getLstAllSolicitudesCapa(fecha);
+          List<RrhhUnidadAdministrativa> LstUnidadFaltantes = new ArrayList<RrhhUnidadAdministrativa>();
          LstSolicitudesValidadas = new ArrayList<RrhhUnidadAdministrativa>();
          getLstUnidadesAdmin();
          
-         if(!LstSolicitudesCapaAux.isEmpty())
+         if(!LstSolicitudesCapaAux.isEmpty()){
         for(RrhhSolicitudCapacitacion sol : LstSolicitudesCapaAux){
             if(sol.getIdEstado().getId().intValue()==19){
-                LstUnidadesAdmin.remove(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
+                //LstUnidadFaltantes.add(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
                 sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin().setSolicitudDNC(sol);
                     LstSolicitudesValidadas.add(sol.getUsrCrea().getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin());
             }
+            }
+        
+        for(RrhhUnidadAdministrativa u : LstSolicitudesValidadas){
+            for(RrhhUnidadAdministrativa un : LstUnidadesAdmin){
+                if(un.getIdUnidadAdmin().intValue() == u.getIdUnidadAdmin().intValue()){
+                    LstUnidadFaltantes.add(un);
+                }
+            }
+            LstUnidadesAdmin.removeAll(LstUnidadFaltantes);
+            //if(LstUnidadesAdmin.contains(u))
+                
+           //LstUnidadesAdmin.remove(LstUnidadFaltantes);
         }
+         }
+         
         return LstSolicitudesValidadas;
     }
 
@@ -671,7 +801,7 @@ public  class solicitudManagedBean implements Serializable{
     public List<RrhhUnidadAdministrativa> getLstUnidadesAdmin() {
          if(LstUnidadesAdmin == null){
              LstUnidadesAdmin = new ArrayList<RrhhUnidadAdministrativa>();
-         LstUnidadesAdmin = psSol.getLstUnidades();
+         LstUnidadesAdmin = psSol.getLstUsrXUnidadCreadas();
          }
         return LstUnidadesAdmin;
     }
@@ -697,6 +827,24 @@ public  class solicitudManagedBean implements Serializable{
 
     public void setIdTemaCurso(int idTemaCurso) {
         this.idTemaCurso = idTemaCurso;
+    }
+
+    public int getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(int fecha) {
+        this.fecha = fecha;
+    }
+
+    public List<RrhhPersona> getLstPersonasByUnidad() {
+         if(lstPersonasByUnidad == null)
+            lstPersonasByUnidad = new ArrayList<RrhhPersona>();
+        return lstPersonasByUnidad;
+    }
+
+    public void setLstPersonasByUnidad(List<RrhhPersona> lstPersonasByUnidad) {
+        this.lstPersonasByUnidad = lstPersonasByUnidad;
     }
 
     
