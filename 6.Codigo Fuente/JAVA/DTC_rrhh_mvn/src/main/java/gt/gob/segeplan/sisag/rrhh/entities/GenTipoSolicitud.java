@@ -48,7 +48,7 @@ public class GenTipoSolicitud implements Serializable {
     private String nombre;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idTipoSolicitud", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idTipoSolicitud", fetch = FetchType.LAZY)
     private List<GenSolicitudFinaciera> genSolicitudFinacieraList;
 
     public GenTipoSolicitud() {

@@ -69,13 +69,13 @@ public class GenSolicitudFinaciera implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_META", referencedColumnName = "ID_META")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PoaMeta idMeta;
     @JoinColumn(name = "ID_TIPO_SOLICITUD", referencedColumnName = "ID_TIPO_SOLICITUD")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenTipoSolicitud idTipoSolicitud;
     @JoinColumn(name = "ID_PERIODO", referencedColumnName = "ID_PERIODO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenPeriodo idPeriodo;
 
     public GenSolicitudFinaciera() {

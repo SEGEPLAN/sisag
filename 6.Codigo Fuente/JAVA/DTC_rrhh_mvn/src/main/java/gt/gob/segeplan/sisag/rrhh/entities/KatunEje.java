@@ -48,7 +48,7 @@ public class KatunEje implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_KATUN_PRIORIDAD", referencedColumnName = "ID_KATUN_PRIORIDAD")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private KatunPrioridad idKatunPrioridad;
 
     public KatunEje() {

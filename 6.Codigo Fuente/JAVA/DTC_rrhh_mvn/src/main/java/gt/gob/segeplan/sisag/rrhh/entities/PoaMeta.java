@@ -55,20 +55,20 @@ public class PoaMeta implements Serializable {
     private BigInteger resultadoEsperado;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poaMeta", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poaMeta", fetch = FetchType.LAZY)
     private List<PoaMetaPeriodo> poaMetaPeriodoList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poaMeta", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "poaMeta", fetch = FetchType.LAZY)
     private List<PoaMetaDireccion> poaMetaDireccionList;
     @JoinColumn(name = "ID_SUB_PRODUCTO", referencedColumnName = "ID_SUB_PRODUCTO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PoaSubProducto idSubProducto;
     @JoinColumn(name = "ID_KATUN_META", referencedColumnName = "ID_KATUN_META")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private KatunMeta idKatunMeta;
     @JoinColumn(name = "ID_UNIDAD_MEDIDA", referencedColumnName = "ID_UNIDAD_MEDIDA")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenUnidadMedida idUnidadMedida;
-    @OneToMany(mappedBy = "idMeta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idMeta", fetch = FetchType.LAZY)
     private List<GenSolicitudFinaciera> genSolicitudFinacieraList;
     
 

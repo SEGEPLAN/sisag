@@ -46,7 +46,7 @@
                         <h:panelGrid columns="2" cellpadding="0">
 
                             <h:outputText value="UNIDAD:" style="font-weight:bold" />
-                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"/>
+                            <h:outputText value="#{solicitud.solicitudDTC.usrCrea.dependencia.descripcion}"/>
 
                             <h:outputText value="ELABORA:" style="font-weight:bold"/>
                             <h:outputText value="#{solicitud.solicitudDTC.usrCrea.idPersona.nombres}  #{solicitud.solicitudDTC.usrCrea.idPersona.apellidos} "/>
@@ -59,7 +59,7 @@
                             <f:facet name="left">
                                 <p:commandButton id="cb_nuevo" icon="ui-icon-document"  
                                                  value="Nuevo" 
-                                                 actionListener="#{solicitud.borrarCombos()}"
+                                                 action="#{solicitud.borrarCombos()}"
                                                  update=":#{p:component('detailNewNec')}"
                                                  oncomplete="PF('dlgNew').show()" ajax="true" immediate="true"
                                                  
@@ -70,7 +70,7 @@
                                 <p:commandButton id="cb_editar"  icon="ui-icon-pencil"   
                                                  value="Editar" 
                                                  disabled="#{solicitud.solicitudDTC.rrhhNecesidadList.size()>0?'false':'true'}"
-                                                 actionListener="#{solicitud.llenarCombos()}"
+                                                 action="#{solicitud.llenarCombos()}"
                                                  update=":#{p:component('detailNewNec')}"
                                                  oncomplete="PF('dlgNew').show();" ajax="true" immediate="true"
                                                  onclick="PF('blkUi').show();" 
@@ -103,8 +103,8 @@
                                 <p:commandLink id="pdf" ajax="false" immediate="true">  
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
-                                    <pe:exporter type="pdf" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  
-                                                 tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
+                                    <pe:exporter type="pdf" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.dependencia.descripcion}"  
+                                                 tableTitle="#{sessionBean.objUsuario.dependencia.descripcion}" 
 
                                                  pageOnly="false"
                                                  facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
@@ -118,8 +118,8 @@
                                 <p:commandLink id="xlsx" ajax="false" immediate="true">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="xlsx" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
-                                                 tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  
+                                    <pe:exporter type="xlsx" target="necesidadesTable" fileName="Necesidades_#{sessionBean.objUsuario.dependencia.descripcion}" 
+                                                 tableTitle="#{sessionBean.objUsuario.dependencia.descripcion}"  
                                                  facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
                                                  encoding="ISO-8859-1"
                                                  pageOnly="false"
@@ -131,7 +131,7 @@
                         <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" 
                                      emptyMessage="No existen necesidades ingresadas actualmente" var="l" rowKey="#{l.idNecesidad}" 
                                      selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
-                                     resizableColumns="true"
+                                     resizableColumns="true" lazy="true"
                                      scrollable="true" scrollHeight="250"  
                                      >  
 
@@ -210,7 +210,7 @@
 
 
                 <p:accordionPanel id="resumenDNC" multiple="true" activeIndex="0,1" rendered="#{solicitud.solicitudDTC.idEstado.id eq 19?'true':'false'}">
-                    <p:tab closable="true" title="#{solicitud.solicitudDTC.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
+                    <p:tab closable="true" title="#{solicitud.solicitudDTC.usrCrea.dependencia.descripcion}">
 
                         <h:panelGrid >
 

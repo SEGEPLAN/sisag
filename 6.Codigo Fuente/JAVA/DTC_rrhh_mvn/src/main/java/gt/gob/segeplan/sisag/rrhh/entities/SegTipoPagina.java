@@ -49,7 +49,7 @@ public class SegTipoPagina implements Serializable {
     @Size(max = 100)
     @Column(name = "DESCRIPCION")
     private String descripcion;
-    @OneToMany(mappedBy = "idTipoPagina", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idTipoPagina", fetch = FetchType.LAZY)
     private List<SegPagina> segPaginaList;
 
     public SegTipoPagina() {

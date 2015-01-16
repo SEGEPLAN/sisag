@@ -10,6 +10,7 @@ import gt.gob.segeplan.sisag.core.web.utils.encriptarAES256;
 import gt.gob.segeplan.sisag.core.web.utils.themeCustomer;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPaginaAsignada;
@@ -127,12 +128,12 @@ public class seguridadManagedBean implements Serializable {
     private List<SegPagina> principal;
 
     // roles y accesos
-    private List<RrhhPersona> lstPersonas;
+    private List<RrhhUnidadPersona> lstPersonas;
     private List<RrhhPersona> lstPersonasAsig;
 
     private List<SegUsuario> lstUsrActivos;
 
-    private List<RrhhPersona> selectedPersonas;
+    private List<RrhhUnidadPersona> selectedPersonas;
     private SegRol rolGestNC;
 
     public seguridadManagedBean() {
@@ -246,11 +247,14 @@ public class seguridadManagedBean implements Serializable {
                     int band = datos.getString("multiSesion").equals("N") ? 0 : 1;
                     ensesion = appBean.addSegUsuario(u, band);
 
+                    // llenar usuarios
+                    //llenarUsuarios();
+                    
                     //   5. SE SUBEN VARIABLES DE SESION DE USUARIO.
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", u);
                     usr = u.getIdUsuario();
-                    if (u.getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin() != null) {
-                        unidad = u.getIdPersona().getRrhhUnidadPersonaList().getRrhhUnidadAdmin();
+                    if (u.getDependencia() != null) {
+                        unidad = u.getDependencia();
                     }
 
                     
@@ -341,6 +345,19 @@ public class seguridadManagedBean implements Serializable {
         return "";
     }
 
+    public void llenarUsuarios(){
+        lstUsrActivos = psUsr.getLstUsuario();
+            for(SegUsuario se :lstUsrActivos){
+                for(RrhhUnidadPersona up : se.getIdPersona().getRrhhUnidadPersonaList()){
+                    if(up.getRestrictiva().contains("N")){
+                        se.setDependencia(up.getRrhhUnidadAdmin());
+                        psUsr.editarUsuario(se);
+                    }
+                }
+                
+            }
+        
+    }
     public void login_user() throws IOException, ParseException {
 
         //   METODO DE LOGEO
@@ -455,12 +472,12 @@ public class seguridadManagedBean implements Serializable {
             }
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("LstMenu", lstMenuFinal);
 
-            principal = psUsr.getLstPagina_By(1, "byTipo");
-
-            for (SegPagina s : principal) {
-                lstMenuFinal.add("/faces/" + s.getUrl());
-            }
-            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("LstMenu", lstMenuFinal);
+//            principal = psUsr.getLstPagina_By(1, "byTipo");
+//
+//            for (SegPagina s : principal) {
+//                lstMenuFinal.add("/faces/" + s.getUrl());
+//            }
+//            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("LstMenu", lstMenuFinal);
         } catch (Exception obj) {
             System.out.println(obj);
         }
@@ -518,13 +535,13 @@ public class seguridadManagedBean implements Serializable {
         FacesMessage msg = null;
 
         if (!selectedPersonas.isEmpty()) {
-            for (RrhhPersona p : selectedPersonas) {
+            for (RrhhUnidadPersona p : selectedPersonas) {
                 List<SegRolUsuario> lstRUsr = new ArrayList<SegRolUsuario>();
 
                 SegUsuario usrAux = new SegUsuario();
                 String clave = "";
-                String nombres[] = p.getNombres().split(" ");
-                String apellidos[] = p.getApellidos().split(" ");
+                String nombres[] = p.getRrhhPersona().getNombres().split(" ");
+                String apellidos[] = p.getRrhhPersona().getApellidos().split(" ");
 
                 for (String nombre : nombres) {
                     clave += nombre.substring(0, 1);
@@ -550,11 +567,17 @@ public class seguridadManagedBean implements Serializable {
                 usrAux.setNombre(clave);
                 String PWD_MD5 = pwd.encriptaEnMD5(clave);
                 usrAux.setPwd(PWD_MD5);
-                usrAux.setIdPersona(p);
-                usrAux.setEmail(p.getCorreoElectronico());
+                usrAux.setIdPersona(p.getRrhhPersona());
+                usrAux.setEmail(p.getRrhhPersona().getCorreoElectronico());
                 usrAux.setEstado(1);
                 usrAux.setPregunta("Pregunta secreta?");
                 usrAux.setRespuesta("12345");
+                
+                for(RrhhUnidadPersona up : p.getRrhhPersona().getRrhhUnidadPersonaList()){
+                    if(up.getRestrictiva().contains("N")){
+                        usrAux.setDependencia(up.getRrhhUnidadAdmin());
+                    }
+                }
 
                 psUsr.crearUsuario(usrAux);
 
@@ -809,9 +832,9 @@ public class seguridadManagedBean implements Serializable {
         this.unidad = unidad;
     }
 
-    public List<RrhhPersona> getLstPersonas() {
+    public List<RrhhUnidadPersona> getLstPersonas() {
         if (lstPersonas == null) {
-            lstPersonas = new ArrayList<RrhhPersona>();
+            lstPersonas = new ArrayList<RrhhUnidadPersona>();
             lstPersonas = psUsr.getLstPersonas();
         }
         if (!lstPersonasAsig.isEmpty()) {
@@ -821,15 +844,15 @@ public class seguridadManagedBean implements Serializable {
         return lstPersonas;
     }
 
-    public void setLstPersonas(List<RrhhPersona> lstPersonas) {
+    public void setLstPersonas(List<RrhhUnidadPersona> lstPersonas) {
         this.lstPersonas = lstPersonas;
     }
 
-    public List<RrhhPersona> getSelectedPersonas() {
+    public List<RrhhUnidadPersona> getSelectedPersonas() {
         return selectedPersonas;
     }
 
-    public void setSelectedPersonas(List<RrhhPersona> selectedPersonas) {
+    public void setSelectedPersonas(List<RrhhUnidadPersona> selectedPersonas) {
         this.selectedPersonas = selectedPersonas;
     }
 
@@ -837,6 +860,12 @@ public class seguridadManagedBean implements Serializable {
         if (lstUsrActivos == null) {
             lstUsrActivos = new ArrayList<SegUsuario>();
             lstUsrActivos = psUsr.getLstUsuario();
+//            for(SegUsuario se :lstUsrActivos){
+//                for(RrhhUnidadPersona  re: se.getIdPersona().getRrhhUnidadPersonas()){
+//                    if()
+//                }
+               // se.setUnidad(se.getIdPersona().getRrhhUnidadPersonaList())
+//            }
         }
         return lstUsrActivos;
     }

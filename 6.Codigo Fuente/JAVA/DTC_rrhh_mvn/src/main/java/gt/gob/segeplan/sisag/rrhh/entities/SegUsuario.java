@@ -80,17 +80,22 @@ public class SegUsuario implements Serializable {
     private Long telefono;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "usrCrea", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "usrCrea", fetch = FetchType.LAZY)
     private List<RrhhSolicitudCapacitacion> rrhhSolicitudCapacitacionList;
-    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<SegPaginaAsignada> segPaginaAsignadaList;
-    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<SegSesion> segSesionList;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segUsuario", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segUsuario", fetch = FetchType.LAZY)
     private List<SegRolUsuario> segRolUsuarioList;
     @JoinColumn(name = "ID_PERSONA", referencedColumnName = "ADSCGEM$ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhPersona idPersona;
+    
+    
+    @JoinColumn(name = "DEPENDENCIA", referencedColumnName = "ADSCGDP$ID")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private RrhhUnidadAdministrativa dependencia;
 
     public SegUsuario() {
     }
@@ -169,6 +174,14 @@ public class SegUsuario implements Serializable {
 
     public void setRestrictiva(Character restrictiva) {
         this.restrictiva = restrictiva;
+    }
+
+    public RrhhUnidadAdministrativa getDependencia() {
+        return dependencia;
+    }
+
+    public void setDependencia(RrhhUnidadAdministrativa dependencia) {
+        this.dependencia = dependencia;
     }
 
     @XmlTransient

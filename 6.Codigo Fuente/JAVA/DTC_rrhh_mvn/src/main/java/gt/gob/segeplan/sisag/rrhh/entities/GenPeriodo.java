@@ -55,14 +55,14 @@ public class GenPeriodo implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genPeriodo", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "genPeriodo", fetch = FetchType.LAZY)
     private List<PoaMetaPeriodo> poaMetaPeriodoList;
-    @OneToMany(mappedBy = "idPeriodo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idPeriodo", fetch = FetchType.LAZY)
     private List<GenSolicitudFinaciera> genSolicitudFinacieraList;
-    @OneToMany(mappedBy = "perIdPeriodo", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "perIdPeriodo", fetch = FetchType.LAZY)
     private List<GenPeriodo> genPeriodoList;
     @JoinColumn(name = "PER_ID_PERIODO", referencedColumnName = "ID_PERIODO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenPeriodo perIdPeriodo;
 
     public GenPeriodo() {

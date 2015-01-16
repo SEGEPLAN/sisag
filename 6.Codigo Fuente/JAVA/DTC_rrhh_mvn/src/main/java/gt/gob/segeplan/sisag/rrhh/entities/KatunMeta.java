@@ -48,9 +48,9 @@ public class KatunMeta implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idKatunMeta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idKatunMeta", fetch = FetchType.LAZY)
     private List<KatunPrioridad> katunPrioridadList;
-    @OneToMany(mappedBy = "idKatunMeta", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idKatunMeta", fetch = FetchType.LAZY)
     private List<PoaMeta> poaMetaList;
 
     public KatunMeta() {

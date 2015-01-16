@@ -60,12 +60,12 @@ public class RrhhSolicitudCapacitacion implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaCrea;
     @JoinColumn(name = "USR_CREA", referencedColumnName = "ID_USUARIO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SegUsuario usrCrea;
     @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idEstado;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitudCapacitacion", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "idSolicitudCapacitacion", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList;
     
     @Column(name = "ANIO")

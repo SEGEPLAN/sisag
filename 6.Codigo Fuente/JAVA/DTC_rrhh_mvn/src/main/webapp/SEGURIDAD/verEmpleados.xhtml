@@ -40,7 +40,7 @@
                             <p:graphicImage value="/resources/images/pdf.png"/>  
                             <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
                             <pe:exporter type="pdf" target="empleadosTable" fileName="Empleados"  
-                                         tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
+                                         tableTitle="Empleados sin acceso DNC" 
 
                                          pageOnly="false"
                                          facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
@@ -54,7 +54,7 @@
                             <p:graphicImage value="/resources/images/excel.png"/>  
                             <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                             <pe:exporter type="xlsx" target="empleadosTable" fileName="Empleados" 
-                                         tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}"  
+                                         tableTitle="Empleados sin acceso DNC"  
                                          pageOnly="false"
                                          facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
                                          encoding="ISO-8859-1"
@@ -65,24 +65,24 @@
                 <br/>
             
                 <p:dataTable id="empleadosTable"  value="#{seguridad.lstPersonas}" 
-                             emptyMessage="No existen empleados ingresadas" var="l" rowKey="#{l.idPersona}" 
+                             emptyMessage="No existen empleados ingresadas" var="l" rowKey="#{l.rrhhPersona.idPersona}" 
                              selection="#{seguridad.selectedPersonas}"  scrollable="true" scrollHeight="300"
                              style="margin-bottom:0">
                     <f:facet name="header">
                         Asignar Rol DNC
                     </f:facet>
                     <p:column selectionMode="multiple" exportable="false" style="width:16px;text-align:center"/>
-                    <p:column headerText="Id" sortBy="#{l.idPersona}" filterBy="#{l.idPersona}">
-                        <h:outputText value="#{l.idPersona}" />
+                    <p:column headerText="Id" sortBy="#{l.rrhhPersona.idPersona}" filterBy="#{l.rrhhPersona.idPersona}">
+                        <h:outputText value="#{l.rrhhPersona.idPersona}" />
                     </p:column>
-                    <p:column headerText="Nombre" filterBy="#{l.nombres}">
-                        <h:outputText value="#{l.nombres}" />
+                    <p:column headerText="Nombre" filterBy="#{l.rrhhPersona.nombres}">
+                        <h:outputText value="#{l.rrhhPersona.nombres}" />
                     </p:column>
-                    <p:column headerText="Apellidos" filterBy="#{l.apellidos}"> 
-                        <h:outputText value="#{l.apellidos}" />
+                    <p:column headerText="Apellidos" filterBy="#{l.rrhhPersona.apellidos}"> 
+                        <h:outputText value="#{l.rrhhPersona.apellidos}" />
                     </p:column>
-                    <p:column headerText="Unidad" sortBy="#{l.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" filterBy="#{l.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}">
-                        <h:outputText value="#{l.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" />
+                    <p:column headerText="Unidad" sortBy="#{l.rrhhUnidadAdmin.descripcion}" filterBy="#{l.rrhhUnidadAdmin.descripcion}">
+                        <h:outputText value="#{l.rrhhUnidadAdmin.descripcion}" />
                     </p:column>
                     <f:facet name="footer">
                         <p:commandButton id="asigna"  action="#{seguridad.asignarRol}"  icon="ui-icon-search" value="Asignar Acceso"  

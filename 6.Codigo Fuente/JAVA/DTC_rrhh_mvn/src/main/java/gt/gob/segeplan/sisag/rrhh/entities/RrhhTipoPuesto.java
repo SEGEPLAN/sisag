@@ -55,7 +55,7 @@ public class RrhhTipoPuesto implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhTipoPuesto", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhTipoPuesto", fetch = FetchType.LAZY)
     private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
     
     

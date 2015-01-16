@@ -44,11 +44,11 @@ public class RrhhUnidadPersona implements Serializable {
     private String userIdIng;
     
     @JoinColumn(name = "ADSCGED$ID_DEPENDENCIA", referencedColumnName = "ADSCGDP$ID", insertable = false, updatable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhUnidadAdministrativa rrhhUnidadAdmin;
     
     @JoinColumn(name = "ADSCGED$ID_EMPLEADO", referencedColumnName = "ADSCGEM$ID", insertable = false, updatable = false)
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhPersona rrhhPersona;
 
     public RrhhUnidadPersona() {

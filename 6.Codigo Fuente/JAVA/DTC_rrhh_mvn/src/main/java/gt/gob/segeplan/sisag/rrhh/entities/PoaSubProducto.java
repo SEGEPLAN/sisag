@@ -51,9 +51,9 @@ public class PoaSubProducto implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_PRODUCTO", referencedColumnName = "ID_PRODUCTO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private PoaProducto idProducto;
-    @OneToMany(mappedBy = "idSubProducto", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idSubProducto", fetch = FetchType.LAZY)
     private List<PoaMeta> poaMetaList;
 
     public PoaSubProducto() {

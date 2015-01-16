@@ -42,11 +42,11 @@
                                 <p:rowToggler id="rowToggler" />
                             </p:column>
 
-                            <p:column sortBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" filterBy="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" >
+                            <p:column sortBy="#{l.usrCrea.dependencia.descripcion}" filterBy="#{l.usrCrea.dependencia.descripcion}" >
                                 <f:facet name="header">
                                     <h:outputText value="Unidad Administrativa" />
                                 </f:facet>
-                                <h:outputText value="#{l.usrCrea.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" />
+                                <h:outputText value="#{l.usrCrea.dependencia.descripcion}" />
                             </p:column>
 
                             <p:column sortBy="#{l.rrhhNecesidadList.size()}" >
@@ -77,7 +77,7 @@
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                                      <pe:exporter type="xlsx" target="necTable2" fileName="Solicitudes" encoding="ISO-8859-1"
-                                                  tableTitle="#{sessionBean.objUsuario.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin.descripcion}" 
+                                                  tableTitle="#{sessionBean.objUsuario.dependencia.descripcion}" 
                                                   facetBackground="#38B0DE"  
                                                 datasetPadding="10" subTable="true" />  
                                 </p:commandLink> 

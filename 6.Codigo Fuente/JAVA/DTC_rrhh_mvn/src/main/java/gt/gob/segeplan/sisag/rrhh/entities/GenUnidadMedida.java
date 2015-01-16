@@ -48,7 +48,7 @@ public class GenUnidadMedida implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idUnidadMedida", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idUnidadMedida", fetch = FetchType.LAZY)
     private List<PoaMeta> poaMetaList;
 
     public GenUnidadMedida() {

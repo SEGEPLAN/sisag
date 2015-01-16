@@ -47,22 +47,22 @@ public class GenDominios implements Serializable {
     @Size(max = 50)
     @Column(name = "NOMBRE")
     private String nombre;
-    @OneToMany(mappedBy = "idEstado", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<RrhhSolicitudCapacitacion> rrhhSolicitudCapacitacionList;
-    @OneToMany(mappedBy = "idDominio", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idDominio", fetch = FetchType.LAZY)
     private List<GenDominios> genDominiosList;
     @JoinColumn(name = "ID_DOMINIO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idDominio;
-    @OneToMany(mappedBy = "idPrioridad", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idPrioridad", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList;
-    @OneToMany(mappedBy = "idCaracter", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idCaracter", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList1;
-    @OneToMany(mappedBy = "idEstado", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idEstado", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList2;
-    @OneToMany(mappedBy = "idDisponibilidad", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idDisponibilidad", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList3;
-    @OneToMany(mappedBy = "idNivelConocimiento", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idNivelConocimiento", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList4;
 
     public GenDominios() {

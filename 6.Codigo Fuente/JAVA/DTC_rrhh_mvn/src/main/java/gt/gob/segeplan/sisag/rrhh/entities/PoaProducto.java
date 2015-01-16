@@ -52,7 +52,7 @@ public class PoaProducto implements Serializable {
     private BigInteger inciso;
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
-    @OneToMany(mappedBy = "idProducto", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idProducto", fetch = FetchType.LAZY)
     private List<PoaSubProducto> poaSubProductoList;
 
     public PoaProducto() {

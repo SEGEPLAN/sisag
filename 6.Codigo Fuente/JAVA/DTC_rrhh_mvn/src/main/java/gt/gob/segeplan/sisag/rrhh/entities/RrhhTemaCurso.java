@@ -60,7 +60,7 @@ public class RrhhTemaCurso implements Serializable {
     private String descripcion;
     @Column(name = "RESTRICTIVA")
     private int restrictiva;
-    @OneToMany(mappedBy = "idTema", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idTema", fetch = FetchType.LAZY)
     private List<RrhhNecesidad> rrhhNecesidadList;
     
 

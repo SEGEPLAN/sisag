@@ -43,10 +43,10 @@ public class PoaMetaDireccion implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_UNIDAD", referencedColumnName = "ID_UNIDAD_ADMIN", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RrhhUnidadAdministrativa rrhhUnidadAdministrativa;
     @JoinColumn(name = "ID_META", referencedColumnName = "ID_META", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private PoaMeta poaMeta;
 
     public PoaMetaDireccion() {

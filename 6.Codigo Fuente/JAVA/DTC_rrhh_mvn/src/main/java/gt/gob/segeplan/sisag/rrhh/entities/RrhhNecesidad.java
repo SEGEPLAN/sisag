@@ -84,27 +84,27 @@ public class RrhhNecesidad implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaModifica;
     @JoinColumn(name = "ID_TEMA", referencedColumnName = "ID_TEMA")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhTemaCurso idTema;
     @JoinColumn(name = "ID_SOLICITUD_CAPACITACION", referencedColumnName = "ID_SOLICITUD_CAPACITACION")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RrhhSolicitudCapacitacion idSolicitudCapacitacion;
     @JoinColumn(name = "ID_PRIORIDAD", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idPrioridad;
     @JoinColumn(name = "ID_CARACTER", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idCaracter;
     @JoinColumn(name = "ID_ESTADO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idEstado;
     @JoinColumn(name = "ID_DISPONIBILIDAD", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idDisponibilidad;
     @JoinColumn(name = "ID_NIVEL_CONOCIMIENTO", referencedColumnName = "ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private GenDominios idNivelConocimiento;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhNecesidad", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rrhhNecesidad", fetch = FetchType.LAZY)
     private List<RrhhNecesidadPuesto> rrhhNecesidadPuestoList;
     
    

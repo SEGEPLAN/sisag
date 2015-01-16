@@ -41,10 +41,10 @@ public class RrhhNecesidadPuesto implements Serializable {
     @Column(name = "RESTRICTIVA")
     private Character restrictiva;
     @JoinColumn(name = "ID_TIPO_PUESTO", referencedColumnName = "ID_TIPO_PUESTO", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RrhhTipoPuesto rrhhTipoPuesto;
     @JoinColumn(name = "ID_NECESIDAD", referencedColumnName = "ID_NECESIDAD", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private RrhhNecesidad rrhhNecesidad;
     
     

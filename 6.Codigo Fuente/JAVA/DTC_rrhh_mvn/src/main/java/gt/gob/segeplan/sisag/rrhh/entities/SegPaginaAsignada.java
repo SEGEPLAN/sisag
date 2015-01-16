@@ -53,9 +53,9 @@ public class SegPaginaAsignada implements Serializable {
     @ManyToOne(fetch = FetchType.EAGER)
     private SegRol idRol;
     @JoinColumn(name = "ID_PAGINA", referencedColumnName = "ID_PAGINA")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private SegPagina idPagina;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segPaginaAsignada", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "segPaginaAsignada", fetch = FetchType.LAZY)
     private List<SegPrivilegioPagina> segPrivilegioPaginaList;
 
     public SegPaginaAsignada() {

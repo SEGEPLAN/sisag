@@ -325,7 +325,7 @@ public class solicitudImplement implements solicitudController{
    @Override
    public List<RrhhUnidadAdministrativa> getLstUsrXUnidadCreadas() {
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("Select l.idPersona.rrhhUnidadPersonaList.rrhhUnidadAdmin from SegUsuario l WHERE l.estado=1");
+        Query q = em.createQuery("Select l.dependencia from SegUsuario l WHERE l.estado=1");
         return q.getResultList();
     }
    

@@ -8,6 +8,7 @@ package gt.gob.segeplan.sisag.core.web.implement;
 import gt.gob.segeplan.sisag.core.web.controller.seguridadController;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadAdministrativa;
+import gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadPersona;
 import gt.gob.segeplan.sisag.rrhh.entities.SegModulo;
 import gt.gob.segeplan.sisag.rrhh.entities.SegPagina;
 import gt.gob.segeplan.sisag.rrhh.entities.SegRol;
@@ -55,11 +56,15 @@ public class seguridadImplement implements seguridadController{
     
     
     @Override
-    public List<RrhhPersona> getLstPersonas() {
+    public List<RrhhUnidadPersona> getLstPersonas() {
         EntityManager em = emf.createEntityManager();
-        Query q = em.createQuery("Select l from RrhhPersona l WHERE l.rrhhUnidadPersonaList.restrictiva=:filtro1 AND l.restrictiva=:filtro2");
+            Query q = em.createQuery("Select l from RrhhUnidadPersona l WHERE l.restrictiva=:filtro1 AND l.rrhhPersona.restrictiva=:filtro2");
         q.setParameter("filtro1","N");
         q.setParameter("filtro2","N");
+        
+//         Query q = em.createQuery("Select l from RrhhPersona l WHERE l.rrhhUnidadPersonaList.restrictiva=:filtro1 AND l.restrictiva=:filtro2");
+//        q.setParameter("filtro1","N");
+//        q.setParameter("filtro2","N");
         return q.getResultList();
     }
     

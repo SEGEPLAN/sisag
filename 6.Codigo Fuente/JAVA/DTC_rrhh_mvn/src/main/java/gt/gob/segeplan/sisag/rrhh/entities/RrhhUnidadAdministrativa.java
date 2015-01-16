@@ -50,14 +50,14 @@ public class RrhhUnidadAdministrativa implements Serializable {
     private RrhhSolicitudCapacitacion solicitudDNC;
     
     
-    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idUnidadAdmin", fetch = FetchType.LAZY)
     private List<SegRol> segRolList;
     
 //    @OneToMany(mappedBy = "idUnidad", fetch = FetchType.EAGER)
 //    private List<RrhhPersona> rrhhPersonaList;
     
     
-    @OneToMany(mappedBy = "rrhhUnidadAdmin", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "rrhhUnidadAdmin", fetch = FetchType.LAZY)
     private List<RrhhUnidadPersona> rrhhUnidadPersonaList;
 
     public RrhhUnidadAdministrativa() {

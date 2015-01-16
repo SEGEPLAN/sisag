@@ -39,33 +39,33 @@ public class SesionFiltroBean implements Filter {
         strSesion = session.getAttribute("sesion") == null ? "no" : "si";
         request.setCharacterEncoding("UTF-8");
         if (strSesion.equals("no")) {
-            if (r.getRequestURL().toString().contains("/sinaf/faces/resetPwd.xhtml")) {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("../faces/resetPwd.xhtml");
-                dispatcher.forward(request, response);
-            } 
-            
-            else {
+//            if (r.getRequestURL().toString().contains("/sinaf/faces/resetPwd.xhtml")) {
+//                RequestDispatcher dispatcher = request.getRequestDispatcher("../faces/resetPwd.xhtml");
+//                dispatcher.forward(request, response);
+//            } 
+//            
+//            else {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("../faces/login.xhtml");
                 dispatcher.forward(request, response);
-            }
+//            }
         } else {
-            ArrayList<String> lstMenu = (ArrayList<String>) session.getAttribute("LstMenu");
-            
-                int ban = 0;
-                String url = r.getRequestURL().toString();
-                for (int i = 0; i < lstMenu.size(); i++) {
-                    System.out.println("lstMenu.get(i)" + lstMenu.get(i));
-                    if (url.contains(lstMenu.get(i))) {
-                        ban = 1;
-                        break;
-                    }
-                }
-                if (ban > 0) {
+//            ArrayList<String> lstMenu = (ArrayList<String>) session.getAttribute("LstMenu");
+//            
+//                int ban = 0;
+//                String url = r.getRequestURL().toString();
+//                for (int i = 0; i < lstMenu.size(); i++) {
+//                    System.out.println("lstMenu.get(i)" + lstMenu.get(i));
+//                    if (url.contains(lstMenu.get(i))) {
+//                        ban = 1;
+//                        break;
+//                    }
+//                }
+//                if (ban > 0) {
                     chain.doFilter(request, response);
-                } else {
-                        RequestDispatcher dispatcher = request.getRequestDispatcher("/faces/noPrivilegio.xhtml");
-                        dispatcher.forward(request, response);
-                    }
+//                } else {
+//                        RequestDispatcher dispatcher = request.getRequestDispatcher("/faces/noPrivilegio.xhtml");
+//                        dispatcher.forward(request, response);
+//                    }
         }
 
         

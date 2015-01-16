@@ -72,16 +72,16 @@ public class RrhhPersona implements Serializable {
     private String userIdIng;
     
     
-    @OneToMany(mappedBy = "idPersona", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idPersona", fetch = FetchType.LAZY)
     private List<SegUsuario> segUsuarioList;
     
     
-    @OneToMany(mappedBy = "rrhhPersona", fetch = FetchType.EAGER)
-    private List<RrhhUnidadPersona> rrhhUnidadPersonas;
+    @OneToMany(mappedBy = "rrhhPersona", fetch = FetchType.LAZY)
+    private List<RrhhUnidadPersona> rrhhUnidadPersonaList;
     
     
-    @Transient 
-    private RrhhUnidadPersona rrhhUnidadPersonaList;
+    
+    
     
 
     public RrhhPersona() {
@@ -171,31 +171,16 @@ public class RrhhPersona implements Serializable {
         this.restrictiva = restrictiva;
     }
 
-    
-    
+       
 
-    public RrhhUnidadPersona getRrhhUnidadPersonaList() {
+
+    @XmlTransient
+    public List<RrhhUnidadPersona> getRrhhUnidadPersonaList() {
         return rrhhUnidadPersonaList;
     }
 
-    public void setRrhhUnidadPersonaList(RrhhUnidadPersona rrhhUnidadPersonaList) {
+    public void setRrhhUnidadPersonaList(List<RrhhUnidadPersona> rrhhUnidadPersonaList) {
         this.rrhhUnidadPersonaList = rrhhUnidadPersonaList;
-    }
-
-    
-    public List<RrhhUnidadPersona> getRrhhUnidadPersonas() {
-        if(rrhhUnidadPersonaList==null){
-        for(RrhhUnidadPersona r: rrhhUnidadPersonas){
-            if(r.getRestrictiva().contains("N")){
-                rrhhUnidadPersonaList = r;
-            }
-         }
-        }
-        return rrhhUnidadPersonas;
-    }
-
-    public void setRrhhUnidadPersonas(List<RrhhUnidadPersona> rrhhUnidadPersonas) {
-        this.rrhhUnidadPersonas = rrhhUnidadPersonas;
     }
 
     
@@ -234,6 +219,7 @@ public class RrhhPersona implements Serializable {
 
     @Override
     public String toString() {
+         
         return "gt.gob.segeplan.sisag.rrhh.entities.RrhhPersona[ idPersona=" + idPersona + " ]";
     }
     
