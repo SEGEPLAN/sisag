@@ -32,6 +32,12 @@
 
                     <p:panel toggleable="true">
 
+                        <p:fieldset >
+                            <h:outputText style="font-size: large"
+                                    value="Puede Exportar la tabla en excel o pdf." />
+                       
+                        </p:fieldset>
+                        
                         <p:toolbar id="toolbarDTC">
 
                             <f:facet name="right">
@@ -40,14 +46,14 @@
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
                                     <pe:exporter type="pdf" facetBackground="#38B0DE" 
                                                  
-                                                 target="playersSubTable" fileName="Solicitudes" subTable="true"/>  
+                                                 target="playersSubTable" fileName="Solicitudes_#{solicitud.fecha}" subTable="true"/>  
 
                                 </p:commandLink>  
 
                                 <p:commandLink id="xls" ajax="false">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                    <pe:exporter type="xlsx" target="playersSubTable" fileName="Solicitudes" subTable="true"  
+                                    <pe:exporter type="xlsx" target="playersSubTable" fileName="Solicitudes_#{solicitud.fecha}" subTable="true"  
                                                  facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
                                                  encoding="ISO-8859-1"
                                                  pageOnly="false"
@@ -57,18 +63,23 @@
                                 </p:commandLink>  
                             </f:facet>
                         </p:toolbar>
-                        <br/>
+                        
 
-                        <p:dataTable id="playersSubTable"  value="#{solicitud.lstSolicitudesCapa}" style="width: 90%; height: 100%; margin: 0 auto;" 
+                        <p:dataTable id="playersSubTable"  value="#{solicitud.lstSolicitudesCapa}" style="width: 100%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen solicitudes actualmente" var="l" rowKey="#{l.idSolicitudCapacitacion}" 
                                      scrollable="true" scrollHeight="450"   >  
                             <p:columnGroup type="header">  
                                 <p:row>  
+                                    <p:column colspan="4" headerText="Vaciado de Informacion #{solicitud.fecha}" style="font-size: large" /> 
+                                </p:row>  
+                                <p:row>  
+                                    <p:column headerText="Caracter" />
                                     <p:column headerText="Curso" />
                                     <p:column headerText="Disponibilidad"/> 
+                                     
                                     <p:column headerText="Horas Solicitadas"/>  
-                                </p:row>  
-
+                                    
+                                </p:row> 
                                  
                             </p:columnGroup> 
 
@@ -77,22 +88,29 @@
                                 <f:facet name="header">  
                                     <h:outputText value="#{l.usrCrea.dependencia.descripcion}" />  
                                 </f:facet>  
-
                                 
-                                 <p:column sortBy="#{n.idTema.nombre}" filterBy="#{n.idTema.nombre}" >
+                                <p:column  >
+                                <f:facet name="header">
+                                    <h:outputText value="Caracter" />
+                                </f:facet>
+                                <h:outputText value="#{n.idCaracter.nombre}" />
+                            </p:column>
+                                
+                                 <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Curso" />
                                 </f:facet>
                                 <h:outputText value="#{n.idTema.nombre}" />
                             </p:column>
-                                <p:column sortBy="#{n.idDisponibilidad.nombre}" filterBy="#{n.idDisponibilidad.nombre}">
+                                <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Disponibilidad" />
                                 </f:facet>
                                 <h:outputText value="#{n.idDisponibilidad.nombre}" />
                             </p:column >
-
-                            <p:column sortBy="#{n.totalHoras}" filterBy="#{n.totalHoras}">
+                            
+                            
+                            <p:column >
                                 <f:facet name="header">
                                     <h:outputText value="Total Horas" />
                                 </f:facet>

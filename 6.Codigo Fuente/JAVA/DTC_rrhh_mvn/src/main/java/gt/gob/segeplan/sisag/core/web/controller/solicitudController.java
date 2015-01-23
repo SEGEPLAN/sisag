@@ -35,6 +35,7 @@ public interface solicitudController {
     public List<RrhhUnidadAdministrativa> getLstUsrXUnidadCreadas();
     
      public List<RrhhSolicitudCapacitacion> getLstAllSolicitudesCapaValid(int anio);
+     public List<RrhhNecesidad> getLstNecValid(int anio);
      
     // ABC Solicitudes
     public RrhhSolicitudCapacitacion crearSolicitudDTC(RrhhSolicitudCapacitacion objeto); // registrar 

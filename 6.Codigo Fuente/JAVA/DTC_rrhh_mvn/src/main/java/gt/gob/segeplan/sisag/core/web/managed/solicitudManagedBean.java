@@ -55,6 +55,7 @@ public  class solicitudManagedBean implements Serializable{
     private List<RrhhSolicitudCapacitacion> solicitudesDTC;
     private List<RrhhSolicitudCapacitacion> LstSolicitudesCapa;
     
+    private List<RrhhNecesidad> LstNecPuesto;
     
     private List<RrhhUnidadAdministrativa> LstSolicitudesValidadas;
     private List<RrhhUnidadAdministrativa> LstUnidadesAdmin;
@@ -133,6 +134,7 @@ public  class solicitudManagedBean implements Serializable{
     // METODOS
     
     public void enviarFecha(int fechaRecibida){
+        usuario = ((SegUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("usuario"));
         fecha = fechaRecibida;
         Calendar c = Calendar.getInstance();
         //refreshUsr();
@@ -748,6 +750,20 @@ public  class solicitudManagedBean implements Serializable{
         this.necPuesto = necPuesto;
     }
 
+    public List<RrhhNecesidad> getLstNecPuesto() {
+        if(LstNecPuesto == null){
+            LstNecPuesto = new ArrayList<RrhhNecesidad>();
+            LstNecPuesto = psSol.getLstNecValid(fecha);
+        }
+        return LstNecPuesto;
+    }
+
+    public void setLstNecPuesto(List<RrhhNecesidad> LstNecPuesto) {
+        this.LstNecPuesto = LstNecPuesto;
+    }
+
+    
+    
     public List<RrhhSolicitudCapacitacion> getLstSolicitudesCapa() {
         if(LstSolicitudesCapa == null){
             LstSolicitudesCapa = new ArrayList<RrhhSolicitudCapacitacion>();

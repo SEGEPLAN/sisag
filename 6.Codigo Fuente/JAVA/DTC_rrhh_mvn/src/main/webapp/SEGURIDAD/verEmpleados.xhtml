@@ -29,7 +29,11 @@
             <h:form id="segForm">  
 
                 <p:growl id="messages" showDetail="true"/>  
-
+<p:fieldset >
+                            <h:outputText style="font-size: large"
+                                    value="Puede Exportar la tabla en excel o pdf." />
+                       
+                        </p:fieldset>
                 <p:toolbar id="toolbarDTC">
 
 
@@ -62,7 +66,6 @@
                         </p:commandLink> 
                     </f:facet>
                 </p:toolbar>
-                <br/>
             
                 <p:dataTable id="empleadosTable"  value="#{seguridad.lstPersonas}" 
                              emptyMessage="No existen empleados ingresadas" var="l" rowKey="#{l.rrhhPersona.idPersona}" 
@@ -86,7 +89,7 @@
                     </p:column>
                     <f:facet name="footer">
                         <p:commandButton id="asigna"  action="#{seguridad.asignarRol}"  icon="ui-icon-search" value="Asignar Acceso"  
-                                          onclick="PF('blkUi').show();" 
+                                          onclick="PF('blkUi').show();" style="font-size: small"
                                                      oncomplete="blkUi.hide();" 
                                           />
                         <p:blockUI block=":segForm"  trigger="asigna" widgetVar="blkUi">  

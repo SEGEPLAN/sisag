@@ -315,6 +315,16 @@ public class solicitudImplement implements solicitudController{
         return q.getResultList();
     }
    
+   
+   @Override
+   public List<RrhhNecesidad> getLstNecValid(int anio) {
+        EntityManager em = emf.createEntityManager();
+        Query q = em.createQuery("Select l from RrhhNecesidad l WHERE l.idSolicitudCapacitacion.anio=:anio AND l.idSolicitudCapacitacion.idEstado.id  = 19");
+         q.setParameter("anio",anio);
+        return q.getResultList();
+    }
+   
+   
    @Override
    public List<RrhhUnidadAdministrativa> getLstUnidades() {
         EntityManager em = emf.createEntityManager();

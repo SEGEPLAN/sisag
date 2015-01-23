@@ -35,8 +35,11 @@ import java.util.Set;
 import java.util.logging.Level;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import org.primefaces.event.TransferEvent;
+import org.primefaces.model.DualListModel;
 import org.primefaces.model.menu.DefaultMenuItem;
 import org.primefaces.model.menu.DefaultMenuModel;
 import org.primefaces.model.menu.DefaultSubMenu;
@@ -62,26 +65,18 @@ public class seguridadManagedBean implements Serializable {
     private String NIP;
 
     //  banderas
-    private boolean mostrar;
-    private boolean expira = false;
     private boolean logeado = false;
     private boolean ensesion = false;
     private boolean activo;
-    private boolean pwdChange;
     private boolean nuevoIngreso = false;
     private boolean render;
-    private boolean bandFecExp;
-    private boolean Usr_upd;
     private boolean existe;
     //  filtros
-    private Integer filter = 0;
-    private Integer filterRoles = 0;
+    
     private int filterSelecModulo;
-    private int selectedModulo;
 
     int num_mod = 0;
     private String url = null;
-    private String expiracion = null;
     private String PWD_DECODE;
     private String PWD_DECODE2;
 
@@ -102,30 +97,18 @@ public class seguridadManagedBean implements Serializable {
     // seguridad
     encriptarAES256 pwd = new encriptarAES256();
 
-    private int tipoUsuario = 0;
     private String mail;
     private BigDecimal usr;
 
     // filtros
-    private Integer selRol = 0;
-    private Integer selFuncion = 0;
-    private Integer selSede = 0;
-    private Integer seleDepto = 0;
-    private Integer seleMun = 0;
-    private Integer estado = 0;
 
-    private String porNombre;
-    private String porNip;
-
-    private int opcionSearch = 0;
-
-    private int FunPadre;
 
     private HashSet<SegPagina> funciones_Usr = new HashSet<SegPagina>();
     private List<SegPagina> funcion_usr;
     private List<SegRol> roles_usr;
     private List<SegModulo> modulo_usr;
-    private List<SegPagina> principal;
+
+//    private List<SegPagina> principal;
 
     // roles y accesos
     private List<RrhhUnidadPersona> lstPersonas;
@@ -135,6 +118,19 @@ public class seguridadManagedBean implements Serializable {
 
     private List<RrhhUnidadPersona> selectedPersonas;
     private SegRol rolGestNC;
+    
+    
+    
+    // ADMIN ROLES
+    private List<SegRol> lstRoles;
+    private int filteRol;
+    
+    private DualListModel<SegUsuario> usuariosRol;
+    private List<SegUsuario> lstUsrRol;
+     private List<SegUsuario> usrRolSource = new ArrayList<SegUsuario>();
+       private  List<SegUsuario> usrRolTarget = new ArrayList<SegUsuario>();
+    private SegRol rolSelected;
+    
 
     public seguridadManagedBean() {
 
@@ -193,18 +189,7 @@ public class seguridadManagedBean implements Serializable {
 //       }
 //       
 //    }
-    public void validarUsr() {
-        FacesMessage msg = null;
-        usuario_logeado = psUsr.findByUsuario(usuario_logeado.getNombre());
-
-        if (usuario_logeado.getIdUsuario() != null) {
-            render = true;
-            usuario_logeado.setRespuesta("");
-        } else {
-            render = false;
-        }
-
-    }
+   
 
     public String login() {
 
@@ -246,9 +231,7 @@ public class seguridadManagedBean implements Serializable {
 //                        }
                     int band = datos.getString("multiSesion").equals("N") ? 0 : 1;
                     ensesion = appBean.addSegUsuario(u, band);
-
-                    // llenar usuarios
-                    //llenarUsuarios();
+                   
                     
                     //   5. SE SUBEN VARIABLES DE SESION DE USUARIO.
                     FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("usuario", u);
@@ -345,19 +328,7 @@ public class seguridadManagedBean implements Serializable {
         return "";
     }
 
-    public void llenarUsuarios(){
-        lstUsrActivos = psUsr.getLstUsuario();
-            for(SegUsuario se :lstUsrActivos){
-                for(RrhhUnidadPersona up : se.getIdPersona().getRrhhUnidadPersonaList()){
-                    if(up.getRestrictiva().contains("N")){
-                        se.setDependencia(up.getRrhhUnidadAdmin());
-                        psUsr.editarUsuario(se);
-                    }
-                }
-                
-            }
-        
-    }
+    
     public void login_user() throws IOException, ParseException {
 
         //   METODO DE LOGEO
@@ -371,8 +342,7 @@ public class seguridadManagedBean implements Serializable {
 
         if (!ensesion) {
             if (logeado) {
-//                try {
-                // Thread.sleep(1000);
+
                 if (nuevoIngreso) {
 
 //                        aplicationBean appBean = (aplicationBean) facesContext.getApplication().getELResolver().getValue(facesContext.getELContext(), null, "aplicationBean");
@@ -383,9 +353,6 @@ public class seguridadManagedBean implements Serializable {
                     FacesContext.getCurrentInstance().getExternalContext().redirect(url);
                 }
 
-//                } catch (InterruptedException ex) {
-//                    Thread.currentThread().interrupt();
-//                }
             }
         }
     }
@@ -503,15 +470,7 @@ public class seguridadManagedBean implements Serializable {
             Iterator<SegPagina> iterador = menus.iterator();
             while (iterador.hasNext()) {
                 SegPagina aux = iterador.next();
-//
-//                List<SegPagina> subMenus =  psUsr.getLstPaginaAsignada(aux.getIdFuncion(), "misHijos", usr);
-//                
-//                if (subMenus.iterator().hasNext()) {
-//                    Submenu submenu = new DefaultSubMenu(aux.getEtiqueta());
-//                    creaSubMenu(submenu, aux, usr);
-//                    pSubmenu.getElements().add(submenu);
-//                    
-//                } else {
+
                 DefaultMenuItem item = new DefaultMenuItem(aux.getNombre());
                 item.setValue(aux.getNombre());
                 item.setHref("/faces/" + aux.getUrl());
@@ -606,16 +565,97 @@ public class seguridadManagedBean implements Serializable {
         }
     }
 
+    
+    
+    public void selRol(ValueChangeEvent e) {
+     int band = 0;
+      rolSelected = new SegRol();
+     
+     if(Integer.parseInt(e.getNewValue().toString()) != 0){
+         //band = Integer.parseInt(e.getNewValue().toString());
+         for (SegRol r : lstRoles) {
+             band = Integer.parseInt(e.getNewValue().toString());
+             if(r.getIdRol().intValue() == band){
+                 rolSelected = r;
+             }
+         }
+         
+     }
+     usrRolSource = new ArrayList<SegUsuario>();
+     getLstUsrRol();
+     usrRolSource = lstUsrRol;
+    
+     usrRolTarget = psUsr.getLstUsuario_byRol(band);
+     
+     usrRolSource.removeAll(usrRolTarget);
+     
+     usuariosRol = new DualListModel<SegUsuario>(usrRolSource, usrRolTarget);
+     
+     
+    }
+    
+    
+     public void transferRol(TransferEvent event) {
+          List<SegUsuario> lstUsrTransfer = new ArrayList<SegUsuario>();
+         int agregar = 0;
+          
+          for (Object item : event.getItems()) {
+               for (SegUsuario s : usrRolSource) {
+                   if(s.getNombre().contentEquals(((SegUsuario) item).getNombre())){
+                       agregar = 1;
+                       lstUsrTransfer.add(s);
+                   }
+               }
+          }
+          
+          if(agregar == 1){
+                usrRolTarget.addAll(lstUsrTransfer);
+                usrRolSource.removeAll(lstUsrTransfer);
+                
+          }else{
+               for (Object item : event.getItems()) {
+              for (SegUsuario e : usrRolTarget) {
+                   if(e.getNombre().contentEquals(((SegUsuario) item).getNombre())){
+                       lstUsrTransfer.add(e);
+                 }
+                }
+             }
+                usrRolTarget.removeAll(lstUsrTransfer);
+                usrRolSource.addAll(lstUsrTransfer);
+                
+          }
+          
+          List<SegRolUsuario> rolUsr = new ArrayList<SegRolUsuario>();
+          
+          for(SegUsuario u : usrRolTarget){
+              SegRolUsuario ru = new SegRolUsuario();
+              SegRolUsuarioPK ruPk = new SegRolUsuarioPK();
+              
+              ruPk.setIdRol(rolSelected.getIdRol().toBigInteger());
+              ruPk.setIdUsuario(u.getIdUsuario().toBigInteger());
+              
+              ru.setSegRol(rolSelected);
+              ru.setSegUsuario(u);
+              ru.setSegRolUsuarioPK(ruPk);
+              
+              rolUsr.add(ru);
+              
+              
+          }
+          
+          rolSelected.setSegRolUsuarioList(rolUsr);
+          psUsr.editarRol(rolSelected);
+          
+          
+     }
+    
+    
     public void nuevoSegUsuario() {
         usuario = new SegUsuario();
 
     }
 
-    public void resumenUsr(String paginaNavegar) throws Exception {
-        bandFecExp = true;
-        expiracion = "SI";
-        navegar("resumenUsuario.xhtml");
-    }
+    
 
     public int getFilterSelecModulo() {
         return filterSelecModulo;
@@ -631,14 +671,6 @@ public class seguridadManagedBean implements Serializable {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
-    }
-
-    public String getExpiracion() {
-        return expiracion;
-    }
-
-    public void setExpiracion(String expiracion) {
-        this.expiracion = expiracion;
     }
 
     public SegUsuario getUsuario_logeado() {
@@ -679,22 +711,6 @@ public class seguridadManagedBean implements Serializable {
 
     public void setPWD_DECODE(String PWD_DECODE) {
         this.PWD_DECODE = PWD_DECODE;
-    }
-
-    public boolean isBandFecExp() {
-        return bandFecExp;
-    }
-
-    public void setBandFecExp(boolean bandFecExp) {
-        this.bandFecExp = bandFecExp;
-    }
-
-    public boolean isPwdChange() {
-        return pwdChange;
-    }
-
-    public void setPwdChange(boolean pwdChange) {
-        this.pwdChange = pwdChange;
     }
 
     public String getPWD_DECODE2() {
@@ -802,20 +818,7 @@ public class seguridadManagedBean implements Serializable {
 
         String[] parts = email.split("@");
 
-//        
-//        
         try {
-//            Hashtable<String, String> env = new Hashtable<String, String>();
-//            env.put("java.naming.factory.initial",
-//                    "com.sun.jndi.dns.DnsContextFactory");
-//            DirContext context = new InitialDirContext(env);
-//            Attributes attributes =
-//                    context.getAttributes(parts[1], new String[]{"MX"});
-//            Attribute attribute = attributes.get("MX");
-//            if (attribute== null || attribute.size() == 0) {
-//               retval=false;
-//            }
-//            context.close();
             return retval;
 
         } catch (Exception exception) {
@@ -874,4 +877,52 @@ public class seguridadManagedBean implements Serializable {
         this.lstUsrActivos = lstUsrActivos;
     }
 
+    public List<SegRol> getLstRoles() {
+         if (lstRoles == null) {
+            lstRoles = new ArrayList<SegRol>();
+            lstRoles = psUsr.getLstRol_By(0, "byAll");
+        }
+        
+        return lstRoles;
+    }
+
+    public void setLstRoles(List<SegRol> lstRoles) {
+        this.lstRoles = lstRoles;
+    }
+
+    public DualListModel<SegUsuario> getUsuariosRol() {
+         if (usuariosRol == null) {
+            usuariosRol = new DualListModel<SegUsuario>();
+        }
+        return usuariosRol;
+    }
+
+    public void setUsuariosRol(DualListModel<SegUsuario> usuariosRol) {
+        this.usuariosRol = usuariosRol;
+    }
+
+    public List<SegUsuario> getLstUsrRol() {
+        if (lstUsrRol == null) {
+            lstUsrRol = new ArrayList<SegUsuario>();
+        }
+        lstUsrRol = psUsr.getLstUsuario_byRol(0);
+        return lstUsrRol;
+    }
+
+    public void setLstUsrRol(List<SegUsuario> lstUsrRol) {
+        this.lstUsrRol = lstUsrRol;
+    }
+
+    public int getFilteRol() {
+        return filteRol;
+    }
+
+    public void setFilteRol(int filteRol) {
+        this.filteRol = filteRol;
+    }
+
+    
+    
+    
+    
 }

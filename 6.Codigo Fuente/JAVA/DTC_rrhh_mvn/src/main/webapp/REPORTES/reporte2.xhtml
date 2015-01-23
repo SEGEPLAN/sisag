@@ -30,13 +30,20 @@
             <div align="center"  >
                 <h:form id="usrForm">  
                     <p:panel toggleable="true">
-
+                        <p:fieldset >
+                            <h:outputText style="font-size: large"
+                                    value="Para ver el detalle de click en la pestaña de cada fila." />
+                       
+                        </p:fieldset>
                         
-                        <br/>
 
-                        <p:dataTable id="userTable"  value="#{solicitud.lstSolicitudesCapa}" style="width: 90%; height: 100%; margin: 0 auto;" 
+                        <p:dataTable id="userTable"  value="#{solicitud.lstSolicitudesCapa}" style="width: 100%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen solicitudes actualmente" var="l" rowKey="#{l.idSolicitudCapacitacion}" 
                                      scrollable="true" scrollHeight="450"   >  
+                            
+                             <f:facet name="header">
+                                 <h:outputText value="NECESIDADES ENVIADAS POR DEPENDENCIA EN #{solicitud.fecha}" style="font-size: medium"/>
+                                            </f:facet>
                             
                             <p:column style="width:16px" exportable="false">
                                 <p:rowToggler id="rowToggler" />
@@ -66,7 +73,7 @@
                                     <p:graphicImage value="/resources/images/pdf.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
                                     
-                                    <pe:exporter type="pdf" target="necTable2" fileName="Solicitudes" facetBackground="#38B0DE"  
+                                    <pe:exporter type="pdf" target="necTable2" fileName="Solicitudes_#{solicitud.fecha}" facetBackground="#38B0DE"  
                                      datasetPadding="10" encoding="ISO-8859-1"  subTable="true"/> 
                                     
                                 </p:commandLink>  
@@ -76,29 +83,28 @@
                                 <p:commandLink id="xlsx" ajax="false">  
                                     <p:graphicImage value="/resources/images/excel.png"/>  
                                     <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
-                                     <pe:exporter type="xlsx" target="necTable2" fileName="Solicitudes" encoding="ISO-8859-1"
+                                     <pe:exporter type="xlsx" target="necTable2" fileName="Solicitudes_#{solicitud.fecha}" encoding="ISO-8859-1"
                                                   tableTitle="#{sessionBean.objUsuario.dependencia.descripcion}" 
                                                   facetBackground="#38B0DE"  
                                                 datasetPadding="10" subTable="true" />  
                                 </p:commandLink> 
                             </f:facet>
                         </p:toolbar>
-                                <p:dataTable id="necTable2"  value="#{l.rrhhNecesidadList}" style="width: 90%; height: 100%; margin: 0 auto;" 
+                                <p:dataTable id="necTable2"  value="#{l.rrhhNecesidadList}" style="width: 100%; height: 100%; margin: 0 auto;" 
                                              emptyMessage="No existen necesidades actualmente" var="n" rowKey="#{n.idNecesidad}"
                                              scrollable="true" scrollHeight="250"  
                                              >
                                     <f:facet name="header" >
-                                         <h:outputText value="#{l.usrCrea.idPersona.nombres} #{l.usrCrea.idPersona.apellidos}" />
+                                         <h:outputText value="#{l.usrCrea.idPersona.nombres} #{l.usrCrea.idPersona.apellidos}" style="font-size: small"/>
                                             </f:facet>
                                     
-                                    
-                                         
                                          <p:subTable id="tipo2"  value="#{n.rrhhNecesidadPuestoList}" var="tipo"  
                                                      >
                                             <f:facet name="header">
                                                 <h:outputText value="Curso: #{n.idTema.nombre}" />
                                             </f:facet>
                                               
+                                             
                                             <p:column >
                                                 <f:facet name="header">
                                                     <h:outputText value="Tipo de Puesto" />

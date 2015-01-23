@@ -92,12 +92,33 @@ public class seguridadImplement implements seguridadController{
         Query q = null;
         if(tipo==1){
                 q = em.createQuery("Select l from SegUsuario l where l.dafPersona.nip  =:filtro");
+                q.setParameter("filtro",band );
+        }
+        
+        if(tipo==1){
+                q = em.createQuery("Select l from SegUsuario l where l.dafPersona.nip  =:filtro");
                 q.setParameter("filtro",tipo );
         }
         
         return q.getResultList();
     }
 
+    
+     @Override
+    public List<SegUsuario> getLstUsuario_byRol(int band) {
+        EntityManager em = emf.createEntityManager();
+        Query q = null;
+         if(band!=0){
+         q = em.createQuery("Select DISTINCT l.segUsuario from SegRolUsuario l where l.segRol.idRol=:filtro");
+                q.setParameter("filtro",band );
+         }
+         else{
+          q = em.createQuery("Select DISTINCT l.segUsuario from SegRolUsuario l");
+         }
+        return q.getResultList();
+    }
+    
+    
     @Override
     public SegUsuario crearUsuario(SegUsuario objeto) {
         
@@ -156,6 +177,67 @@ public class seguridadImplement implements seguridadController{
     }
 
    
+    
+    
+    // rol
+    
+    @Override
+    public SegRol crearRol(SegRol objeto) {
+        
+         EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.persist(objeto);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            objeto = null;
+        } finally {
+            em.close();
+            return objeto;
+        }
+               
+    }
+    
+    
+    @Override
+    public SegRol editarRol(SegRol objeto) {
+       EntityManager em = emf.createEntityManager();
+        try{
+            em.getTransaction().begin();
+            em.merge(objeto);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            objeto = null;
+        } finally {
+            em.close();
+            return objeto;
+        }
+        
+    }
+
+    
+    
+    @Override
+    public String borrarRol(SegRol objeto) {
+        String del = objeto.toString();
+        EntityManager em = emf.createEntityManager();
+        try{    
+            em.getTransaction().begin();
+            em.remove(em.merge(objeto)); 
+            em.getTransaction().commit();
+            del= "SI borro objeto "+del;
+        }catch (Exception e) {
+            e.printStackTrace();
+            del= "NO borro objeto "+del;
+            objeto = null;
+        } finally {
+            em.close();
+            return del;
+        }
+    }
+    
     
 
     ////////////////// login ///////////////////////

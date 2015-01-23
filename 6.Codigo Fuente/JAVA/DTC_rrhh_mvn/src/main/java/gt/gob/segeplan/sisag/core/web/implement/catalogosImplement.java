@@ -83,7 +83,7 @@ public class catalogosImplement implements catalogosController{
         List<RrhhTemaCurso> listado = new ArrayList<RrhhTemaCurso>();
         Query q = null;
         
-            q = em.createQuery("Select l from RrhhTemaCurso l WHERE l.restrictiva <>0");
+            q = em.createQuery("Select l from RrhhTemaCurso l WHERE l.restrictiva <>0 ORDER BY l.nombre ASC");
         
             listado = q.getResultList();
        

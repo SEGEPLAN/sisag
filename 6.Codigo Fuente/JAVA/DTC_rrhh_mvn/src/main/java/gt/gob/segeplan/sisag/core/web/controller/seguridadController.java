@@ -23,11 +23,19 @@ public interface seguridadController {
      public List<RrhhUnidadPersona> getLstPersonas();
     public List<RrhhPersona> getLstPersonasAsig();
    public List<RrhhPersona> getLstPersonas_byUnidad(RrhhUnidadAdministrativa unidad);
+   
+   public List<SegUsuario> getLstUsuario_byRol(int band);
   
     // ABC Usuario
     public SegUsuario crearUsuario(SegUsuario objeto); // registrar  Usuario
     public SegUsuario editarUsuario(SegUsuario objeto); // editar  Usuario existente
     public String borrarUsuario(SegUsuario objeto); // borrar Usuario existente
+    
+    // ABC ROL
+    
+     public SegRol crearRol(SegRol objeto);
+     public SegRol editarRol(SegRol objeto);
+     public String borrarRol(SegRol objeto);
 
     
    // LOGIN

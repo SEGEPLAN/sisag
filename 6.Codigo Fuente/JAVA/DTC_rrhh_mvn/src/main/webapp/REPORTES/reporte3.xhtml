@@ -31,15 +31,50 @@
                 <h:form id="usrForm">  
                     <p:panel toggleable="true">
 
-                        
-                        <br/>
+                        <p:fieldset >
+                            <h:outputText style="font-size: large"
+                                    value="Puede Exportar la tabla en excel o pdf." />
+                       
+                        </p:fieldset>
 
-                        <p:dataTable id="uniTable"  value="#{solicitud.lstSolicitudesValidadas}" style="width: 90%; height: 100%; margin: 0 auto;" 
+                        <p:toolbar id="toolbarUs2" style="width: 100%;">
+
+
+
+                    <f:facet name="right">
+
+                        <p:commandLink id="pdf2" ajax="false">  
+                            <p:graphicImage value="/resources/images/pdf.png"/>  
+                            <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}"  />  
+                            <pe:exporter type="pdf" target="uniTable" fileName="Dependencia_enviadas_#{solicitud.fecha}"  
+                                         tableTitle="Dependencias Faltantes #{solicitud.fecha}" 
+
+                                         pageOnly="false"
+                                         facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  
+                                         encoding="ISO-8859-1"
+                                         cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL" />  
+                        </p:commandLink>  
+
+
+
+                        <p:commandLink id="xlsx2" ajax="false">  
+                            <p:graphicImage value="/resources/images/excel.png"/>  
+                            <f:setPropertyActionListener value="false" target="#{exporterController.customExporter}" />  
+                            <pe:exporter type="xlsx" target="uniTable" fileName="Dependencias_Faltantes_#{solicitud.fecha}" 
+                                         tableTitle="Dependencia enviadas #{solicitud.fecha}"  
+                                         facetBackground="#38B0DE" facetFontSize="10" facetFontColor="#000000" facetFontStyle="BOLD"  fontName="Courier New"  
+                                         encoding="ISO-8859-1"
+                                         pageOnly="false"
+                                         cellFontColor="#000000" cellFontSize="8" cellFontStyle="NORMAL"/>  
+                        </p:commandLink> 
+                    </f:facet>
+                </p:toolbar>
+                        <p:dataTable id="uniTable"  value="#{solicitud.lstSolicitudesValidadas}" style="width: 100%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen unidades actualmente" var="l" rowKey="#{l.idUnidadAdmin}" 
                                      scrollable="true" scrollHeight="150"   >  
                             
                              <f:facet name="header">
-                                                <h:outputText value="Unidades que han creado solicitud" />
+                                 <h:outputText value="DEPENDENCIAS QUE HAN ENVIADO #{solicitud.lstSolicitudesValidadas.size()}" style="font-size: medium"/>
                                             </f:facet>
 
                             <p:column sortBy="#{l.descripcion}" >
@@ -74,7 +109,7 @@
 
                         <br/><br/>
 
-                        <p:toolbar id="toolbarUs" style="width: 90%;">
+                        <p:toolbar id="toolbarUs" style="width: 100%;">
 
 
 
@@ -107,12 +142,12 @@
                     </f:facet>
                 </p:toolbar>
                         
-                        <p:dataTable id="unidadesTable"  value="#{solicitud.lstUnidadesAdmin}" style="width: 90%; height: 100%; margin: 0 auto;" 
+                        <p:dataTable id="unidadesTable"  value="#{solicitud.lstUnidadesAdmin}" style="width: 100%; height: 100%; margin: 0 auto;" 
                                      emptyMessage="No existen unidades actualmente" var="l" rowKey="#{l.idUnidadAdmin}" 
                                      scrollable="true" scrollHeight="150"   >  
                             
                             <f:facet name="header">
-                                                <h:outputText value="Unidades faltantes" />
+                                                <h:outputText value="DEPENDENCIAS FALTANTES DE ENVIAR #{solicitud.lstUnidadesAdmin.size()}" style="font-size: medium"/>
                                             </f:facet>
 
                             

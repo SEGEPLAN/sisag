@@ -129,9 +129,9 @@
                         </p:toolbar>
                         <br/>
                         <p:dataTable id="necesidadesTable"  value="#{solicitud.listNecesidades}" 
-                                     emptyMessage="No existen necesidades ingresadas actualmente" var="l" rowKey="#{l.idNecesidad}" 
+                                     emptyMessage="No existen necesidades ingresadas actualmente" var="l" rowKey="#{l.rrhhNecesidadPuestoList}" 
                                      selectionMode="single" selection="#{solicitud.necesidadCapaAux}"
-                                     resizableColumns="true" lazy="true"
+                                     resizableColumns="true" 
                                      scrollable="true" scrollHeight="250"  
                                      >  
 
@@ -413,7 +413,7 @@
                                                           ajax="false"
                                                           />
 
-                                        <p:commandButton id="cb_editar" value="Editar" action="#{solicitud.editarNecDTC}"  
+                                        <p:commandButton id="cb_editar" value="Guardar" action="#{solicitud.editarNecDTC}"  
                                                          image="ui-icon ui-icon-disk" rendered="#{solicitud.necesidadCapa.idNecesidad!=null?'true':'false'}"
                                                           update=":#{p:component('necesidadesTable')} :#{p:component('messages')} :#{p:component('cb_editar')} :#{p:component('cb_validar')} " 
                                                           oncomplete="if(!args.validationFailed)dlgNew.hide();"

@@ -94,7 +94,7 @@ public class SegUsuario implements Serializable {
     
     
     @JoinColumn(name = "DEPENDENCIA", referencedColumnName = "ADSCGDP$ID")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private RrhhUnidadAdministrativa dependencia;
 
     public SegUsuario() {

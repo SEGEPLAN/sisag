@@ -29,7 +29,11 @@
             <h:form id="userForm">  
 
                 <p:growl id="messages" showDetail="true"/>  
+                <p:fieldset >
+                    <h:outputText style="font-size: large"
+                                  value="Puede Exportar la tabla en excel o pdf." />
 
+                </p:fieldset>
                 <p:toolbar id="toolbarDTC">
 
 
@@ -62,7 +66,7 @@
                         </p:commandLink> 
                     </f:facet>
                 </p:toolbar>
-                <br/>
+
                 <p:dataTable id="usuarios"  value="#{seguridad.lstUsrActivos}" 
                              emptyMessage="No existen Usuarios Creados" var="l" rowKey="#{l.idUsuario}" 
                              scrollable="true" scrollHeight="300"
@@ -70,24 +74,24 @@
                     <f:facet name="header">
                         Usuarios Activos DNC
                     </f:facet>
-                   <p:column headerText="ID" filterBy="#{l.idPersona.idPersona}">
+                    <p:column headerText="ID" filterBy="#{l.idPersona.idPersona}">
                         <h:outputText value="#{l.idPersona.idPersona}" />
                     </p:column>
                     <p:column headerText="Unidad" filterMatchMode="contains" sortBy="#{l.dependencia.descripcion}"  filterBy="#{l.dependencia.descripcion}">
                         <h:outputText value="#{l.dependencia.descripcion}" />
                     </p:column>
-                    
+
                     <p:column headerText="Nombre" filterBy="#{l.idPersona.nombres}">
                         <h:outputText value="#{l.idPersona.nombres}" />
                     </p:column>
                     <p:column headerText="Apellidos" filterBy="#{l.idPersona.apellidos}"> 
                         <h:outputText value="#{l.idPersona.apellidos}" />
                     </p:column>
-                    
+
                     <p:column headerText="Usuario" filterBy="#{l.nombre}"> 
                         <h:outputText value="#{l.nombre}" />
                     </p:column>
-                    
+
                     <p:column headerText="e-mail" filterBy="#{l.nombre}"> 
                         <h:outputText value="#{l.email}" />
                     </p:column>
