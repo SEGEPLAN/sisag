@@ -10,6 +10,7 @@
     
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
+    
  <managed-bean>
         <managed-bean-name>catalogos</managed-bean-name>
         <managed-bean-class>gt.gob.segeplan.sisag.core.web.managed.catalogosManagedBean</managed-bean-class>
@@ -21,6 +22,11 @@
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
+    <managed-bean>
+        <managed-bean-name>servidor</managed-bean-name>
+        <managed-bean-class>gt.gob.segeplan.sisag.core.web.managed.servidoresManagedBean</managed-bean-class>
+        <managed-bean-scope>session</managed-bean-scope>
+    </managed-bean>
     <managed-bean>
         <managed-bean-name>cambiadorTemas</managed-bean-name>
         <managed-bean-class>gt.gob.segeplan.sisag.core.web.utils.themeCustomer</managed-bean-class>

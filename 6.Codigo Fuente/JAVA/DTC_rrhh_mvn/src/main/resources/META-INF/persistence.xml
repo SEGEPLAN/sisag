@@ -39,6 +39,13 @@
     <class>gt.gob.segeplan.sisag.rrhh.entities.RrhhPersonaDependencia</class>
     <class>gt.gob.segeplan.sisag.rrhh.entities.Secuencias</class>
     <class>gt.gob.segeplan.sisag.rrhh.entities.RrhhUnidadPersona</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiDispositivo</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiGabinete</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiIpServer</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiServidor</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiSistemaOperativo</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiTipoDispositivo</class>
+    <class>gt.gob.segeplan.sisag.rrhh.entities.DtiTipoServer</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties/>

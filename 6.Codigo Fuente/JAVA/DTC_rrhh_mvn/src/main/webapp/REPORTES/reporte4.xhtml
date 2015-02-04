@@ -98,6 +98,13 @@
                                 <h:outputText value="#{l.idTema.nombre}" />
                             </p:column>
                             
+                            <p:column sortBy="#{l.idPrioridad.nombre}" filterBy="#{l.idPrioridad.nombre}">
+                                <f:facet name="header">
+                                    <h:outputText value="PRIORIDAD" />
+                                </f:facet>
+                                <h:outputText value="#{l.idPrioridad.nombre}" />
+                            </p:column>
+                            
                             <p:column sortBy="#{l.rrhhNecesidadPuestoList.get(0).total}" filterBy="#{l.rrhhNecesidadPuestoList.get(0).total}">
                                 <f:facet name="header">
                                     <h:outputText value="DIRECTIVO" />

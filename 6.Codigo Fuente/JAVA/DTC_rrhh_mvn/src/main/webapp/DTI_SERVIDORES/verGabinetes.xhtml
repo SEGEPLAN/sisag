@@ -1,0 +1,186 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://java.sun.com/jsp/jstl/core"
+      xmlns:pe="http://primefaces.org/ui/extensions">
+
+
+
+    <h:head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+
+        <meta content='text/html; charset=UTF-8' http-equiv="Content-Type; charset=UTF-8"/>
+        <style type="text/css">
+            .panelGridCenter td,.panelGridCenter tr {
+                text-align: center;
+            }
+            /* 
+             .ui-widget-header{
+                  background: #FFFFFF !important; 
+             } */                
+        </style>
+        <script language="javascript">
+            function checkInputNumber(ob) {
+                var invalidChars = /[^0-9]/gi;
+                if (invalidChars.test(ob.value)) {
+                    ob.value = ob.value.replace(invalidChars, "");
+                }
+            }
+        </script>
+        <h:outputStylesheet library="css" name="theme.min.css" />
+    </h:head>
+
+    <h:body >
+
+        <div align="center"  >
+
+            <h:form id="dtcForm">  
+                <p:growl id="messages" showDetail="true" showSummary="false" />  
+
+                <p:accordionPanel id="accorPnl" multiple="true" activeIndex="0,1" rendered="#{solicitud.solicitudDTC.idEstado.id eq 18?'true':'false'}">
+                    <p:tab closable="true" title="GABINETES">
+
+                            <p:dataGrid var="g" value="#{servidor.lstGabinete}" columns="3" 
+                                        rows="12" paginator="true" id="cars"
+                                        paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                        rowsPerPageTemplate="3,6,9" paginatorPosition="bottom">
+                                <f:facet name="header">
+                                    #{servidor.lstGabinete.size()} Registrados
+                                </f:facet>
+
+                                <p:panel header="#{g.nombre}" style="text-align:center" >
+                                    <h:panelGrid columns="2" style="width:100%" >
+                                        <h:outputText value="Imagen:" />
+                                         <p:graphicImage  value="#{g.grafico}" width="50"  id="grpImage" height="80"/>
+                                        
+                                        <h:outputText value="Id:" />
+                                        <h:outputText value="#{g.id}" />
+
+                                        <h:outputText value="Capacidad:" />
+                                        <h:outputText value="#{g.capacidadUs}" style="color:#{car.color}"/>
+
+                                        <h:outputText value="No. Inventario" />
+                                        <h:outputText value="$#{g.noInventario}" />
+
+                                        <f:facet name="footer" >
+                                            <div align="center"> 
+                                                <p:commandButton  icon="ui-icon-search" value="Ver" action="#{servidor.verDispositivos}" 
+                                                                  ajax="false"  update=":dtcForm:accorPnl:gabinetesTable">
+                                                    <f:setPropertyActionListener value="#{g}" target="#{servidor.gabineteAux}" />
+                                                </p:commandButton>
+                                            </div>
+                                        </f:facet>
+
+                                    </h:panelGrid>
+                                </p:panel>
+
+                            </p:dataGrid>
+ </p:tab>
+
+                    <p:tab closable="true" title="DISPOSITIVOS">
+                           
+                                
+                            <p:dataTable id="gabinetesTable"  value="#{servidor.lstDispositivo}" 
+                                         emptyMessage="No existen dispositivos ingresados actualmente" var="d" rowKey="#{d.id}" 
+                                         selectionMode="single" selection="#{servidor.dispositivoAux}"
+                                         resizableColumns="true" 
+                                         scrollable="true" scrollHeight="140"  
+                                         >  
+
+                                <f:facet name="header">
+                                    <h:outputText value="#{servidor.lstDispositivo.size()} Registrados en Gabinete #{servidor.gabineteAux.nombre}" />
+                                </f:facet>
+                                <p:ajax event="rowSelect" listener="#{servidor.onRowSelect}" update=":dtcForm:accorPnl:mindMap" 
+                                        />
+
+                                <p:column sortBy="#{d.id}" >
+                                    <f:facet name="header">
+                                        <h:outputText value="Id" />
+                                    </f:facet>
+                                    <h:outputText value="#{d.id}" />
+                                </p:column>
+
+                                <p:column sortBy="#{d.marca}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="Marca" />
+                                    </f:facet>
+                                    <h:outputText value="#{d.marca}" />
+                                </p:column>
+
+                                <p:column sortBy="#{d.modelo}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="Modelo" />
+                                    </f:facet>
+                                    <h:outputText value="#{d.modelo}" />
+                                </p:column>
+
+                                <p:column sortBy="#{d.posicionGabinete}"  >
+                                    <f:facet name="header">
+                                        <h:outputText value="Posicion" />
+                                    </f:facet>
+                                    <h:outputText value="#{d.posicionGabinete}" />
+                                </p:column>
+
+                            </p:dataTable> 
+                           
+
+                    </p:tab>
+
+                    <p:tab closable="true" title="DIAGRAMA">
+
+                        <p:mindmap id="mindMap" value="#{servidor.root}" style="width: 100%;height: 400px;border: 1px solid black;">
+                            <p:ajax event="select" listener="#{servidor.onNodeSelect}" />
+                            <p:ajax event="dblselect" listener="#{servidor.onNodeDblselect}" update="output" oncomplete="PF('details').show();" />
+                        </p:mindmap>
+                        <p:dialog widgetVar="details" header="Node Details" resizable="false" modal="true" showEffect="fade" hideEffect="fade">
+                            <h:outputText id="output" value="#{servidor.selectedNode.data}" />
+                        </p:dialog> 
+
+                    </p:tab>
+                </p:accordionPanel>
+
+
+
+
+
+
+
+
+
+
+
+                <p:dialog header="Gabinete Info" widgetVar="gDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                    <p:outputPanel id="gDetail" style="text-align:center;">
+                        <p:panelGrid  columns="2" rendered="#{not empty servidor.gabineteAux}" columnClasses="label,value">
+                            <f:facet name="header">
+                                <p:graphicImage name="demo/images/car/#{carouselView.selectedCar.brand}-big.gif"/>
+                            </f:facet>
+
+                            <h:outputText value="Id:" />
+                            <h:outputText value="#{servidor.gabineteAux.id}" />
+
+                            <h:outputText value="Nombre" />
+                            <h:outputText value="#{servidor.gabineteAux.nombre}" />
+
+                            <h:outputText value="Capacidad:" />
+                            <h:outputText value="#{servidor.gabineteAux.capacidadUs}" />
+
+                            <h:outputText value="No. Inventario" />
+                            <h:outputText value="#{servidor.gabineteAux.noInventario}" />
+                        </p:panelGrid>
+                    </p:outputPanel>
+                </p:dialog>
+
+
+
+
+            </h:form> 
+
+
+        </div>
+
+    </h:body>
+</html>  
